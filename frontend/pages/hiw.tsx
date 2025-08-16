@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { getAccessToken, usePrivy } from "@privy-io/react-auth";
 import Head from "next/head";
+import Image from "next/image";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -53,7 +54,7 @@ export default function HowItWorksPage() {
       </Head>
 
       <DashboardLayout>
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-4 py-8">
           {/* Header Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-foreground mb-4">
@@ -171,7 +172,7 @@ export default function HowItWorksPage() {
                       <span className="text-primary text-sm font-bold">1</span>
                     </div>
                     <div>
-                      <h4 className="font-semibold">Centralized Control</h4>
+                      <h4 className="font-semibold">Full Control</h4>
                       <p className="text-sm text-muted-foreground">
                         Manage all blockchain operations from a single dashboard
                       </p>
@@ -228,18 +229,14 @@ export default function HowItWorksPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="bg-muted/30 border-2 border-dashed border-muted-foreground/30 rounded-lg p-12 text-center">
-                <div className="text-muted-foreground mb-4">
-                  <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <p className="text-lg font-medium">Excalidraw Drawing Placeholder</p>
-                  <p className="text-sm">System Architecture Diagram</p>
-                </div>
-                <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                  This space is reserved for an Excalidraw diagram showing Fluvia's system architecture, 
-                  including the relationship between different blockchain networks, smart contracts, and user interfaces.
-                </p>
+              <div className="w-full">
+                <Image
+                  src="/images/system.svg"
+                  alt="Fluvia System Architecture"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto rounded-lg shadow-lg"
+                />
               </div>
             </CardContent>
           </Card>
@@ -296,32 +293,8 @@ export default function HowItWorksPage() {
             </CardContent>
           </Card>
 
-          {/* Excalidraw Drawing 2: User Journey */}
-          <Card className="mb-12">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
-                  <span className="text-green-600 font-bold">🛤️</span>
-                </div>
-                User Journey & Workflow
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-muted/30 border-2 border-dashed border-muted-foreground/30 rounded-lg p-12 text-center">
-                <div className="text-muted-foreground mb-4">
-                  <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                  </svg>
-                  <p className="text-lg font-medium">Excalidraw Drawing Placeholder</p>
-                  <p className="text-sm">User Journey & Workflow Diagram</p>
-                </div>
-                <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                  This space is reserved for an Excalidraw diagram illustrating the complete user journey, 
-                  from initial wallet connection through cross-chain operations and portfolio optimization.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+
+
 
           {/* Key Benefits */}
           <Card className="mb-12">
