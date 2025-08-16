@@ -1,12 +1,9 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, ExternalLink, Copy, Filter } from "lucide-react";
-import Image from "next/image";
+import { DataTable, Column } from "@/components/ui/data-table";
 import { usePrivy } from "@privy-io/react-auth";
 
 // Types for Octav API response
@@ -51,11 +48,90 @@ interface TransactionData {
 
 export default function TransactionsPage() {
   const { user, authenticated } = usePrivy();
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectedChain, setSelectedChain] = useState("all");
   const [fetchedTransactions, setFetchedTransactions] = useState<
     OctavTransaction[]
   >([]);
+
+  // Define table columns
+  const columns: Column<OctavTransaction>[] = [
+    {
+      key: "hash",
+      header: "Tx Hash",
+      accessor: (tx) => (
+        <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
+          {tx.hash.slice(0, 8)}...{tx.hash.slice(-6)}
+        </code>
+      ),
+      sortable: true,
+    },
+    {
+      key: "from",
+      header: "From",
+      accessor: (tx) => (
+        <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
+          {tx.from.slice(0, 6)}...{tx.from.slice(-4)}
+        </code>
+      ),
+      sortable: true,
+    },
+    {
+      key: "to",
+      header: "To",
+      accessor: (tx) => (
+        <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
+          {tx.to.slice(0, 6)}...{tx.to.slice(-4)}
+        </code>
+      ),
+      sortable: true,
+    },
+    {
+      key: "quantity",
+      header: "Quantity",
+      accessor: (tx) => (
+        <div className="space-y-1">
+          {tx.assetsIn.length > 0 && tx.assetsIn[0]?.balance && (
+            <div className="text-sm font-semibold text-green-600">
+              +{formatValue(tx.assetsIn[0].balance, tx.assetsIn[0]?.symbol)}
+            </div>
+          )}
+          {tx.assetsOut.length > 0 && tx.assetsOut[0]?.balance && (
+            <div className="text-sm font-semibold text-red-600">
+              -{formatValue(tx.assetsOut[0].balance, tx.assetsOut[0]?.symbol)}
+            </div>
+          )}
+          {tx.assetsIn.length === 0 && tx.assetsOut.length === 0 && (
+            <span className="text-sm font-semibold text-gray-700">
+              {formatValue(tx.value, "ETH")}
+            </span>
+          )}
+        </div>
+      ),
+      sortable: false,
+    },
+    {
+      key: "status",
+      header: "Status",
+      accessor: (tx) => getStatusBadge(getTransactionStatus(tx)),
+      sortable: true,
+    },
+    {
+      key: "chain",
+      header: "Chain",
+      accessor: (tx) => <Badge variant="outline">{tx.chain.name}</Badge>,
+      sortable: true,
+    },
+    {
+      key: "timestamp",
+      header: "Time",
+      accessor: (tx) => (
+        <span className="text-sm text-gray-600">
+          {formatTimestamp(tx.timestamp)}
+        </span>
+      ),
+      sortable: true,
+    },
+  ];
 
   const fetchTransactions = async () => {
     if (!authenticated || !user?.wallet?.address) {
@@ -93,41 +169,10 @@ export default function TransactionsPage() {
     }
   }, [authenticated, user?.wallet?.address]);
 
-  const filteredTransactions = fetchedTransactions
-    .filter((tx) => {
-      const matchesSearch =
-        tx.functionName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        tx.hash.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        tx.from.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        tx.to.toLowerCase().includes(searchTerm.toLowerCase());
-
-      const matchesChain =
-        selectedChain === "all" || tx.chain.key === selectedChain;
-
-      return matchesSearch && matchesChain;
-    })
-    .sort((a, b) => {
-      // Sort by timestamp: most recent first
-      const dateA = new Date(a.timestamp);
-      const dateB = new Date(b.timestamp);
-      return dateB.getTime() - dateA.getTime();
-    });
-
-  const getTransactionLabel = (tx: OctavTransaction) => {
-    if (tx.functionName) {
-      return tx.functionName;
-    }
-    if (tx.type === "transfer") {
-      return "Transfer";
-    }
-    if (tx.type === "swap") {
-      return "Swap";
-    }
-    if (tx.type === "approve") {
-      return "Approve";
-    }
-    return tx.type || "Transaction";
-  };
+  // Filter transactions by chain
+  const filteredTransactions = fetchedTransactions.filter((tx) => {
+    return selectedChain === "all" || tx.chain.key === selectedChain;
+  });
 
   const getTransactionStatus = (tx: OctavTransaction) => {
     // You can implement more sophisticated status logic based on your needs
@@ -206,24 +251,6 @@ export default function TransactionsPage() {
     }
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      // You could add a toast notification here
-      console.log("Copied to clipboard:", text);
-    } catch (err) {
-      console.error("Failed to copy:", err);
-      // Fallback for older browsers
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      console.log("Copied to clipboard (fallback):", text);
-    }
-  };
-
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "completed":
@@ -257,182 +284,87 @@ export default function TransactionsPage() {
       </Head>
 
       <DashboardLayout>
-        <div className="px-4 py-8">
-          {/* Header */}
-          <div className="flex flex-1 flex-col gap-4 pt-0">
-            <h1 className="text-3xl font-bold text-foreground">
-              Transaction History
-            </h1>
-            <p className="text-gray-600">
-              Monitor all your cross-chain transactions and treasury activities
-            </p>
-          </div>
+        {/* Header */}
+        <div className="flex flex-1 flex-col gap-4 pt-0">
+          <h1 className="text-3xl font-bold text-foreground">
+            Transaction History
+          </h1>
+          <p className="text-gray-600">
+            Monitor all your cross-chain transactions and treasury activities
+          </p>
+        </div>
 
-          {/* Transactions Table */}
+        {/* Transactions Table */}
+        <DataTable
+          data={filteredTransactions}
+          columns={columns}
+          title="Recent Transactions"
+          searchable={true}
+          searchPlaceholder="Search transactions, addresses..."
+          searchKeys={["hash", "from", "to", "functionName"]}
+          sortable={true}
+          pagination={true}
+          pageSize={10}
+          loading={false}
+          emptyMessage={
+            fetchedTransactions.length === 0
+              ? "No transactions found for this wallet address."
+              : "No transactions found matching your criteria."
+          }
+          actions={{
+            copy: (tx) => tx.hash,
+            external: (tx) => {
+              const chainKey = tx.chain.key;
+              const hash = tx.hash;
+
+              switch (chainKey) {
+                case "ethereum":
+                  return `https://etherscan.io/tx/${hash}`;
+                case "base":
+                  return `https://basescan.org/tx/${hash}`;
+                case "polygon":
+                  return `https://polygonscan.com/tx/${hash}`;
+                case "arbitrum":
+                  return `https://arbiscan.io/tx/${hash}`;
+                default:
+                  return `https://etherscan.io/tx/${hash}`;
+              }
+            },
+          }}
+        />
+
+        {/* Summary Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
           <Card>
-            <CardHeader>
-              <CardTitle>Recent Transactions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                        Tx Hash
-                      </th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                        From
-                      </th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                        To
-                      </th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                        Quantity
-                      </th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                        Status
-                      </th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                        Chain
-                      </th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                        Time
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredTransactions.map((tx) => (
-                      <tr
-                        key={tx.hash}
-                        className="border-b border-gray-100 hover:bg-gray-50"
-                      >
-                        <td className="py-3 px-4">
-                          <div className="flex items-center space-x-2">
-                            <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                              {tx.hash.slice(0, 8)}...{tx.hash.slice(-6)}
-                            </code>
-                            <div className="flex space-x-1">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => copyToClipboard(tx.hash)}
-                                className="h-6 w-6 p-0"
-                              >
-                                <Copy className="w-3 h-3" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-6 w-6 p-0"
-                              >
-                                <ExternalLink className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="py-3 px-4">
-                          <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                            {tx.from.slice(0, 6)}...{tx.from.slice(-4)}
-                          </code>
-                        </td>
-                        <td className="py-3 px-4">
-                          <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                            {tx.to.slice(0, 6)}...{tx.to.slice(-4)}
-                          </code>
-                        </td>
-                        <td className="py-3 px-4">
-                          <div className="space-y-1">
-                            {tx.assetsIn.length > 0 &&
-                              tx.assetsIn[0]?.balance && (
-                                <div className="text-sm font-semibold text-green-600">
-                                  +
-                                  {formatValue(
-                                    tx.assetsIn[0].balance,
-                                    tx.assetsIn[0]?.symbol
-                                  )}
-                                </div>
-                              )}
-                            {tx.assetsOut.length > 0 &&
-                              tx.assetsOut[0]?.balance && (
-                                <div className="text-sm font-semibold text-red-600">
-                                  -
-                                  {formatValue(
-                                    tx.assetsOut[0].balance,
-                                    tx.assetsOut[0]?.symbol
-                                  )}
-                                </div>
-                              )}
-                            {tx.assetsIn.length === 0 &&
-                              tx.assetsOut.length === 0 && (
-                                <span className="text-sm font-semibold text-gray-700">
-                                  {formatValue(tx.value, "ETH")}
-                                </span>
-                              )}
-                          </div>
-                        </td>
-                        <td className="py-3 px-4">
-                          {getStatusBadge(getTransactionStatus(tx))}
-                        </td>
-                        <td className="py-3 px-4">
-                          <Badge variant="outline">{tx.chain.name}</Badge>
-                        </td>
-                        <td className="py-3 px-4">
-                          <span className="text-sm text-gray-600">
-                            {formatTimestamp(tx.timestamp)}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            <CardContent className="pt-6">
+              <div className="text-2xl font-bold text-gray-900">
+                {fetchedTransactions.length}
               </div>
-
-              {filteredTransactions.length === 0 && (
-                <div className="text-center py-8">
-                  <p className="text-gray-500">
-                    {fetchedTransactions.length === 0
-                      ? "No transactions found for this wallet address."
-                      : "No transactions found matching your criteria."}
-                  </p>
-                </div>
-              )}
+              <div className="text-sm text-gray-600">Total Transactions</div>
             </CardContent>
           </Card>
-
-          {/* Summary Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-2xl font-bold text-gray-900">
-                  {fetchedTransactions.length}
-                </div>
-                <div className="text-sm text-gray-600">Total Transactions</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-2xl font-bold text-green-600">
-                  {fetchedTransactions
-                    .reduce((total, tx) => {
-                      const value = parseFloat(tx.valueFiat || "0");
-                      return total + value;
-                    }, 0)
-                    .toFixed(2)}{" "}
-                  USD
-                </div>
-                <div className="text-sm text-gray-600">Total Volume</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="text-2xl font-bold text-blue-600">
-                  {new Set(fetchedTransactions.map((tx) => tx.chain.key)).size}
-                </div>
-                <div className="text-sm text-gray-600">Active Chains</div>
-              </CardContent>
-            </Card>
-          </div>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-2xl font-bold text-green-600">
+                {fetchedTransactions
+                  .reduce((total, tx) => {
+                    const value = parseFloat(tx.valueFiat || "0");
+                    return total + value;
+                  }, 0)
+                  .toFixed(2)}{" "}
+                USD
+              </div>
+              <div className="text-sm text-gray-600">Total Volume</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-2xl font-bold text-blue-600">
+                {new Set(fetchedTransactions.map((tx) => tx.chain.key)).size}
+              </div>
+              <div className="text-sm text-gray-600">Active Chains</div>
+            </CardContent>
+          </Card>
         </div>
       </DashboardLayout>
     </>
