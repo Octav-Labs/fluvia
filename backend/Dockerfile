@@ -21,7 +21,7 @@ RUN chmod +x docker-startup.sh
 RUN pnpm run build
 
 # Expose the port
-EXPOSE 3000
+EXPOSE 3001
 
 # Default command (can be overridden in docker-compose)
 CMD [ "pnpm", "run", "dev" ]

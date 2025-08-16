@@ -4,9 +4,10 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Button } from "@/components/ui/button";
 
-import { useLogin, usePrivy } from "@privy-io/react-auth";
-import { useRouter } from "next/router";
+import { usePrivy } from "@privy-io/react-auth";
+
 import { ThemeSwitcher } from "../theme-switcher";
+import { useLoginWithPrivy } from "@/hooks/use-login-with-privy";
 
 export default function DashboardLayout({
   children,
@@ -14,8 +15,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const { ready, authenticated } = usePrivy();
-  const router = useRouter();
-  const { login } = useLogin();
+
+  const { login } = useLoginWithPrivy();
   return (
     <div>
       <SidebarProvider>

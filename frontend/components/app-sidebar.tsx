@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { CreditCardIcon, Frame, LogOut, User, Home, DollarSign, HelpCircle } from "lucide-react";
 import { getAccessToken, useLogin, usePrivy } from "@privy-io/react-auth";
 
@@ -38,7 +39,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { ready, authenticated, user, logout } = usePrivy();
+  const { authenticated } = usePrivy();
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>

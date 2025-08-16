@@ -59,6 +59,6 @@ contract FeeController is Ownable, IFeeController {
 		collector = cfg.collector;
 		fee       = (amount * cfg.feeBps) / 10_000;
 		minNet    = cfg.minNet;
-		maxFee    = (fee * fastMaxFeeBps) / 10_000;
+		maxFee    = (amount * fastMaxFeeBps) / 10_000;
 	}
 }
