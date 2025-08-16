@@ -57,6 +57,8 @@ export const authMiddleware = (options: AuthMiddlewareOptions = {}) => {
 
       // Verify the token
       try {
+        console.log(process.env.PRIVY_APP_ID!);
+        console.log(process.env.PRIVY_APP_SECRET!);
         const verifiedClaims = await privy.verifyAuthToken(accessToken);
 
         // Add user information to request
@@ -76,6 +78,7 @@ export const authMiddleware = (options: AuthMiddlewareOptions = {}) => {
           return next();
         }
 
+        console.log(error);
         return res.status(401).json({
           error: 'Unauthorized',
           message: 'Invalid or expired access token',
