@@ -19,11 +19,8 @@ const Fluvia = buildModule("Fluvia", (m) => {
     const receiverImpl = m.contract("Receiver", []);
 
     // Deploy Factory wired to chain constants + implementation
-    const factory = m.contract("FluviaFactory", [
-        admin, usdc, tokenMessenger, feeController, receiverImpl,
-    ], {
-        after: [feeController],
-    });
+    const factory = m.contract("FluviaFactory", [], { after: [feeController, receiverImpl] });
+    m.call(factory, "init", [admin, usdc, tokenMessenger, feeController, receiverImpl], { id: "initFactory" });
 
     return { feeController, receiverImpl, factory };
 });

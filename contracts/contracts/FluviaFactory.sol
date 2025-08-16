@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
 
 import "./Receiver.sol";
 
-contract FluviaFactory is Ownable {
-    address public immutable USDC; // ERC20 USDC on this source chain
-    address public immutable TOKEN_MESSENGER; // CCTP v2 TokenMessenger on this source chain
+contract FluviaFactory is Initializable, OwnableUpgradeable {
+    address public USDC; // ERC20 USDC on this source chain
+    address public TOKEN_MESSENGER; // CCTP v2 TokenMessenger on this source chain
 
     address public feeController; // FeeController contract address
     address public implementation; // address to clone
@@ -30,19 +31,19 @@ contract FluviaFactory is Ownable {
 
     mapping(address => address[]) private _receivers; // fluviaOwner => [receiver0, receiver1, ...]
 
-    constructor(
+    function init(
         address admin,
         address usdc,
         address cctpMessenger,
         address _feeController,
         address receiverImpl
-    ) Ownable(admin) {
+    ) external initializer {
         require(admin != address(0), "admin is 0x0");
         require(usdc != address(0), "usdc is 0x0");
         require(cctpMessenger != address(0), "messenger is 0x0");
         require(_feeController != address(0), "feeController is 0x0");
         require(receiverImpl != address(0), "impl is 0x0");
-
+        __Ownable_init(admin);
         USDC = usdc;
         TOKEN_MESSENGER = cctpMessenger;
         feeController = _feeController;
@@ -94,6 +95,15 @@ contract FluviaFactory is Ownable {
 
         index = _receivers[fluviaOwner].length;
         bytes32 salt = keccak256(abi.encodePacked(fluviaOwner, index));
+        require(implementation.code.length > 0, "impl has no code");
+
+        address predicted = Clones.predictDeterministicAddress(
+            implementation,
+            salt,
+            address(this)
+        ); // CHANGED
+        require(predicted.code.length == 0, "clone already exists");
+
         receiver = Clones.cloneDeterministic(implementation, salt);
 
         bytes32 destRecipient32 = _evmToBytes32(destRecipient);
