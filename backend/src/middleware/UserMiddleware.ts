@@ -12,13 +12,14 @@ export class UserMiddleware {
    * Middleware to ensure user exists in database
    * Creates user if they don't exist
    */
-  ensureUserExists = async (req: Request, res: Response, next: NextFunction) => {
+  ensureUserExists = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       if (!req.user) {
-        return res.status(401).json({
+        res.status(401).json({
           error: 'Unauthorized',
           message: 'User not authenticated',
         });
+        return;
       }
 
       const { userId } = req.user;
@@ -44,23 +45,25 @@ export class UserMiddleware {
       next();
     } catch (error) {
       console.error('Error in ensureUserExists middleware:', error);
-      return res.status(500).json({
+      res.status(500).json({
         error: 'Internal Server Error',
         message: 'Failed to ensure user exists',
       });
+      return;
     }
   };
 
   /**
    * Middleware to get user from database (doesn't create if missing)
    */
-  getUserFromDb = async (req: Request, res: Response, next: NextFunction) => {
+  getUserFromDb = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       if (!req.user) {
-        return res.status(401).json({
+        res.status(401).json({
           error: 'Unauthorized',
           message: 'User not authenticated',
         });
+        return;
       }
 
       const { userId } = req.user;
@@ -69,10 +72,11 @@ export class UserMiddleware {
       const user = await this.userFactory.findByAddress(userId);
 
       if (!user) {
-        return res.status(404).json({
+        res.status(404).json({
           error: 'User not found',
           message: 'User does not exist in database',
         });
+        return;
       }
 
       // Add user to request object
@@ -80,10 +84,11 @@ export class UserMiddleware {
       next();
     } catch (error) {
       console.error('Error in getUserFromDb middleware:', error);
-      return res.status(500).json({
+      res.status(500).json({
         error: 'Internal Server Error',
         message: 'Failed to get user from database',
       });
+      return;
     }
   };
 
