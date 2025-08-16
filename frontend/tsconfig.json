@@ -5,7 +5,11 @@
     "@tsconfig/next/tsconfig"
   ],
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "declaration": true,
     "sourceMap": true,
     "stripInternal": true,
@@ -22,13 +26,30 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     },
     "skipLibCheck": true,
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "noImplicitAny": false,
-    "strict": false
+    "strict": false,
+    "strictNullChecks": true
   },
-  "include": ["next-env.d.ts", "types.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
-  "exclude": ["node_modules", "**/node_modules/**", "**/ox/**"]
+  "include": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    "types.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/node_modules/**",
+    "**/ox/**"
+  ]
 }
