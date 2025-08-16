@@ -15,7 +15,20 @@ import { FluviaManager } from './manager/FluviaManager';
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
-const fluviaManager = new FluviaManager();
+let fluviaManager: FluviaManager | null = null;
+
+// Lazy initialization of FluviaManager
+const getFluviaManager = (): FluviaManager => {
+  if (!fluviaManager) {
+    try {
+      fluviaManager = new FluviaManager();
+    } catch (error) {
+      console.warn('⚠️  FluviaManager initialization failed:', error);
+      throw new Error('FluviaManager not available - check environment variables');
+    }
+  }
+  return fluviaManager;
+};
 
 // Middleware
 app.use(helmet()); // Security headers
@@ -23,16 +36,6 @@ app.use(cors()); // Enable CORS
 app.use(morgan('combined')); // Logging
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-
-// Health check endpoint
-app.get('/v1/healthcheck', (req: Request, res: Response) => {
-  res.status(200).json({
-    status: 'OK',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'development',
-  });
-});
 
 // Railway healthcheck endpoint
 app.get('/v1/healthcheck', (req: Request, res: Response) => {
@@ -42,6 +45,21 @@ app.get('/v1/healthcheck', (req: Request, res: Response) => {
     uptime: process.uptime(),
     environment: process.env.NODE_ENV || 'development',
     service: 'fluvia-backend',
+    version: '1.0.0',
+    message: 'Service is running',
+  });
+});
+
+// Fallback health endpoint
+app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development',
+    service: 'fluvia-backend',
+    version: '1.0.0',
+    message: 'Service is running',
   });
 });
 
@@ -70,17 +88,29 @@ app.get(
 );
 
 // Get all Fluvia for the authenticated user
-app.get(
-  '/api/fluvias',
-  authMiddleware({ requireAuth: true }),
-  fluviaManager.getAllFluviaByUser.bind(fluviaManager)
-);
+app.get('/api/fluvias', authMiddleware({ requireAuth: true }), (req: Request, res: Response) => {
+  try {
+    const manager = getFluviaManager();
+    manager.getAllFluviaByUser(req, res);
+  } catch (error) {
+    res.status(503).json({
+      error: 'Service temporarily unavailable',
+      message: 'FluviaManager not available - check environment variables',
+    });
+  }
+});
 
-app.post(
-  '/api/fluvias',
-  authMiddleware({ requireAuth: true }),
-  fluviaManager.createFluvia.bind(fluviaManager)
-);
+app.post('/api/fluvias', authMiddleware({ requireAuth: true }), (req: Request, res: Response) => {
+  try {
+    const manager = getFluviaManager();
+    manager.createFluvia(req, res);
+  } catch (error) {
+    res.status(503).json({
+      error: 'Service temporarily unavailable',
+      message: 'FluviaManager not available - check environment variables',
+    });
+  }
+});
 
 // 404 handler
 app.use('*', (req: Request, res: Response) => {
@@ -102,25 +132,27 @@ app.use((err: Error, req: Request, res: Response, _next: () => void) => {
 // Start server with database initialization
 const startServer = async (): Promise<void> => {
   try {
-    // Get database service instance
-    const databaseService = DatabaseService.getInstance();
-
-    // Test database connection
-    const isConnected = await databaseService.testConnection(DBConfigurationType.MAIN);
-
-    if (!isConnected) {
-      console.warn('⚠️  Database connection failed, but continuing...');
-    }
-
-    // Start server
+    // Start server immediately so healthcheck is available
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📊 Health check: http://localhost:${PORT}/health`);
+      console.log(`📊 Health check: http://localhost:${PORT}/v1/healthcheck`);
       console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`✅ Healthcheck endpoint available at /v1/healthcheck`);
+    });
+
+    // Initialize database connection asynchronously
+    try {
+      const databaseService = DatabaseService.getInstance();
+      const isConnected = await databaseService.testConnection(DBConfigurationType.MAIN);
+
       if (isConnected) {
         console.log(`🗄️  Database connected successfully`);
+      } else {
+        console.warn('⚠️  Database connection failed, but server is running');
       }
-    });
+    } catch (dbError) {
+      console.warn('⚠️  Database connection failed, but server is running:', dbError);
+    }
   } catch (error) {
     console.error('❌ Failed to start server:', error);
     process.exit(1);

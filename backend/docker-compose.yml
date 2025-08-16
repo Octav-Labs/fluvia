@@ -28,23 +28,8 @@ services:
     container_name: fluvia_backend
     ports:
       - '3000:3000'
-    environment:
-      - NODE_ENV=development
-      - PORT=3000
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=fluvia
-      - DB_USER=fluvia_user
-      - DB_PASSWORD=fluvia_password
-      - DB_SSL=false
-      - DB_TEST_HOST=postgres
-      - DB_TEST_PORT=5432
-      - DB_TEST_NAME=fluvia_test
-      - DB_TEST_USER=fluvia_user
-      - DB_TEST_PASSWORD=fluvia_password
-      - PRIVY_APP_ID=cmed5dq8l00atl40cattx3o54
-      - PRIVY_APP_SECRET=5aUHEeM119abu7VWYVG7fWZBuN97sM4rmQZd3igpFhZPzijy8e9rypzRwAdukKJGfbawo4cPryrLz27hPiEqDAi5
-      - PRIVY_PRIVATE_KEY=MHcCAQEEIEyzSPt2lAK1MH6MgLFYAXp2y+e7VZyzp8cKCy3VhDTDoAoGCCqGSM49AwEHoUQDQgAEI5OOHdwnYWvhU3hTN2HbN5IJnPUGKraAXV/9cgJNqu09VqAeQvtri5CW5tGlu2HLPl4O4ZiRqc8fnSEzN31eXw==
+    env_file:
+      - .env
     volumes:
       - ./src:/usr/src/app/src
       - ./migrations:/usr/src/app/migrations

@@ -42,6 +42,24 @@ export const chains: Record<number, ChainInfo> = {
     factoryContract: '0xa4479267c2eB0Da5e5bC05913c6Fd0c8066cf961',
     domain: 6,
   },
+  11155111: {
+    chainId: 11155111,
+    chainName: 'Ethereum Sepolia',
+    chainCaiP: 'eip155:11155111',
+    feeControllerContract: '0x85b03e28Db7179431fcdD49030Af90b0001e3933',
+    receiverContract: '0x3aFB4C63DeD70Ed9feB962623Ff27937114e2365',
+    factoryContract: '0x7F487aC302218B185d28644d4678F6f454fc023e',
+    domain: 6,
+  },
+  421614: {
+    chainId: 421614,
+    chainName: 'Arbitrum Sepolia',
+    chainCaiP: 'eip155:421614',
+    feeControllerContract: '0x85b03e28Db7179431fcdD49030Af90b0001e3933',
+    receiverContract: '0x3aFB4C63DeD70Ed9feB962623Ff27937114e2365',
+    factoryContract: '0x7F487aC302218B185d28644d4678F6f454fc023e',
+    domain: 6,
+  },
 };
 
 export const CURRENT_CHAIN_IDS = [

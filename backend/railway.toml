@@ -1,7 +1,8 @@
 [deploy]
-startCommand = "npm install -g pnpm@10.14.0 && pnpm install --frozen-lockfile && pnpm run build && node dist/index.js"
+startCommand = "pnpm install --frozen-lockfile && pnpm run build && node dist/index.js"
 healthcheckPath = "/v1/healthcheck"
 healthcheckTimeout = 300
+healthcheckInterval = 30
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 
