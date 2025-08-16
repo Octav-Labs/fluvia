@@ -1,11 +1,12 @@
-import { useLogin } from "@privy-io/react-auth";
+import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { useSessionSigners } from "@privy-io/react-auth";
 
 export const useLoginWithPrivy = () => {
   const { addSessionSigners } = useSessionSigners();
+  const { user } = usePrivy();
   const handleLoginSuccess = async () => {
     await addSessionSigners({
-      address: "insert-user-embedded-wallet-address",
+      address: user?.wallet?.address || "",
       signers: [
         {
           signerId: "ovscx4a3irn9333mopyuvxbe",
