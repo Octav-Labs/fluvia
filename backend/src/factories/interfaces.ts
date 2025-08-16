@@ -24,6 +24,9 @@ export interface ICRUDOperations<T> {
   count(where?: any): Promise<number>;
   exists(where: any): Promise<boolean>;
 
+  // Custom search with query builder
+  searchWith<TResult>(fn: (builder: Knex) => Knex.QueryBuilder): Promise<TResult[]>;
+
   // Transaction support
   withTransaction<TResult>(
     callback: (transaction: Knex.Transaction) => Promise<TResult>

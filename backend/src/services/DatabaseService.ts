@@ -1,8 +1,8 @@
 import 'dotenv/config';
 
-import { Logger } from '../utils/logger';
-
 import { Knex, knex } from 'knex';
+
+import { Logger } from '../utils/logger';
 
 export enum DBConfigurationType {
   MAIN = 'MAIN',
@@ -95,7 +95,7 @@ export class DatabaseService {
     const client = knex(knexConfig);
 
     // Add error handling
-    client.on('error', (error) => {
+    client.on('error', error => {
       this.logger.error(`Database client error (${clientType}):`, error);
     });
 

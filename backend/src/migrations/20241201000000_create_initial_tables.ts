@@ -2,14 +2,14 @@ import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   // Create Users table
-  await knex.schema.createTable('Users', (table) => {
+  await knex.schema.createTable('Users', table => {
     table.uuid('uuid').primary().defaultTo(knex.raw('gen_random_uuid()'));
     table.text('address').notNullable().unique();
     table.timestamps(true, true);
   });
 
   // Create Chains table
-  await knex.schema.createTable('Chains', (table) => {
+  await knex.schema.createTable('Chains', table => {
     table.uuid('uuid').primary().defaultTo(knex.raw('gen_random_uuid()'));
     table.integer('chain_id');
     table.text('explorer_transaction_url');
@@ -20,7 +20,7 @@ export async function up(knex: Knex): Promise<void> {
   });
 
   // Create Fluvia table
-  await knex.schema.createTable('Fluvia', (table) => {
+  await knex.schema.createTable('Fluvia', table => {
     table.uuid('uuid').primary().defaultTo(knex.raw('gen_random_uuid()'));
     table.uuid('user_uuid').notNullable().references('uuid').inTable('Users').onDelete('CASCADE');
     table.text('contract_address');
@@ -30,7 +30,7 @@ export async function up(knex: Knex): Promise<void> {
   });
 
   // Create Fluvia_Users_Chains junction table
-  await knex.schema.createTable('Fluvia_Users_Chains', (table) => {
+  await knex.schema.createTable('Fluvia_Users_Chains', table => {
     table.uuid('uiud').primary().defaultTo(knex.raw('gen_random_uuid()')); // Note: keeping typo from schema
     table
       .uuid('fluvia_uuid')
@@ -44,7 +44,7 @@ export async function up(knex: Knex): Promise<void> {
   });
 
   // Create Fluvia_Transactions table
-  await knex.schema.createTable('Fluvia_Transactions', (table) => {
+  await knex.schema.createTable('Fluvia_Transactions', table => {
     table.uuid('uuid').primary().defaultTo(knex.raw('gen_random_uuid()'));
     table
       .uuid('fluvia_uuid')
@@ -63,11 +63,15 @@ export async function up(knex: Knex): Promise<void> {
     table.smallint('is_error');
     table.text('to');
     table.double('value');
+    table
+      .integer('timestamp')
+      .nullable()
+      .comment('Unix timestamp when the transaction occurred on the blockchain');
     table.timestamps(true, true);
   });
 
   // Create Fluvia_Transaction_Assets table
-  await knex.schema.createTable('Fluvia_Transaction_Assets', (table) => {
+  await knex.schema.createTable('Fluvia_Transaction_Assets', table => {
     table.uuid('uuid').primary().defaultTo(knex.raw('gen_random_uuid()'));
     table
       .uuid('transaction_uuid')

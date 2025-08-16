@@ -13,6 +13,9 @@ export interface FluviaTransactionRecord {
   is_error?: number;
   to?: string;
   value?: number;
+  timestamp?: number;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 // Object model interface (for business logic)
@@ -30,4 +33,7 @@ export interface FluviaTransaction {
   isError?: boolean; // Converted to boolean
   to?: string;
   value?: number;
+  timestamp?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

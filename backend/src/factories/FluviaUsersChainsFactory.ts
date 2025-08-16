@@ -1,6 +1,5 @@
-import { FluviaUsersChains, FluviaUsersChainsRecord } from '../models/interfaces';
+import { FluviaUsersChains } from '../models/interfaces';
 import { DBConfigurationType } from '../services/DatabaseService';
-
 import { BaseFactory } from './base';
 
 export class FluviaUsersChainsFactory extends BaseFactory<FluviaUsersChains> {
@@ -8,7 +7,7 @@ export class FluviaUsersChainsFactory extends BaseFactory<FluviaUsersChains> {
     super('Fluvia_Users_Chains', dbType);
   }
 
-  // Junction table specific methods
+  // Essential find methods with UUIDs
   async findByFluviaUuid(fluviaUuid: string): Promise<FluviaUsersChains[]> {
     return await this.findAll({ fluvia_uuid: fluviaUuid });
   }
@@ -33,41 +32,5 @@ export class FluviaUsersChainsFactory extends BaseFactory<FluviaUsersChains> {
       fluvia_uuid: fluviaUuid,
       chain_uuid: chainUuid,
     });
-  }
-
-  async createRelationship(data: Partial<FluviaUsersChainsRecord>): Promise<FluviaUsersChains> {
-    return await this.create(data);
-  }
-
-  async deleteRelationship(
-    fluviaUuid: string,
-    userUuid: string,
-    chainUuid: string
-  ): Promise<number> {
-    return await this.delete({
-      fluvia_uuid: fluviaUuid,
-      user_uuid: userUuid,
-      chain_uuid: chainUuid,
-    });
-  }
-
-  async relationshipExists(
-    fluviaUuid: string,
-    userUuid: string,
-    chainUuid: string
-  ): Promise<boolean> {
-    return await this.exists({
-      fluvia_uuid: fluviaUuid,
-      user_uuid: userUuid,
-      chain_uuid: chainUuid,
-    });
-  }
-
-  async getUserChains(userUuid: string): Promise<FluviaUsersChains[]> {
-    return await this.findByUserUuid(userUuid);
-  }
-
-  async getFluviaChains(fluviaUuid: string): Promise<FluviaUsersChains[]> {
-    return await this.findByFluviaUuid(fluviaUuid);
   }
 }

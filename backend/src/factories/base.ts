@@ -1,8 +1,7 @@
-import { DatabaseService, DBConfigurationType } from '../services/DatabaseService';
-
-import { ICRUDOperations } from './interfaces';
-
 import { Knex } from 'knex';
+
+import { DatabaseService, DBConfigurationType } from '../services/DatabaseService';
+import { ICRUDOperations } from './interfaces';
 
 // Base factory class that implements CRUD operations using DatabaseService
 export abstract class BaseFactory<T> implements ICRUDOperations<T> {
@@ -177,6 +176,18 @@ export abstract class BaseFactory<T> implements ICRUDOperations<T> {
       return count > 0;
     } catch (error) {
       console.error('Error checking if record exists:', error);
+      throw error;
+    }
+  }
+
+  // Custom search with query builder
+  async searchWith<TResult>(fn: (builder: Knex) => Knex.QueryBuilder): Promise<TResult[]> {
+    try {
+      const query = fn(this.getKnex());
+      const result = await query;
+      return result as TResult[];
+    } catch (error) {
+      console.error('Error in searchWith:', error);
       throw error;
     }
   }

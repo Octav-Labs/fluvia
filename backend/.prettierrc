@@ -5,5 +5,10 @@
   "printWidth": 100,
   "tabWidth": 2,
   "useTabs": false,
-  "endOfLine": "auto"
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "endOfLine": "lf",
+  "quoteProps": "as-needed",
+  "jsxSingleQuote": false,
+  "bracketSameLine": false
 }
