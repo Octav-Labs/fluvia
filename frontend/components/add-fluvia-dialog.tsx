@@ -124,7 +124,7 @@ export function AddFluviaDialog({ onFluviaAdded }: AddFluviaDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="flex items-center space-x-2">
+        <Button size="sm" className="flex items-center">
           <Plus className="h-4 w-4" />
           <span>Add Fluvia</span>
         </Button>

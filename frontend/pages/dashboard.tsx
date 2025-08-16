@@ -49,7 +49,7 @@ export default function DashboardPage() {
 
       <DashboardLayout>
         <div className="flex flex-1 flex-col gap-4 pt-0">
-          <h1 className="text-3xl font-bold text-foreground">
+          <h1 className="text-2xl font-bold text-foreground">
             Fluvia Dashboard
           </h1>
           <p className="text-gray-600">Manage your fluvia's</p>

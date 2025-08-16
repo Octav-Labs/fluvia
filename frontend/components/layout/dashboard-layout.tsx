@@ -20,9 +20,9 @@ export default function DashboardLayout({
       <SidebarProvider>
         <AppSidebar variant="inset" />
         <SidebarInset>
-          {ready && authenticated && <div className="p-4">{children}</div>}
+          {ready && authenticated && <div className="p-8">{children}</div>}
           {ready && !authenticated && (
-            <div className="flex items-center justify-center min-h-screen">
+            <div className="flex items-center justify-center">
               <div className="text-center space-y-4">
                 <h1 className="text-2xl font-semibold text-gray-900">
                   Welcome to Fluvia

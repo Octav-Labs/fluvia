@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DataTable, Column } from "@/components/ui/data-table";
 import { usePrivy } from "@privy-io/react-auth";
+import TitleBloc from "@/components/bloc/title-bloc";
 
 // Types for Octav API response
 interface OctavTransaction {
@@ -285,14 +286,10 @@ export default function TransactionsPage() {
 
       <DashboardLayout>
         {/* Header */}
-        <div className="flex flex-1 flex-col gap-4 pt-0">
-          <h1 className="text-3xl font-bold text-foreground">
-            Transaction History
-          </h1>
-          <p className="text-gray-600">
-            Monitor all your cross-chain transactions and treasury activities
-          </p>
-        </div>
+        <TitleBloc
+          title="Transaction History"
+          description="Monitor all your cross-chain transactions and treasury activities"
+        />
 
         {/* Transactions Table */}
         <DataTable
