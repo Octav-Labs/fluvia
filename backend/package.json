@@ -20,6 +20,13 @@
     "docker:start": "docker-compose up backend",
     "docker:stop": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
+    "db:migrate": "knex migrate:latest",
+    "db:migrate:rollback": "knex migrate:rollback",
+    "db:migrate:make": "knex migrate:make",
+    "db:seed": "knex seed:run",
+    "db:seed:make": "knex seed:make",
+    "db:create": "createdb fluvia",
+    "db:drop": "dropdb fluvia",
     "preinstall": "npx only-allow pnpm"
   },
   "keywords": [
@@ -35,7 +42,9 @@
     "cors": "^2.8.5",
     "helmet": "^7.1.0",
     "morgan": "^1.10.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "knex": "^3.1.0",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",

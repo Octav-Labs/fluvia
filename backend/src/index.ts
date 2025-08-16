@@ -7,6 +7,9 @@ import morgan from 'morgan';
 // Load environment variables
 dotenv.config();
 
+// Import database service
+import { DatabaseService, DBConfigurationType } from './services/DatabaseService';
+
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
@@ -52,11 +55,35 @@ app.use((err: Error, req: Request, res: Response, _next: () => void) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/health`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+// Start server with database initialization
+const startServer = async (): Promise<void> => {
+  try {
+    // Get database service instance
+    const databaseService = DatabaseService.getInstance();
+
+    // Test database connection
+    const isConnected = await databaseService.testConnection(DBConfigurationType.MAIN);
+
+    if (!isConnected) {
+      console.warn('⚠️  Database connection failed, but continuing...');
+    }
+
+    // Start server
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📊 Health check: http://localhost:${PORT}/health`);
+      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+      if (isConnected) {
+        console.log(`🗄️  Database connected successfully`);
+      }
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+// Start the server
+startServer();
 
 export default app;
