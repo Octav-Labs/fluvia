@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getAccessToken } from "@privy-io/react-auth";
 
 const BACKEND_API_URL = process.env.BACKEND_API_URL || "http://localhost:3005";
 
@@ -14,7 +13,6 @@ export default async function handler(
   try {
     // Get the access token from cookies
     const accessToken = req.cookies["privy-token"];
-    console.log(accessToken);
 
     if (!accessToken) {
       return res.status(401).json({
@@ -32,7 +30,6 @@ export default async function handler(
       },
     });
 
-    console.log(backendResponse);
     if (!backendResponse.ok) {
       const errorData = await backendResponse.json().catch(() => ({}));
       return res.status(backendResponse.status).json({

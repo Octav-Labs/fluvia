@@ -5,6 +5,7 @@ export interface FluviaRecord {
   contract_address?: string;
   label?: string;
   receiver_address?: string;
+  domain?: number;
 }
 
 // Object model interface (for business logic)
@@ -14,4 +15,5 @@ export interface Fluvia {
   contractAddress?: string;
   label?: string;
   receiverAddress?: string;
+  domain?: number;
 }

@@ -2,6 +2,10 @@ FROM node:22
 
 WORKDIR /usr/src/app
 
+ARG PRIVY_APP_ID
+ARG PRIVY_APP_SECRET
+ARG PRIVY_PRIVATE_KEY
+
 RUN \
   apt-get update \
   && apt-get -y install gettext-base postgresql-client \
