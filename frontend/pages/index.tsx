@@ -9,8 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useRouter } from "next/router";
 
 export default function Index() {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       {/* Header */}
@@ -19,11 +21,19 @@ export default function Index() {
           <div className="flex items-center justify-between">
             <Logo variant="full" size="lg" />
             <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm" className="hover:bg-primary hover:text-primary-foreground transition-colors">
-                Documentation
+              <Button
+                size="sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                onClick={() => router.push("/dashboard")}
+              >
+                Go to dashboard
               </Button>
-              <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                Sign In
+              <Button
+                variant="outline"
+                size="sm"
+                className="hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                Documentation
               </Button>
             </div>
           </div>
@@ -36,7 +46,7 @@ export default function Index() {
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-secondary/5" />
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
-        
+
         {/* Fluvia angled wave background image */}
         <div className="absolute inset-0 flex items-center justify-center opacity-10">
           <Image
@@ -47,18 +57,18 @@ export default function Index() {
             className="w-full h-full object-cover"
           />
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto text-center">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground mb-8">
             🚀 Now supporting 3 blockchains
           </div>
-          
+
           <h1 className="text-6xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-primary via-primary to-secondary bg-clip-text text-transparent leading-tight relative z-10">
             Financial infrastructure
             <br />
             <span className="text-foreground">for the future</span>
           </h1>
-          
+
           <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
             Fluvia is a multichain treasury management platform that helps
             businesses seamlessly manage and move USDC across multiple
@@ -66,7 +76,11 @@ export default function Index() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-semibold">
+            <Button
+              size="lg"
+              onClick={() => router.push("/dashboard")}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-semibold"
+            >
               Start managing your treasury →
             </Button>
           </div>
@@ -77,7 +91,9 @@ export default function Index() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Everything you need to manage your treasury</h2>
+            <h2 className="text-4xl font-bold mb-4">
+              Everything you need to manage your treasury
+            </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Built for asset managers, designed for businesses.
             </p>
@@ -92,12 +108,14 @@ export default function Index() {
                 </div>
                 <CardTitle className="text-xl">Instant Transfers</CardTitle>
                 <CardDescription>
-                  Move USDC across blockchains in seconds with Circle's CCTP technology
+                  Move USDC across blockchains in seconds with Circle's CCTP
+                  technology
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Experience lightning-fast cross-chain transfers and real-time settlement.
+                  Experience lightning-fast cross-chain transfers and real-time
+                  settlement.
                 </p>
               </CardContent>
             </Card>
@@ -108,14 +126,19 @@ export default function Index() {
                 <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-secondary/20 transition-colors">
                   <span className="text-2xl">⏰</span>
                 </div>
-                <CardTitle className="text-xl">Time Saving & Auto-Settlement</CardTitle>
+                <CardTitle className="text-xl">
+                  Time Saving & Auto-Settlement
+                </CardTitle>
                 <CardDescription>
-                  Automated workflows that save hours of manual treasury operations
+                  Automated workflows that save hours of manual treasury
+                  operations
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Streamline your treasury management with intelligent automation, instant settlements, and reduced manual intervention for maximum efficiency.
+                  Streamline your treasury management with intelligent
+                  automation, instant settlements, and reduced manual
+                  intervention for maximum efficiency.
                 </p>
               </CardContent>
             </Card>
@@ -133,7 +156,8 @@ export default function Index() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Monitor your cross-chain portfolio with real-time data, analytics, and automated reporting.
+                  Monitor your cross-chain portfolio with real-time data,
+                  analytics, and automated reporting.
                 </p>
               </CardContent>
             </Card>
@@ -150,15 +174,24 @@ export default function Index() {
                 Ready to transform your treasury management?
               </CardTitle>
               <CardDescription className="text-lg">
-                Join thousands of businesses already using Fluvia to streamline their cross-chain operations.
+                Join thousands of businesses already using Fluvia to streamline
+                their cross-chain operations.
               </CardDescription>
             </CardHeader>
             <CardContent className="pb-8">
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-semibold">
-                  Sign In
+                <Button
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-semibold"
+                  onClick={() => router.push("/dashboard")}
+                >
+                  Go to dashboard
                 </Button>
-                <Button variant="outline" size="lg" className="px-8 py-6 text-lg font-semibold hover:bg-muted/50">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="px-8 py-6 text-lg font-semibold hover:bg-muted/50"
+                >
                   Documentation
                 </Button>
               </div>
@@ -178,7 +211,10 @@ export default function Index() {
               </p>
             </div>
             <div className="mt-8 md:mt-0">
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a
+                href="#"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
                 Documentation
               </a>
             </div>
