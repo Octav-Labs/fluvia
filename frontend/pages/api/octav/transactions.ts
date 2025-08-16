@@ -20,7 +20,7 @@ export default async function handler(
       networks,
       txTypes,
       protocols,
-      hideSpam,
+      hideSpam = "true",
       sort = "DESC",
       tokenId,
       startDate,
