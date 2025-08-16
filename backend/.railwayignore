@@ -1,5 +1,8 @@
 node_modules/
 dist/
+.env
+.env.local
+.env.production
 .git/
 .gitignore
 README.md
@@ -12,9 +15,3 @@ coverage/
 .DS_Store
 *.tmp
 *.temp
-.env
-.env.local
-.env.production
-.railwayignore
-.nixpacks
-Procfile

@@ -57,7 +57,7 @@ After setting the variable, you can run the deployment with the Sepolia network:
   --network <chain> \
   --parameters ignition/params/<chain>.json \
   --deployment-id fluvia-infra-v<version eg: 0-2> \
-  --strategy create2R
+  --strategy create2
 ```
 
 Veirfy Contracts
