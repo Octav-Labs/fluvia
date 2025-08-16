@@ -2,46 +2,42 @@
 
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { Button } from "@/components/ui/button";
 
-import {
-  Breadcrumb,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "../ui/breadcrumb";
-import { Separator } from "@radix-ui/react-separator";
+import { useLogin, usePrivy } from "@privy-io/react-auth";
+import { useRouter } from "next/router";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { ready, authenticated } = usePrivy();
+  const router = useRouter();
+  const { login } = useLogin({
+    onComplete: () => router.push("/dashboard"),
+  });
   return (
     <div>
       <SidebarProvider>
         <AppSidebar variant="inset" />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-            <div className="flex items-center gap-2 px-4">
-              <Separator orientation="vertical" className="mr-2 h-4" />
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">
-                      Building Your Application
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
+          {ready && authenticated && <div className="p-4">{children}</div>}
+          {ready && !authenticated && (
+            <div className="flex items-center justify-center min-h-screen">
+              <div className="text-center space-y-4">
+                <h1 className="text-2xl font-semibold text-gray-900">
+                  Welcome to Fluvia
+                </h1>
+                <p className="text-gray-600">
+                  To start using Fluvia, please sign in.
+                </p>
+                <Button onClick={login} className="px-6 py-2">
+                  Sign in
+                </Button>
+              </div>
             </div>
-          </header>
-          <div className="p-4">{children}</div>
+          )}
         </SidebarInset>
       </SidebarProvider>
     </div>
