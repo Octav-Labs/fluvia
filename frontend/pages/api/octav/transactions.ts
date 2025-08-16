@@ -20,7 +20,6 @@ export default async function handler(
       networks,
       txTypes,
       protocols,
-      hideSpam = "true",
       sort = "DESC",
       tokenId,
       startDate,
@@ -61,9 +60,9 @@ export default async function handler(
     if (protocols) {
       queryParams.append("protocols", protocols as string);
     }
-    if (hideSpam) {
-      queryParams.append("hideSpam", hideSpam as string);
-    }
+
+    queryParams.append("hideSpam", "true");
+
     if (sort) {
       queryParams.append("sort", sort as string);
     }
