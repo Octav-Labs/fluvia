@@ -53,5 +53,15 @@ npx hardhat keystore set SEPOLIA_PRIVATE_KEY
 After setting the variable, you can run the deployment with the Sepolia network:
 
 ```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
+ pnpm hardhat ignition deploy ignition/modules/Fluvia.ts \
+  --network <chain> \
+  --parameters ignition/params/<chain>.json \
+  --deployment-id fluvia-infra-v<version eg: 0-2> \
+  --strategy create2R
+```
+
+Veirfy Contracts
+
+```shell
+npx hardhat ignition verify fluvia-infra-v<version eg: 0-2 --network <chain>
 ```

@@ -32,8 +32,11 @@ describe("FluviaFactory", async function () {
     // Deploy Receiver implementation (it's upgradeable, so we need to deploy it first)
     receiver = await viem.deployContract("Receiver");
 
-    // Deploy FluviaFactory with the mock FeeController
-    fluviaFactory = await viem.deployContract("FluviaFactory", [
+    // Deploy FluviaFactory (it's upgradeable, so deploy without constructor parameters)
+    fluviaFactory = await viem.deployContract("FluviaFactory");
+
+    // Initialize the FluviaFactory contract
+    await fluviaFactory.write.init([
       admin,
       mockUSDC.address,
       mockTokenMessenger.address,
@@ -100,7 +103,7 @@ describe("FluviaFactory", async function () {
 
       // First simulate the call to get the return values
       const simulatedResult = await fluviaFactory.simulate.deploy([user, destDomain, destRecipient], { account: user });
-      
+
       // Then execute the actual transaction
       const txHash = await fluviaFactory.write.deploy([user, destDomain, destRecipient], { account: user });
 
