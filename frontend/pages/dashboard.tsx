@@ -3,6 +3,14 @@ import { useEffect, useState } from "react";
 import { getAccessToken, usePrivy } from "@privy-io/react-auth";
 import Head from "next/head";
 import WalletList from "../components/WalletList";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 async function verifyToken() {
   const url = "/api/verify";
@@ -58,168 +66,197 @@ export default function DashboardPage() {
   return (
     <>
       <Head>
-        <title>Privy Auth Demo</title>
+        <title>Fluvia Dashboard</title>
       </Head>
 
-      <main className="flex flex-col min-h-screen px-4 sm:px-20 py-6 sm:py-10 bg-privy-light-blue">
+      <main className="flex flex-col min-h-screen px-4 sm:px-20 py-6 sm:py-10 bg-background">
         {ready && authenticated ? (
           <>
-            <div className="flex flex-row justify-between">
-              <h1 className="text-2xl font-semibold">Privy Auth Demo</h1>
-              <button
-                onClick={logout}
-                className="text-sm bg-violet-200 hover:text-violet-900 py-2 px-4 rounded-md text-violet-700"
-              >
+            <div className="flex flex-row justify-between items-center mb-8">
+              <h1 className="text-3xl font-bold text-foreground">
+                Fluvia Dashboard
+              </h1>
+              <Button variant="outline" onClick={logout}>
                 Logout
-              </button>
+              </Button>
             </div>
-            <div className="mt-12 flex gap-4 flex-wrap">
-              {googleSubject ? (
-                <button
-                  onClick={() => {
-                    unlinkGoogle(googleSubject);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink Google
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    linkGoogle();
-                  }}
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-                >
-                  Link Google
-                </button>
-              )}
 
-              {twitterSubject ? (
-                <button
-                  onClick={() => {
-                    unlinkTwitter(twitterSubject);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink Twitter
-                </button>
-              ) : (
-                <button
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-                  onClick={() => {
-                    linkTwitter();
-                  }}
-                >
-                  Link Twitter
-                </button>
-              )}
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>Account Connections</CardTitle>
+                <CardDescription>
+                  Manage your connected accounts and wallets
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-4 flex-wrap">
+                  {googleSubject ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        unlinkGoogle(googleSubject);
+                      }}
+                      disabled={!canRemoveAccount}
+                    >
+                      Unlink Google
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => {
+                        linkGoogle();
+                      }}
+                    >
+                      Link Google
+                    </Button>
+                  )}
 
-              {discordSubject ? (
-                <button
-                  onClick={() => {
-                    unlinkDiscord(discordSubject);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink Discord
-                </button>
-              ) : (
-                <button
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-                  onClick={() => {
-                    linkDiscord();
-                  }}
-                >
-                  Link Discord
-                </button>
-              )}
+                  {twitterSubject ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        unlinkTwitter(twitterSubject);
+                      }}
+                      disabled={!canRemoveAccount}
+                    >
+                      Unlink Twitter
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => {
+                        linkTwitter();
+                      }}
+                    >
+                      Link Twitter
+                    </Button>
+                  )}
 
-              {email ? (
-                <button
-                  onClick={() => {
-                    unlinkEmail(email.address);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink email
-                </button>
-              ) : (
-                <button
-                  onClick={linkEmail}
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-                >
-                  Connect email
-                </button>
-              )}
-              {wallet ? (
-                <button
-                  onClick={() => {
-                    unlinkWallet(wallet.address);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink wallet
-                </button>
-              ) : (
-                <button
-                  onClick={linkWallet}
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white border-none"
-                >
-                  Connect wallet
-                </button>
-              )}
-              {phone ? (
-                <button
-                  onClick={() => {
-                    unlinkPhone(phone.number);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink phone
-                </button>
-              ) : (
-                <button
-                  onClick={linkPhone}
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white border-none"
-                >
-                  Connect phone
-                </button>
-              )}
+                  {discordSubject ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        unlinkDiscord(discordSubject);
+                      }}
+                      disabled={!canRemoveAccount}
+                    >
+                      Unlink Discord
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => {
+                        linkDiscord();
+                      }}
+                    >
+                      Link Discord
+                    </Button>
+                  )}
 
-              <button
-                onClick={() => verifyToken().then(setVerifyResult)}
-                className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white border-none"
-              >
-                Verify token on server
-              </button>
+                  {email ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        unlinkEmail(email.address);
+                      }}
+                      disabled={!canRemoveAccount}
+                    >
+                      Unlink Email
+                    </Button>
+                  ) : (
+                    <Button variant="default" size="sm" onClick={linkEmail}>
+                      Connect Email
+                    </Button>
+                  )}
 
-              {Boolean(verifyResult) && (
-                <details className="w-full">
-                  <summary className="mt-6 font-bold uppercase text-sm text-gray-600">
-                    Server verify result
-                  </summary>
-                  <pre className="max-w-4xl bg-slate-700 text-slate-50 font-mono p-4 text-xs sm:text-sm rounded-md mt-2">
-                    {JSON.stringify(verifyResult, null, 2)}
-                  </pre>
-                </details>
-              )}
-            </div>
-            <div className="space-y-6 max-w-4xl mt-6">
-              <h2 className="text-xl font-bold">Your Wallet</h2>
-              <WalletList />
-            </div>
-            <p className="mt-6 font-bold uppercase text-sm text-gray-600">
-              User object
-            </p>
-            <pre className="max-w-4xl bg-slate-700 text-slate-50 font-mono p-4 text-xs sm:text-sm rounded-md mt-2">
-              {JSON.stringify(user, null, 2)}
-            </pre>
+                  {wallet ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        unlinkWallet(wallet.address);
+                      }}
+                      disabled={!canRemoveAccount}
+                    >
+                      Unlink Wallet
+                    </Button>
+                  ) : (
+                    <Button variant="default" size="sm" onClick={linkWallet}>
+                      Connect Wallet
+                    </Button>
+                  )}
+
+                  {phone ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        unlinkPhone(phone.number);
+                      }}
+                      disabled={!canRemoveAccount}
+                    >
+                      Unlink Phone
+                    </Button>
+                  ) : (
+                    <Button variant="default" size="sm" onClick={linkPhone}>
+                      Connect Phone
+                    </Button>
+                  )}
+
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => verifyToken().then(setVerifyResult)}
+                  >
+                    Verify Token
+                  </Button>
+                </div>
+
+                {Boolean(verifyResult) && (
+                  <details className="w-full mt-6">
+                    <summary className="font-semibold text-sm text-muted-foreground cursor-pointer">
+                      Server verify result
+                    </summary>
+                    <pre className="max-w-4xl bg-muted text-muted-foreground font-mono p-4 text-xs sm:text-sm rounded-md mt-2 overflow-auto">
+                      {JSON.stringify(verifyResult, null, 2)}
+                    </pre>
+                  </details>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>Your Wallets</CardTitle>
+                <CardDescription>
+                  Manage your connected blockchain wallets
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <WalletList />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>User Data</CardTitle>
+                <CardDescription>
+                  Your complete user object from Privy
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <pre className="max-w-4xl bg-muted text-muted-foreground font-mono p-4 text-xs sm:text-sm rounded-md overflow-auto">
+                  {JSON.stringify(user, null, 2)}
+                </pre>
+              </CardContent>
+            </Card>
           </>
         ) : null}
       </main>
