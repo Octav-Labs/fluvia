@@ -1,6 +1,6 @@
 import * as React from "react";
-import { CreditCardIcon, Frame, LogOut, User } from "lucide-react";
-import { getAccessToken, useLogin, usePrivy } from "@privy-io/react-auth";
+import { CreditCardIcon, Frame, User } from "lucide-react";
+import { usePrivy } from "@privy-io/react-auth";
 
 import { NavProjects } from "@/components/nav-projects";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -14,8 +14,6 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import { Separator } from "@radix-ui/react-separator";
-import { useRouter } from "next/router";
-import { Button } from "./ui/button";
 import { UserBlock } from "./user-block";
 
 // This is sample data.
@@ -40,7 +38,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { ready, authenticated, user, logout } = usePrivy();
+  const { authenticated } = usePrivy();
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
