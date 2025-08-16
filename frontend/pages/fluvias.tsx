@@ -7,6 +7,7 @@ import { DataTable, Column } from "@/components/ui/data-table";
 import { Badge } from "@/components/ui/badge";
 
 import { AddFluviaDialog } from "@/components/add-fluvia-dialog";
+import TitleBloc from "@/components/bloc/title-bloc";
 
 interface Fluvia {
   id: string;
@@ -118,20 +119,14 @@ export default function FluviasPage() {
 
       <DashboardLayout>
         {/* Header */}
-        <div className="flex flex-1 flex-col gap-4 pt-0">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">
-                Fluvia Dashboard
-              </h1>
-              <p className="text-gray-600">
-                Manage your fluvias and monitor their performance
-              </p>
-            </div>
-            <AddFluviaDialog onFluviaAdded={fetchFluvias} />
-          </div>
-        </div>
 
+        <TitleBloc
+          title="Fluvia Dashboard"
+          description="Manage your fluvias and monitor their performance"
+        />
+        <div className="flex justify-end mb-4">
+          <AddFluviaDialog onFluviaAdded={fetchFluvias} />
+        </div>
         {/* Error Message */}
         {error && (
           <div className="p-4 bg-red-50 border border-red-200 rounded-md">
