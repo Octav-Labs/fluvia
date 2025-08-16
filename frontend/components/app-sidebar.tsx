@@ -1,25 +1,11 @@
 import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
+import { CreditCardIcon, Frame, User } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
-import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
+
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
@@ -35,19 +21,19 @@ const data = {
 
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
+      name: "Home",
+      url: "/dashboard",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
+      name: "My Fluvia's",
+      url: "/fluvias",
+      icon: User,
     },
     {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      name: "Transactions",
+      url: "/transactions",
+      icon: CreditCardIcon,
     },
   ],
 };
@@ -56,12 +42,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row items-center gap-2">
           <Image
-            src="/fluvia-logo.png"
+            src="/images/logowithoutbackground.png"
             alt="Fluvia Logo"
-            width={100}
-            height={100}
+            width={60}
+            height={60}
           />
           <h1 className="text-2xl font-bold">Fluvia</h1>
         </div>
