@@ -55,13 +55,6 @@ export function UserBlock() {
     return "U";
   };
 
-  const getWalletType = () => {
-    if (user.wallet?.walletClientType) {
-      return user.wallet.walletClientType;
-    }
-    return "Wallet";
-  };
-
   const getExplorerUrl = (address: string) => {
     // Default to Ethereum explorer, but you could detect chain
     return `https://etherscan.io/address/${address}`;
@@ -90,7 +83,7 @@ export function UserBlock() {
           {/* User Details */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-2 mb-1">
-              <h3 className="text-sm font-semibold text-gray-900 truncate">
+              <h3 className="text-sm font-semibold text-foreground truncate">
                 {getDisplayName()}
               </h3>
             </div>
@@ -99,7 +92,7 @@ export function UserBlock() {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-1">
                 <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-xs text-gray-600">Connected</span>
+                <span className="text-xs text-muted-foreground">Connected</span>
               </div>
             </div>
           </div>
@@ -108,8 +101,8 @@ export function UserBlock() {
         {/* Wallet Address */}
         {user.wallet?.address && (
           <div className="flex items-center space-x-2">
-            <Wallet className="h-3 w-3 text-gray-500" />
-            <code className="text-xs font-mono text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded flex-1">
+            <Wallet className="h-3 w-3 text-muted-foreground" />
+            <code className="text-xs font-mono bg-card/50 px-1.5 py-0.5 rounded flex-1">
               {user.wallet.address.slice(0, 6)}...
               {user.wallet.address.slice(-4)}
             </code>

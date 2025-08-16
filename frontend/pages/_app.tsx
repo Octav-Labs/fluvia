@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { PrivyProvider } from "@privy-io/react-auth";
+import { ThemeProvider } from "@/components/theme-provider";
 
 // font-family: "Adelle Sans", sans-serif;
 import { Montserrat } from "next/font/google";
@@ -52,9 +53,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
       >
-        <div className={montserrat.className}>
-          <Component {...pageProps} />
-        </div>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className={montserrat.className}>
+            <Component {...pageProps} />
+          </div>
+        </ThemeProvider>
       </PrivyProvider>
     </>
   );

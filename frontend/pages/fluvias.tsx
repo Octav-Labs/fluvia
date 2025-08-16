@@ -38,7 +38,9 @@ export default function FluviasPage() {
       key: "label",
       header: "Label",
       accessor: (fluvia) => (
-        <span className="font-medium text-gray-900">{fluvia.label}</span>
+        <span className="font-medium text-sm text-foreground">
+          {fluvia.label}
+        </span>
       ),
       sortable: true,
     },
@@ -60,7 +62,7 @@ export default function FluviasPage() {
       key: "contractAddress",
       header: "Contract Address",
       accessor: (fluvia) => (
-        <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
+        <code className="text-xs font-mono text-muted-foreground bg-card/50 px-2 py-1 rounded">
           {fluvia.contractAddress.slice(0, 8)}...
           {fluvia.contractAddress.slice(-6)}
         </code>
@@ -71,7 +73,7 @@ export default function FluviasPage() {
       key: "depositAddress",
       header: "Deposit Address",
       accessor: (fluvia) => (
-        <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
+        <code className="text-xs font-mono text-muted-foreground bg-card/50 px-2 py-1 rounded">
           {fluvia.depositAddress.slice(0, 8)}...
           {fluvia.depositAddress.slice(-6)}
         </code>

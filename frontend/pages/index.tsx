@@ -32,6 +32,7 @@ export default function Index() {
                 variant="outline"
                 size="sm"
                 className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                onClick={() => window.open("https://docs.fluvia.xyz", "_blank")}
               >
                 Documentation
               </Button>
@@ -212,7 +213,9 @@ export default function Index() {
             </div>
             <div className="mt-8 md:mt-0">
               <a
-                href="#"
+                href="https://docs.fluvia.xyz"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 Documentation
