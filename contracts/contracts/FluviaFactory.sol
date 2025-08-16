@@ -10,9 +10,10 @@ import "./Receiver.sol";
 contract FluviaFactory is Initializable, OwnableUpgradeable {
     address public USDC; // ERC20 USDC on this source chain
     address public TOKEN_MESSENGER; // CCTP v2 TokenMessenger on this source chain
+	uint32  public LOCAL_DOMAIN; // DOMAIN of current chain
 
-    address public feeController; // FeeController contract address
-    address public implementation; // address to clone
+	address public feeController; // FeeController contract address
+	address public implementation; // address to clone
 
     event ReceiverDeployed(
         address indexed owner,
@@ -36,7 +37,8 @@ contract FluviaFactory is Initializable, OwnableUpgradeable {
         address usdc,
         address cctpMessenger,
         address _feeController,
-        address receiverImpl
+        address receiverImpl,
+		uint32 localDomain
     ) external initializer {
         require(admin != address(0), "admin is 0x0");
         require(usdc != address(0), "usdc is 0x0");
@@ -46,6 +48,7 @@ contract FluviaFactory is Initializable, OwnableUpgradeable {
         __Ownable_init(admin);
         USDC = usdc;
         TOKEN_MESSENGER = cctpMessenger;
+	    LOCAL_DOMAIN = localDomain;
         feeController = _feeController;
         implementation = receiverImpl;
     }
@@ -112,7 +115,8 @@ contract FluviaFactory is Initializable, OwnableUpgradeable {
             USDC,
             TOKEN_MESSENGER,
             destDomain,
-            destRecipient32,
+	        LOCAL_DOMAIN,
+	        destRecipient32,
             feeController
         );
 
