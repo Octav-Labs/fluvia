@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CreditCardIcon, Frame, User } from "lucide-react";
+import { CreditCardIcon, Frame, LogOut, User } from "lucide-react";
 import { getAccessToken, useLogin, usePrivy } from "@privy-io/react-auth";
 
 import { NavProjects } from "@/components/nav-projects";
@@ -7,12 +7,14 @@ import { NavProjects } from "@/components/nav-projects";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import { Separator } from "@radix-ui/react-separator";
 import { useRouter } from "next/router";
+import { Button } from "./ui/button";
 
 // This is sample data.
 const data = {
@@ -37,10 +39,6 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { ready, authenticated, user, logout } = usePrivy();
-  const router = useRouter();
-  const { login } = useLogin({
-    onComplete: () => router.push("/dashboard"),
-  });
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -66,6 +64,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
 
       <SidebarRail />
+      <SidebarFooter>
+        <Button onClick={logout} variant="outline" className="w-full">
+          <LogOut className="w-4 h-4 mr-2" />
+          Logout
+        </Button>
+      </SidebarFooter>
     </Sidebar>
   );
 }
