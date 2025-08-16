@@ -11,7 +11,7 @@ RUN \
   && apt-get -y install gettext-base postgresql-client \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
-  && npm install -g pnpm knex ts-node
+  && npm install -g pnpm@10.14.0 knex ts-node --force
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
@@ -25,7 +25,7 @@ RUN chmod +x docker-startup.sh
 RUN pnpm run build
 
 # Expose the port
-EXPOSE 3001
+EXPOSE 3000
 
 # Default command (can be overridden in docker-compose)
 CMD [ "pnpm", "run", "dev" ]

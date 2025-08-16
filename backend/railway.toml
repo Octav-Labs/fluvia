@@ -1,10 +1,15 @@
 [deploy]
-startCommand = "npm install -g pnpm@10.14.0 && pnpm install --frozen-lockfile && pnpm run build && node dist/index.js"
+startCommand = "pnpm install --frozen-lockfile && pnpm run build && node dist/index.js"
 healthcheckPath = "/v1/healthcheck"
 healthcheckTimeout = 300
+healthcheckInterval = 30
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
 
 [deploy.envs]
 NODE_ENV = "production"
 PORT = "3000"
+# Add these environment variables in Railway dashboard instead of here for security
+# PRIVY_APP_ID = "cmed5dq8l00atl40cattx3o54"
+# PRIVY_APP_SECRET = "5aUHEeM119abu7VWYVG7fWZBuN97sM4rmQZd3igpFhZPzijy8e9rypzRwAdukKJGfbawo4c4PryrLz27hPiEqDAi5"
+# PRIVY_PRIVATE_KEY = "MHcCAQEEIEyzSPt2lAK1MH6MgLFYAXp2y+e7VZyzp8cKCy3VhDTDoAoGCCqGSM49AwEHoUQDQgAEI5OOHdwnYWvhU3hTN2HbN5IJnPUGKraAXV/9cgJNqu09VqAeQvtri5CW5tGlu2HLPl4O4ZiRqc8fnSEzN31eXw=="
