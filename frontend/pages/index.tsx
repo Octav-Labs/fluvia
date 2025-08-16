@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useRouter } from "next/router";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export default function Index() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export default function Index() {
               >
                 Documentation
               </Button>
+              <ThemeSwitcher />
             </div>
           </div>
         </div>
@@ -60,7 +62,7 @@ export default function Index() {
         </div>
 
         <div className="relative max-w-7xl mx-auto text-center">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground mb-8">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-muted/50 border border-border/50 text-sm text-foreground mb-8">
             🚀 Now supporting 3 blockchains
           </div>
 

@@ -33,8 +33,8 @@ export function NavProjects({
             <div key={item.name}>
               {disabled ? (
                 <div className="flex items-center space-x-3 px-3 py-2 cursor-not-allowed opacity-50">
-                  <item.icon className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium text-muted-foreground">
+                  <item.icon className="h-4 w-4 text-foreground" />
+                  <span className="text-sm font-medium text-foreground">
                     {item.name}
                   </span>
                 </div>
