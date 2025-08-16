@@ -1,0 +1,13 @@
+# Docker Compose configuration
+
+services:
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - ./src:/usr/src/app/src
+    restart: unless-stopped
