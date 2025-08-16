@@ -14,8 +14,6 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import { Separator } from "@radix-ui/react-separator";
-import { useRouter } from "next/router";
-import { Button } from "./ui/button";
 import { UserBlock } from "./user-block";
 
 // This is sample data.
@@ -63,7 +61,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarRail />
       <SidebarFooter>
         <div className="flex items-center flex-col justify-between px-2 py-2">
-          <ThemeSwitcher />
           <UserBlock />
         </div>
       </SidebarFooter>
