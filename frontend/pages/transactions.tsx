@@ -59,7 +59,7 @@ export default function TransactionsPage() {
       key: "hash",
       header: "Tx Hash",
       accessor: (tx) => (
-        <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
+        <code className="text-xs font-mono text-muted-foreground bg-card/50 px-2 py-1 rounded">
           {tx.hash.slice(0, 8)}...{tx.hash.slice(-6)}
         </code>
       ),
@@ -69,7 +69,7 @@ export default function TransactionsPage() {
       key: "from",
       header: "From",
       accessor: (tx) => (
-        <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
+        <code className="text-xs font-mono text-muted-foreground bg-card/50 px-2 py-1 rounded">
           {tx.from.slice(0, 6)}...{tx.from.slice(-4)}
         </code>
       ),
@@ -79,7 +79,7 @@ export default function TransactionsPage() {
       key: "to",
       header: "To",
       accessor: (tx) => (
-        <code className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded">
+        <code className="text-xs font-mono text-muted-foreground bg-card/50 px-2 py-1 rounded">
           {tx.to.slice(0, 6)}...{tx.to.slice(-4)}
         </code>
       ),

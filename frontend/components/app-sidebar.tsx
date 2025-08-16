@@ -3,6 +3,7 @@ import { CreditCardIcon, Frame, LogOut, User } from "lucide-react";
 import { getAccessToken, useLogin, usePrivy } from "@privy-io/react-auth";
 
 import { NavProjects } from "@/components/nav-projects";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 import {
   Sidebar,
@@ -42,7 +43,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { ready, authenticated, user, logout } = usePrivy();
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <div className="flex flex-row items-center gap-2">
           <Image
@@ -61,7 +62,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarRail />
       <SidebarFooter>
-        <UserBlock />
+        <div className="flex items-center flex-col justify-between px-2 py-2">
+          <UserBlock />
+          <ThemeSwitcher />
+        </div>
       </SidebarFooter>
     </Sidebar>
   );

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+
 import {
   ChevronUp,
   ChevronDown,
@@ -138,13 +138,13 @@ export function DataTable<T>({
     if (!sortable) return null;
 
     if (sortColumn !== columnKey) {
-      return <ChevronUp className="h-4 w-4 text-gray-400" />;
+      return <ChevronUp className="h-4 w-4 text-muted-foreground" />;
     }
 
     return sortDirection === "asc" ? (
-      <ChevronUp className="h-4 w-4 text-blue-600" />
+      <ChevronUp className="h-4 w-4 text-primary" />
     ) : (
-      <ChevronDown className="h-4 w-4 text-blue-600" />
+      <ChevronDown className="h-4 w-4 text-primary" />
     );
   };
 
@@ -155,7 +155,7 @@ export function DataTable<T>({
           {title && <CardTitle>{title}</CardTitle>}
           {searchable && (
             <div className="relative w-64">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder={searchPlaceholder}
                 value={searchTerm}
@@ -169,21 +169,21 @@ export function DataTable<T>({
       <CardContent>
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-            <span className="ml-2 text-gray-600">Loading...</span>
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <span className="ml-2 text-muted-foreground">Loading...</span>
           </div>
         ) : (
           <>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-200">
+                  <tr className="border-b border-border">
                     {columns.map((column) => (
                       <th
                         key={column.key}
-                        className={`text-left py-3 px-4 font-semibold text-gray-700 ${
+                        className={`text-left py-3 px-4 font-semibold text-foreground ${
                           column.sortable && sortable
-                            ? "cursor-pointer hover:bg-gray-50"
+                            ? "cursor-pointer hover:bg-accent/50"
                             : ""
                         } ${column.width ? column.width : ""} ${
                           column.align === "center"
@@ -203,7 +203,7 @@ export function DataTable<T>({
                       </th>
                     ))}
                     {actions && (
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700 w-20">
+                      <th className="text-left py-3 px-4 font-semibold text-foreground w-20">
                         Actions
                       </th>
                     )}
@@ -213,7 +213,7 @@ export function DataTable<T>({
                   {paginatedData.map((item, index) => (
                     <tr
                       key={index}
-                      className={`border-b border-gray-100 hover:bg-gray-50 ${
+                      className={`border-b border-border hover:bg-accent/50 ${
                         onRowClick ? "cursor-pointer" : ""
                       }`}
                       onClick={() => onRowClick?.(item)}
@@ -275,13 +275,13 @@ export function DataTable<T>({
 
             {paginatedData.length === 0 && (
               <div className="text-center py-8">
-                <p className="text-gray-500">{emptyMessage}</p>
+                <p className="text-muted-foreground">{emptyMessage}</p>
               </div>
             )}
 
             {pagination && totalPages > 1 && (
               <div className="flex items-center justify-between mt-4">
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-muted-foreground">
                   Showing {(currentPage - 1) * pageSize + 1} to{" "}
                   {Math.min(currentPage * pageSize, sortedData.length)} of{" "}
                   {sortedData.length} results
