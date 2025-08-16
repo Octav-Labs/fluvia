@@ -1,8 +1,5 @@
-[build]
-builder = "nixpacks"
-
 [deploy]
-startCommand = "pnpm start"
+startCommand = "npm install -g pnpm@10.14.0 && pnpm install --frozen-lockfile && pnpm run build && node dist/index.js"
 healthcheckPath = "/v1/healthcheck"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"
@@ -10,17 +7,4 @@ restartPolicyMaxRetries = 3
 
 [deploy.envs]
 NODE_ENV = "production"
-PNPM_HOME = "/opt/pnpm"
 PORT = "3000"
-
-# Database Configuration
-DB_HOST = ""
-DB_PORT = "5432"
-DB_NAME = ""
-DB_USER = ""
-DB_PASSWORD = ""
-DB_SSL = "true"
-
-# Privy Configuration
-PRIVY_APP_ID = ""
-PRIVY_APP_SECRET = ""
