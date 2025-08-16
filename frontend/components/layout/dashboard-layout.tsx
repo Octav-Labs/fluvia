@@ -14,9 +14,7 @@ export default function DashboardLayout({
 }) {
   const { ready, authenticated } = usePrivy();
   const router = useRouter();
-  const { login } = useLogin({
-    onComplete: () => router.push("/dashboard"),
-  });
+  const { login } = useLogin();
   return (
     <div>
       <SidebarProvider>
