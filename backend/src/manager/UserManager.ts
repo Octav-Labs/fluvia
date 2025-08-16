@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { mapRecordToUser, UserFactory } from '../factories/UserFactory';
 
-export class UserController {
+export class UserManager {
   private userFactory: UserFactory;
 
   constructor() {

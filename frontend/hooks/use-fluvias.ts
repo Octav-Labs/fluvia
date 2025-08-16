@@ -1,40 +1,38 @@
 import { usePrivy } from "@privy-io/react-auth";
 import { useState, useEffect, useCallback } from "react";
 
-interface Me {
+interface Fluvia {
   uuid: string;
-  address: string;
-  created_at?: string;
-  updated_at?: string;
+  userUuid: number;
+  contractAddress: string;
+  label: string;
+  receiverAddress: number;
 }
 
-interface MeResponse {
-  user: Me;
-  created?: boolean;
+interface FluviaResponse {
+  fluvias: Fluvia[];
   message?: string;
 }
 
-interface UseMeReturn {
-  me: Me | null;
+interface UseFluviaReturn {
+  fluvias: Fluvia[];
   loading: boolean;
   error: string | null;
   refetch: () => Promise<void>;
-  isCreated: boolean;
 }
 
-export function useMe(): UseMeReturn {
-  const [me, setMe] = useState<Me | null>(null);
+export function useFluvia(): UseFluviaReturn {
+  const [fluvias, setFluvias] = useState<Fluvia[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isCreated, setIsCreated] = useState(false);
   const { user } = usePrivy();
 
-  const fetchMe = useCallback(async () => {
+  const fetchFluvia = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const response = await fetch("/api/fluvias/me", {
+      const response = await fetch("/api/fluvias/all", {
         method: "GET",
         credentials: "include", // Include cookies
         headers: {
@@ -47,13 +45,11 @@ export function useMe(): UseMeReturn {
         throw new Error(errorData.message || "Failed to fetch user data");
       }
 
-      const data: MeResponse = await response.json();
-      setMe(data.user);
-      setIsCreated(data.created || false);
+      const data: FluviaResponse = await response.json();
+      setFluvias(data.fluvias);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
-      setMe(null);
-      setIsCreated(false);
+      setFluvias([]);
     } finally {
       setLoading(false);
     }
@@ -61,19 +57,18 @@ export function useMe(): UseMeReturn {
 
   useEffect(() => {
     if (user?.wallet?.address) {
-      fetchMe();
+      fetchFluvia();
     }
-  }, [fetchMe, user]);
+  }, [fetchFluvia, user]);
 
   const refetch = useCallback(async () => {
-    await fetchMe();
-  }, [fetchMe]);
+    await fetchFluvia();
+  }, [fetchFluvia]);
 
   return {
-    me,
+    fluvias,
     loading,
     error,
     refetch,
-    isCreated,
   };
 }

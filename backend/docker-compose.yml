@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: fluvia_password
       POSTGRES_INITDB_ARGS: '--encoding=UTF-8 --lc-collate=C --lc-ctype=C'
     ports:
-      - '5433:5432'
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
@@ -44,6 +44,7 @@ services:
       - DB_TEST_PASSWORD=fluvia_password
       - PRIVY_APP_ID=cmed5dq8l00atl40cattx3o54
       - PRIVY_APP_SECRET=5aUHEeM119abu7VWYVG7fWZBuN97sM4rmQZd3igpFhZPzijy8e9rypzRwAdukKJGfbawo4cPryrLz27hPiEqDAi5
+      - PRIVY_PRIVATE_KEY=MHcCAQEEIEyzSPt2lAK1MH6MgLFYAXp2y+e7VZyzp8cKCy3VhDTDoAoGCCqGSM49AwEHoUQDQgAEI5OOHdwnYWvhU3hTN2HbN5IJnPUGKraAXV/9cgJNqu09VqAeQvtri5CW5tGlu2HLPl4O4ZiRqc8fnSEzN31eXw==
     volumes:
       - ./src:/usr/src/app/src
       - ./migrations:/usr/src/app/migrations

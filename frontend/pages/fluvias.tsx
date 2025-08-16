@@ -88,7 +88,7 @@ export default function FluviasPage() {
     setError(null);
 
     try {
-      const response = await fetch("/api/fluvia/fluvias");
+      const response = await fetch("/api/fluvias/all");
 
       if (!response.ok) {
         const errorData = await response.json();

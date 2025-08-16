@@ -67,17 +67,22 @@ export function AddFluviaDialog({ onFluviaAdded }: AddFluviaDialogProps) {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/fluvia/fluvias", {
+      // Call the new API endpoint with the correct format
+      const response = await fetch("/api/fluvias/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        credentials: "include", // Include cookies for authentication
+        body: JSON.stringify({
+          label: formData.label,
+          recipientAddress: formData.depositAddress,
+        }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to create fluvia");
+        console.log(errorData, "errorData");
       }
 
       const result = await response.json();

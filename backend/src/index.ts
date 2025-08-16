@@ -11,9 +11,11 @@ dotenv.config();
 import { DatabaseService, DBConfigurationType } from './services/DatabaseService';
 import { authMiddleware } from './middleware/Auth';
 import { userMiddleware } from './middleware/UserMiddleware';
+import { FluviaManager } from './manager/FluviaManager';
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
+const fluviaManager = new FluviaManager();
 
 // Middleware
 app.use(helmet()); // Security headers
@@ -23,7 +25,7 @@ app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Health check endpoint
-app.get('/health', (req: Request, res: Response) => {
+app.get('/v1/healthcheck', (req: Request, res: Response) => {
   res.status(200).json({
     status: 'OK',
     timestamp: new Date().toISOString(),
@@ -54,6 +56,19 @@ app.get(
       message: wasCreated ? 'User created successfully' : 'User retrieved successfully',
     });
   }
+);
+
+// Get all Fluvia for the authenticated user
+app.get(
+  '/api/fluvias',
+  authMiddleware({ requireAuth: true }),
+  fluviaManager.getAllFluviaByUser.bind(fluviaManager)
+);
+
+app.post(
+  '/api/fluvias',
+  authMiddleware({ requireAuth: true }),
+  fluviaManager.createFluvia.bind(fluviaManager)
 );
 
 // 404 handler
