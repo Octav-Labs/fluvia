@@ -9,6 +9,7 @@ const Fluvia = buildModule("Fluvia", (m) => {
     const fastMaxFeeBps  = m.getParameter("FAST_MAX_FEE_BPS", 100); // 1%
     const usdc           = m.getParameter("USDC");
     const tokenMessenger = m.getParameter("TOKEN_MESSENGER");
+    const localDomain    = m.getParameter("LOCAL_DOMAIN");
 
     // Deploy FeeController
     const feeController = m.contract("FeeController", [
@@ -16,11 +17,11 @@ const Fluvia = buildModule("Fluvia", (m) => {
     ]);
 
     // Deploy Receiver implementation (no constructor; upgradeable-style)
-    const receiverImpl = m.contract("Receiver", []);
+    const receiverImpl = m.contract("Receiver", [], { after: [feeController] });
 
     // Deploy Factory wired to chain constants + implementation
     const factory = m.contract("FluviaFactory", [], { after: [feeController, receiverImpl] });
-    m.call(factory, "init", [admin, usdc, tokenMessenger, feeController, receiverImpl], { id: "initFactory" });
+    m.call(factory, "init", [admin, usdc, tokenMessenger, feeController, receiverImpl, localDomain], { id: "initFactory" });
 
     return { feeController, receiverImpl, factory };
 });

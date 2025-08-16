@@ -19,6 +19,7 @@ contract Receiver is
     IERC20 public USDC;
     ITokenMessenger public tokenMessenger;
     uint32 public destDomain;
+	uint32 public localDomain;
     IFeeController public feeController;
     bytes32 public destRecipient;
 
@@ -31,6 +32,7 @@ contract Receiver is
         address usdc,
         address cctpMessenger,
         uint32 _destDomain,
+	    uint32  _localDomain,
         bytes32 _destRecipient,
         address _feeController
     ) external initializer {
@@ -47,6 +49,7 @@ contract Receiver is
         USDC = IERC20(usdc);
         tokenMessenger = ITokenMessenger(cctpMessenger);
         destDomain = _destDomain;
+	    localDomain = _localDomain;
         destRecipient = _destRecipient;
         feeController = IFeeController(_feeController);
 
@@ -77,6 +80,12 @@ contract Receiver is
             USDC.safeTransfer(collector, fee);
         }
 
+	    if (destDomain == localDomain) {
+		    // normal transfer on localDomain
+		    USDC.safeTransfer(_bytes32ToAddress(destRecipient), netAmount);
+		    return;
+	    }
+
         tokenMessenger.depositForBurn(
             netAmount,
             destDomain,
@@ -99,5 +108,9 @@ contract Receiver is
 
     function _evmToBytes32(address a) internal pure returns (bytes32) {
         return bytes32(uint256(uint160(a)));
+    }
+
+    function _bytes32ToAddress(bytes32 b) internal pure returns (address) {
+        return address(uint160(uint256(b)));
     }
 }

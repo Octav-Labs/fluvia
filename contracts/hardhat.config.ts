@@ -3,6 +3,7 @@ import type { HardhatUserConfig } from "hardhat/config";
 import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 import { configVariable } from "hardhat/config";
 import hardhatVerify from "@nomicfoundation/hardhat-verify";
+import {buildCreateXSalt} from "./scripts/saltCreator.js";
 
 const config: HardhatUserConfig = {
   plugins: [hardhatToolboxViemPlugin, hardhatVerify],
@@ -25,7 +26,7 @@ const config: HardhatUserConfig = {
     ignition: {
         strategyConfig: {
             create2: {
-                salt: "0x0000000000000000000000000000000000000000000000000000000000000002", // increments for new versions
+                salt: buildCreateXSalt('0xf25Ccfc9d2CE6425a7CE8582CCE57691c7ae2E21', 'v4', true), // increments for new versions
             },
         },
     },
@@ -52,13 +53,13 @@ const config: HardhatUserConfig = {
     "arbitrum-sepolia": {
       type: "http",
       chainType: "l1",
-      url: "https://arbitrum-sepolia.api.onfinality.io/public",
+      url: "https://arbitrum-sepolia-rpc.publicnode.com",
       accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
     },
     "mainnet-sepolia": {
       type: "http",
       chainType: "l1",
-      url: "https://ethereum-sepolia.rpc.subquery.network/public",
+      url: "https://ethereum-sepolia-rpc.publicnode.com",
       accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
     },
   },
