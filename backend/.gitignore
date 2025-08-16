@@ -1,0 +1,32 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Environment variables
+.env
+.env.example
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Logs
+logs
+*.log
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.swp
+*.swo
+*~
+
+# Package manager files
+package-lock.json
+pnpm-lock.yaml
+
+# Custom
+.qodo
