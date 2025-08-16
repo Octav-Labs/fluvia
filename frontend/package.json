@@ -2,14 +2,18 @@
   "private": true,
   "engines": {
     "npm": ">=9.0.0",
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "format": "npx prettier --write \"{__tests__,components,pages,styles}/**/*.{ts,tsx,js,jsx}\"",
-    "lint": "next lint && npx prettier --check \"{__tests__,components,pages,styles}/**/*.{ts,tsx,js,jsx}\" && npx tsc --noEmit"
+    "lint": "next lint && npx prettier --check \"{__tests__,components,pages,styles}/**/*.{ts,tsx,js,jsx}\" && npx tsc --noEmit",
+    "docker:build": "docker-compose build",
+    "docker:start": "docker-compose up frontend",
+    "docker:stop": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.12",
@@ -24,17 +28,17 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.539.0",
     "next": "latest",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@tsconfig/next": "^2.0.0",
-    "@tsconfig/node18": "^18.2.0",
+    "@tsconfig/node22": "^22.0.0",
     "@tsconfig/strictest": "^2.0.1",
-    "@types/node": "^18",
-    "@types/react": "18.2.0",
+    "@types/node": "^22",
+    "@types/react": "^18.3.12",
     "autoprefixer": "^10.4.7",
     "dotenv-cli": "^6.0.0",
     "eslint": "^8.23.0",

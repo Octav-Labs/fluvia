@@ -1,0 +1,11 @@
+# Docker Compose configuration for frontend
+
+services:
+  frontend:
+    build: .
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    restart: unless-stopped
