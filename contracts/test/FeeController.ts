@@ -230,7 +230,7 @@ describe("FeeController", async function () {
       assert.equal(collector, collector);
       assert.equal(fee, 100n); // 1% of 10000 = 100
       assert.equal(minNet, 1000n);
-      assert.equal(maxFee, 2n); // 2% of 100 = 2
+      assert.equal(maxFee, 200n); // 2% of 10000 = 200 (not 2% of fee)
     });
 
     it("Should return fluvia override when it exists", async function () {
@@ -253,7 +253,7 @@ describe("FeeController", async function () {
       assert.equal(overrideCollector, user);
       assert.equal(fee, 200n); // 2% of 10000 = 200
       assert.equal(minNet, 2000n);
-      assert.equal(maxFee, 4n); // 2% of 200 = 4
+      assert.equal(maxFee, 200n); // 2% of 10000 = 200 (not 2% of fee)
     });
 
     it("Should calculate fees correctly with different amounts", async function () {
@@ -283,8 +283,8 @@ describe("FeeController", async function () {
         amount
       ]);
 
-      // Fee: 1% of 10000 = 100, Max fee: 3% of 100 = 3
-      assert.equal(maxFee, 3n);
+      // Max fee: 3% of 10000 = 300 (not 3% of fee)
+      assert.equal(maxFee, 300n);
     });
 
     it("Should handle zero amount", async function () {
