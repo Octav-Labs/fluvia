@@ -65,7 +65,6 @@
     "prettier": "^3.1.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.0",
-    "only-allow": "^1.2.1",
-    "sequelize-cli": "^6.6.2"
+    "only-allow": "^1.2.1"
   }
 }
