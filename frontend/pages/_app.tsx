@@ -3,6 +3,10 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { PrivyProvider } from "@privy-io/react-auth";
 
+// font-family: "Adelle Sans", sans-serif;
+import { Montserrat } from "next/font/google";
+const montserrat = Montserrat({ subsets: ["latin"] });
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -37,8 +41,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="apple-touch-icon" href="/favicons/apple-touch-icon.png" />
         <link rel="manifest" href="/favicons/manifest.json" />
 
-        <title>Privy Auth Starter</title>
-        <meta name="description" content="Privy Auth Starter" />
+        <title>Fluvia - Multichain Treasury Management</title>
+        <meta name="description" content="Fluvia" />
       </Head>
       <PrivyProvider
         appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
@@ -48,7 +52,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
       >
-        <Component {...pageProps} />
+        <div className={montserrat.className}>
+          <Component {...pageProps} />
+        </div>
       </PrivyProvider>
     </>
   );

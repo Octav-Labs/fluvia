@@ -7,6 +7,14 @@ import {
   WalletWithMetadata,
 } from "@privy-io/react-auth";
 import axios from "axios";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const SESSION_SIGNER_ID = process.env.NEXT_PUBLIC_SESSION_SIGNER_ID;
 
@@ -128,70 +136,64 @@ export default function WalletCard({ wallet }: WalletCardProps) {
   }, [wallet.id]);
 
   return (
-    <div className="flex flex-col gap-4 p-4 border border-gray-200 rounded-lg">
-      <div className="text-sm text-violet-700">
-        {wallet.walletClientType === "privy" ? "Embedded " : ""}Wallet:{" "}
-        {wallet.address.slice(0, 6)}...
-        {wallet.address.slice(-4)}
-      </div>
+    <Card className="border-fluvia-blue/20 hover:border-fluvia-blue/40 transition-colors">
+      <CardHeader>
+        <CardTitle className="text-sm text-primary">
+          {wallet.walletClientType === "privy" ? "Embedded " : ""}Wallet:{" "}
+          {wallet.address.slice(0, 6)}...{wallet.address.slice(-4)}
+        </CardTitle>
+        <CardDescription>Chain: {wallet.chainType}</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button
+            onClick={() => addSessionSigner(wallet.address)}
+            disabled={isLoading || hasSessionSigners}
+            variant="default"
+            size="sm"
+            className="flex-1"
+          >
+            {isLoading ? "Processing..." : "Add Session Signer"}
+          </Button>
 
-      <div className="flex flex-col sm:flex-row gap-2">
-        <button
-          onClick={() => addSessionSigner(wallet.address)}
-          disabled={isLoading || hasSessionSigners}
-          className={`text-sm py-2 px-4 rounded-md text-white ${
-            isLoading || hasSessionSigners
-              ? "bg-violet-400 cursor-not-allowed"
-              : "bg-violet-600 hover:bg-violet-700"
-          }`}
-        >
-          {isLoading ? "Processing..." : "Add Session Signer"}
-        </button>
-
-        <button
-          onClick={() => removeSessionSigner(wallet.address)}
-          disabled={isLoading || !hasSessionSigners}
-          className={`text-sm py-2 px-4 rounded-md text-white ${
-            isLoading || !hasSessionSigners
-              ? "bg-red-400 cursor-not-allowed"
-              : "bg-red-600 hover:bg-red-700"
-          }`}
-        >
-          {isLoading ? "Processing..." : "Remove Session Signer"}
-        </button>
-      </div>
-
-      {hasSessionSigners && (
-        <div className="mt-2 text-sm text-gray-600">
-          This wallet has active session signers
+          <Button
+            onClick={() => removeSessionSigner(wallet.address)}
+            disabled={isLoading || !hasSessionSigners}
+            variant="destructive"
+            size="sm"
+            className="flex-1"
+          >
+            {isLoading ? "Processing..." : "Remove Session Signer"}
+          </Button>
         </div>
-      )}
 
-      <div className="flex flex-row gap-2">
-        <button
-          onClick={handleRemoteSign}
-          disabled={isRemoteSigning || !hasSessionSigners}
-          className={`text-sm py-2 px-4 rounded-md text-white ${
-            isRemoteSigning || !hasSessionSigners
-              ? "bg-blue-400 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-          }`}
-        >
-          {isRemoteSigning ? "Signing..." : "Sign message from server"}
-        </button>
+        {hasSessionSigners && (
+          <div className="text-sm text-muted-foreground bg-muted p-2 rounded-md">
+            This wallet has active session signers
+          </div>
+        )}
 
-        <button
-          onClick={handleClientSign}
-          disabled={isClientSigning}
-          className={`text-sm py-2 px-4 rounded-md text-white ${
-            isClientSigning
-              ? "bg-green-400 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700"
-          }`}
-        >
-          {isClientSigning ? "Signing..." : "Sign message from client"}
-        </button>
-      </div>
-    </div>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button
+            onClick={handleRemoteSign}
+            disabled={isRemoteSigning || !hasSessionSigners}
+            variant="secondary"
+            size="sm"
+            className="flex-1"
+          >
+            {isRemoteSigning ? "Signing..." : "Sign message from server"}
+          </Button>
+
+          <Button
+            onClick={handleClientSign}
+            disabled={isClientSigning}
+            className="flex-1 bg-fluvia-green hover:bg-fluvia-green/90 text-white"
+            size="sm"
+          >
+            {isClientSigning ? "Signing..." : "Sign message from client"}
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
