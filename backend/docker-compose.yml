@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # PostgreSQL Database
   postgres:
@@ -48,19 +46,16 @@ services:
       - ./src:/usr/src/app/src
       - ./migrations:/usr/src/app/migrations
       - ./seeds:/usr/src/app/seeds
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./package.json:/usr/src/app/package.json
+      - ./knexfile.ts:/usr/src/app/knexfile.ts
     networks:
       - fluvia_network
     depends_on:
       postgres:
         condition: service_healthy
     restart: unless-stopped
-    command: >
-      sh -c "
-        echo 'Waiting for database to be ready...' &&
-        sleep 5 &&
-        pnpm run db:migrate &&
-        pnpm run dev
-      "
+    command: ["./docker-startup.sh"]
 
   # Optional: pgAdmin for database management
   pgadmin:

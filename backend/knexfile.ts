@@ -1,9 +1,8 @@
-import { Knex } from 'knex';
-import dotenv from 'dotenv';
+const { config } = require('dotenv');
 
-dotenv.config();
+config();
 
-const config: { [key: string]: Knex.Config } = {
+const knexConfig: any = {
   development: {
     client: 'postgresql',
     connection: {
@@ -24,11 +23,11 @@ const config: { [key: string]: Knex.Config } = {
       createRetryIntervalMillis: 100,
     },
     migrations: {
-      directory: './src/migrations',
+      directory: './migrations',
       tableName: 'knex_migrations',
     },
     seeds: {
-      directory: './src/seeds',
+      directory: './seeds',
     },
     debug: true,
   },
@@ -36,11 +35,11 @@ const config: { [key: string]: Knex.Config } = {
   test: {
     client: 'postgresql',
     connection: {
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT || '5432'),
-      database: process.env.DB_NAME || 'fluvia_test',
-      user: process.env.DB_USER || 'fluvia_user',
-      password: process.env.DB_PASSWORD || 'fluvia_password',
+      host: process.env.DB_TEST_HOST || process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_TEST_PORT || process.env.DB_PORT || '5432'),
+      database: process.env.DB_TEST_NAME || 'fluvia_test',
+      user: process.env.DB_TEST_USER || process.env.DB_USER || 'fluvia_user',
+      password: process.env.DB_TEST_PASSWORD || process.env.DB_PASSWORD || 'fluvia_password',
     },
     pool: {
       min: 2,
@@ -53,16 +52,19 @@ const config: { [key: string]: Knex.Config } = {
       createRetryIntervalMillis: 100,
     },
     migrations: {
-      directory: './src/migrations',
+      directory: './migrations',
       tableName: 'knex_migrations',
     },
     seeds: {
-      directory: './src/seeds',
+      directory: './seeds',
     },
     debug: false,
   },
+};
 
-  production: {
+// Only add production config if all required env vars are present
+if (process.env.DB_HOST && process.env.DB_NAME && process.env.DB_USER && process.env.DB_PASSWORD) {
+  knexConfig.production = {
     client: 'postgresql',
     connection: {
       host: process.env.DB_HOST,
@@ -83,14 +85,14 @@ const config: { [key: string]: Knex.Config } = {
       createRetryIntervalMillis: 100,
     },
     migrations: {
-      directory: './src/migrations',
+      directory: './migrations',
       tableName: 'knex_migrations',
     },
     seeds: {
-      directory: './src/seeds',
+      directory: './seeds',
     },
     debug: false,
-  },
-};
+  };
+}
 
-export default config;
+module.exports = knexConfig;
