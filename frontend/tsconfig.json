@@ -23,8 +23,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "skipLibCheck": true,
+    "types": ["node"],
+    "noImplicitAny": false,
+    "strict": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "types.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules", "**/node_modules/**", "**/ox/**"]
 }

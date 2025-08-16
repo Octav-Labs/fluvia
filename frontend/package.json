@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.12",
-    "@privy-io/react-auth": "^2.18.0",
+    "@privy-io/react-auth": "^2.21.3",
     "@privy-io/server-auth": "1.21.2",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
@@ -47,5 +47,10 @@
     "tailwindcss": "^3.1.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "ox": "0.8.6"
+    }
   }
 }
