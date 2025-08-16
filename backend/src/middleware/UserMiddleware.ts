@@ -44,7 +44,7 @@ export class UserMiddleware {
       next();
     } catch (error) {
       console.error('Error in ensureUserExists middleware:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Internal Server Error',
         message: 'Failed to ensure user exists',
       });
@@ -80,7 +80,7 @@ export class UserMiddleware {
       next();
     } catch (error) {
       console.error('Error in getUserFromDb middleware:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Internal Server Error',
         message: 'Failed to get user from database',
       });

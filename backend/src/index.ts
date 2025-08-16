@@ -9,8 +9,8 @@ dotenv.config();
 
 // Import database service
 import { DatabaseService, DBConfigurationType } from './services/DatabaseService';
-import { authMiddleware, requireAuth } from './middleware/auth';
-import { userMiddleware } from './middleware/userMiddleware';
+import { authMiddleware } from './middleware/Auth';
+import { userMiddleware } from './middleware/UserMiddleware';
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
