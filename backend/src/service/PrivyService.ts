@@ -45,7 +45,7 @@ export class PrivyService {
         transaction: transactionRequest,
       });
 
-      return { hash, caip2 };
+      return hash;
     } catch (error) {
       // Handle specific Privy and blockchain errors
       const errorMessage = error instanceof Error ? error.message : String(error);
@@ -99,6 +99,84 @@ export class PrivyService {
 
       // Generic error for unknown issues
       throw new Error(`DEPLOYMENT_ERROR: ${errorMessage}`);
+    }
+  }
+
+  /**
+   * Get deployed contract address from transaction hash
+   * This method uses ethers.js to get the transaction receipt
+   */
+  async getDeployedContractAddress(
+    txHash: string,
+    chainId: number
+  ): Promise<{
+    contractAddress: string | null;
+    status: 'pending' | 'confirmed' | 'failed';
+    blockNumber?: number;
+    gasUsed?: string;
+  }> {
+    const chain = chains[chainId];
+    if (!chain) {
+      throw new Error(`Chain ID ${chainId} not found`);
+    }
+
+    try {
+      // Create ethers provider
+      const rpcUrl = this.getRpcUrl(chainId);
+      const provider = new ethers.JsonRpcProvider(rpcUrl);
+
+      // Get transaction receipt
+      const receipt = await provider.getTransactionReceipt(txHash);
+      const test = await provider.getTransaction(txHash);
+      const data = test?.data;
+      const iface = new ethers.Interface(factoryAbi);
+      const decodedData = iface.decodeFunctionData('deploy', data as `0x${string}`);
+      console.log(decodedData, 'decodedData');
+      console.log(test, 'tx');
+
+      if (!receipt) {
+        return {
+          contractAddress: null,
+          status: 'pending',
+        };
+      }
+
+      // Check if transaction was successful
+      if (receipt.status === 0) {
+        return {
+          contractAddress: null,
+          status: 'failed',
+          blockNumber: receipt.blockNumber,
+          gasUsed: receipt.gasUsed.toString(),
+        };
+      }
+
+      // For contract creation, the contract address is in the 'contractAddress' field
+      const contractAddress = receipt.contractAddress || null;
+      console.log(receipt, 'receipt');
+      return {
+        contractAddress,
+        status: 'confirmed',
+        blockNumber: receipt.blockNumber,
+        gasUsed: receipt.gasUsed.toString(),
+      };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      throw new Error(`CONTRACT_ADDRESS_ERROR: ${errorMessage}`);
+    }
+  }
+
+  /**
+   * Get RPC URL for the given chain
+   */
+  private getRpcUrl(chainId: number): string {
+    switch (chainId) {
+      case 84532: // Base Sepolia
+        return process.env.BASE_SEPOLIA_RPC_URL || 'https://sepolia.base.org';
+      case 8453: // Base Mainnet
+        return process.env.BASE_MAINNET_RPC_URL || 'https://mainnet.base.org';
+      default:
+        throw new Error(`No RPC URL configured for chain ID ${chainId}`);
     }
   }
 }

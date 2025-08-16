@@ -37,14 +37,18 @@ export class FluviaManager {
       console.log(this.chain, 'chain');
 
       // Privy deployment
-      const contractAddress = await this.privyService.deployFluvia(
+      const txHash = await this.privyService.deployFluvia(
         walletId,
         this.chain!.chainId,
-        user.uuid,
         6,
         recipientAddress
       );
 
+      const contractAddress = await this.privyService.getDeployedContractAddress(
+        txHash,
+        this.chain!.chainId
+      );
+      console.log(contractAddress, 'contractAddress');
       // // Create new Fluvia
       // const fluviaRecord = await this.fluviaFactory.create({
       //   user_uuid: user.uuid,
