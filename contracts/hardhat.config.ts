@@ -49,6 +49,18 @@ const config: HardhatUserConfig = {
       url: configVariable("BASE_SEPOLIA_RPC_URL"),
       accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
     },
+    "arbitrum-sepolia": {
+      type: "http",
+      chainType: "l1",
+      url: "https://arbitrum-sepolia.api.onfinality.io/public",
+      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+    },
+    "mainnet-sepolia": {
+      type: "http",
+      chainType: "l1",
+      url: "https://ethereum-sepolia.rpc.subquery.network/public",
+      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+    },
   },
 };
 
