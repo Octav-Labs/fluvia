@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient that goes from opaque blue (top left) to transparent (bottom right) -->
+    <linearGradient id="fadeBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1DA9FF" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#1DA9FF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background fill with angled fade -->
+  <rect width="1920" height="1080" fill="url(#fadeBlue)"/>
+
+  <!-- Wave overlay -->
+  <path d="M0 700 
+           C 480 600, 960 800, 1440 700
+           C 1680 650, 1920 800, 1920 800
+           L 1920 1080 L 0 1080 Z"
+        fill="url(#fadeBlue)" />
+</svg>
