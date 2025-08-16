@@ -6,17 +6,18 @@ import DashboardLayout from "@/components/layout/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Plus, 
-  CreditCard, 
-  TrendingUp, 
-  Globe, 
-  Activity, 
+import {
+  Plus,
+  CreditCard,
+  TrendingUp,
+  Globe,
+  Activity,
   ArrowRight,
   Wallet,
   Clock,
-  DollarSign
+  DollarSign,
 } from "lucide-react";
+import { useMe } from "@/hooks/use-me";
 
 async function verifyToken() {
   const url = "/api/verify";
@@ -42,30 +43,13 @@ export default function DashboardPage() {
       amount: number;
       chain: string;
       time: string;
-    }>
+    }>,
   });
   const router = useRouter();
-  const {
-    ready,
-    authenticated,
-    user,
-    logout,
-    linkEmail,
-    linkWallet,
-    unlinkEmail,
-    linkPhone,
-    unlinkPhone,
-    unlinkWallet,
-    linkGoogle,
-    unlinkGoogle,
-    linkTwitter,
-    unlinkTwitter,
-    linkDiscord,
-    unlinkDiscord,
-  } = usePrivy();
+  const { authenticated, user } = usePrivy();
 
-  const numAccounts = user?.linkedAccounts?.length || 0;
-  const canRemoveAccount = numAccounts > 1;
+  const { me, loading, error, isCreated } = useMe();
+  console.log(me);
 
   // Mock data for demonstration - replace with actual API calls
   useEffect(() => {
@@ -77,10 +61,25 @@ export default function DashboardPage() {
         totalVolume: 125000,
         activeChains: 3,
         recentTransactions: [
-          { hash: "0x123...abc", amount: 5000, chain: "Ethereum", time: "2 min ago" },
-          { hash: "0x456...def", amount: 2500, chain: "Polygon", time: "15 min ago" },
-          { hash: "0x789...ghi", amount: 10000, chain: "Arbitrum", time: "1h ago" }
-        ]
+          {
+            hash: "0x123...abc",
+            amount: 5000,
+            chain: "Ethereum",
+            time: "2 min ago",
+          },
+          {
+            hash: "0x456...def",
+            amount: 2500,
+            chain: "Polygon",
+            time: "15 min ago",
+          },
+          {
+            hash: "0x789...ghi",
+            amount: 10000,
+            chain: "Arbitrum",
+            time: "1h ago",
+          },
+        ],
       });
     }
   }, [authenticated, user?.wallet?.address]);
@@ -99,7 +98,8 @@ export default function DashboardPage() {
               Welcome back! 👋
             </h1>
             <p className="text-muted-foreground">
-              Manage your Fluvias and monitor your cross-chain treasury operations
+              Manage your Fluvias and monitor your cross-chain treasury
+              operations
             </p>
           </div>
 
@@ -109,7 +109,9 @@ export default function DashboardPage() {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Total Fluvias</p>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      Total Fluvias
+                    </p>
                     <p className="text-2xl font-bold">{stats.fluviaCount}</p>
                   </div>
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -123,8 +125,12 @@ export default function DashboardPage() {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Transactions</p>
-                    <p className="text-2xl font-bold">{stats.transactionCount}</p>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      Transactions
+                    </p>
+                    <p className="text-2xl font-bold">
+                      {stats.transactionCount}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                     <Activity className="w-6 h-6 text-green-600" />
@@ -137,8 +143,12 @@ export default function DashboardPage() {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Total Volume</p>
-                    <p className="text-2xl font-bold">${stats.totalVolume.toLocaleString()}</p>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      Total Volume
+                    </p>
+                    <p className="text-2xl font-bold">
+                      ${stats.totalVolume.toLocaleString()}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
                     <DollarSign className="w-6 h-6 text-purple-600" />
@@ -151,7 +161,9 @@ export default function DashboardPage() {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Active Chains</p>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      Active Chains
+                    </p>
                     <p className="text-2xl font-bold">{stats.activeChains}</p>
                   </div>
                   <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
@@ -164,13 +176,18 @@ export default function DashboardPage() {
 
           {/* Quick Actions */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => router.push('/fluvias')}>
+            <Card
+              className="hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => router.push("/fluvias")}
+            >
               <CardContent className="pt-6">
                 <div className="text-center">
                   <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                     <Plus className="w-8 h-8 text-blue-600" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">Create New Fluvia</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Create New Fluvia
+                  </h3>
                   <p className="text-sm text-muted-foreground mb-3">
                     Set up a new cross-chain payment address
                   </p>
@@ -181,13 +198,18 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => router.push('/transactions')}>
+            <Card
+              className="hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => router.push("/transactions")}
+            >
               <CardContent className="pt-6">
                 <div className="text-center">
                   <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
                     <CreditCard className="w-8 h-8 text-green-600" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">View Transactions</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    View Transactions
+                  </h3>
                   <p className="text-sm text-muted-foreground mb-3">
                     Monitor your payment history and analytics
                   </p>
@@ -198,7 +220,10 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => router.push('/hiw')}>
+            <Card
+              className="hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => router.push("/hiw")}
+            >
               <CardContent className="pt-6">
                 <div className="text-center">
                   <div className="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -227,26 +252,33 @@ export default function DashboardPage() {
             <CardContent>
               <div className="space-y-4">
                 {stats.recentTransactions.map((tx, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 bg-muted/30 rounded-lg"
+                  >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                         <CreditCard className="w-5 h-5 text-primary" />
                       </div>
                       <div>
                         <p className="font-medium text-sm">{tx.hash}</p>
-                        <p className="text-xs text-muted-foreground">{tx.chain}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {tx.chain}
+                        </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold">${tx.amount.toLocaleString()}</p>
+                      <p className="font-semibold">
+                        ${tx.amount.toLocaleString()}
+                      </p>
                       <p className="text-xs text-muted-foreground">{tx.time}</p>
                     </div>
                   </div>
                 ))}
                 <div className="text-center pt-2">
-                  <Button 
-                    variant="ghost" 
-                    onClick={() => router.push('/transactions')}
+                  <Button
+                    variant="ghost"
+                    onClick={() => router.push("/transactions")}
                     className="text-primary hover:text-primary/80"
                   >
                     View All Transactions

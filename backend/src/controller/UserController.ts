@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UserFactory } from '../factories/UserFactory';
+import { mapRecordToUser, UserFactory } from '../factories/UserFactory';
 
 export class UserController {
   private userFactory: UserFactory;
@@ -16,7 +16,7 @@ export class UserController {
       const { userId } = req.user!;
 
       // Check if user already exists
-      const existingUser = await this.userFactory.findByAddress(userId);
+      const existingUser = await this.userFactory.findByPrivyUserId(userId);
 
       if (existingUser) {
         return res.status(409).json({
@@ -28,7 +28,7 @@ export class UserController {
 
       // Create new user
       const newUser = await this.userFactory.create({
-        address: userId,
+        privy_user_id: userId,
       });
 
       return res.status(201).json({
@@ -51,7 +51,7 @@ export class UserController {
     try {
       const { userId } = req.user!;
 
-      const user = await this.userFactory.findByAddress(userId);
+      const user = await this.userFactory.findByPrivyUserId(userId);
 
       if (!user) {
         return res.status(404).json({
@@ -80,18 +80,19 @@ export class UserController {
       const { userId } = req.user!;
 
       // Try to get existing user
-      let user = await this.userFactory.findByAddress(userId);
+      let user = await this.userFactory.findByPrivyUserId(userId);
 
       // If user doesn't exist, create it
       if (!user) {
-        user = await this.userFactory.create({
-          address: userId,
+        const userRecord = await this.userFactory.create({
+          privy_user_id: userId,
         });
+        user = mapRecordToUser(userRecord);
       }
 
       return res.json({
         user: user,
-        created: !user.uuid || user.uuid === user.address, // Simple check for newly created user
+        created: !user.uuid || user.uuid === user.privyUserId, // Simple check for newly created user
       });
     } catch (error) {
       console.error('Error getting or creating user:', error);
@@ -115,7 +116,7 @@ export class UserController {
       delete updateData.uuid;
 
       // Find user first
-      const existingUser = await this.userFactory.findByAddress(userId);
+      const existingUser = await this.userFactory.findByPrivyUserId(userId);
       if (!existingUser) {
         return res.status(404).json({
           error: 'User not found',

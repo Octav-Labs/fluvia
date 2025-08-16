@@ -1,10 +1,9 @@
 import * as React from "react";
 
-import { CreditCardIcon, Frame, LogOut, User, Home, DollarSign, HelpCircle } from "lucide-react";
-import { getAccessToken, useLogin, usePrivy } from "@privy-io/react-auth";
+import { CreditCardIcon, Home, DollarSign, HelpCircle } from "lucide-react";
+import { usePrivy } from "@privy-io/react-auth";
 
 import { NavProjects } from "@/components/nav-projects";
-import { ThemeSwitcher } from "@/components/theme-switcher";
 
 import {
   Sidebar,
@@ -16,6 +15,7 @@ import {
 import Image from "next/image";
 import { Separator } from "@radix-ui/react-separator";
 import { UserBlock } from "./user-block";
+import Link from "next/link";
 
 // This is sample data.
 const data = {
@@ -63,13 +63,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <div className="flex items-center flex-col justify-between px-2 py-2">
           <div className="w-full mb-3">
-            <a
+            <Link
               href="/hiw"
               className="flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-muted/50"
             >
               <HelpCircle className="w-4 h-4" />
               How It Works
-            </a>
+            </Link>
           </div>
           <UserBlock />
         </div>
