@@ -71,8 +71,6 @@ export const authMiddleware = (options: AuthMiddlewareOptions = {}) => {
 
         next();
       } catch (error) {
-        console.log(`Token verification failed with error: ${error}`);
-
         if (optional) {
           // Continue without user data
           return next();

@@ -22,4 +22,24 @@ export const factoryAbi = [
     stateMutability: 'nonpayable',
     type: 'function',
   },
+
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'fluviaOwner',
+        type: 'address',
+      },
+    ],
+    name: 'computeAddressForNext',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ];

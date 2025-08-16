@@ -14,10 +14,7 @@ interface Fluvia {
   label: string;
   chains: string[];
   contractAddress: string;
-  depositAddress: string;
-  status: "active" | "inactive" | "pending";
-  totalValue: number;
-  lastActivity: string;
+  receiverAddress: string;
 }
 
 interface FluviaData {
@@ -50,7 +47,7 @@ export default function FluviasPage() {
       header: "Chains",
       accessor: (fluvia) => (
         <div className="flex flex-wrap gap-1">
-          {fluvia.chains.map((chain) => (
+          {["Base", "Ethereum", "Arbitrum"].map((chain) => (
             <Badge key={chain} variant="outline" className="text-xs">
               {chain}
             </Badge>
@@ -61,7 +58,7 @@ export default function FluviasPage() {
     },
     {
       key: "contractAddress",
-      header: "Contract Address",
+      header: "Deposit Address",
       accessor: (fluvia) => (
         <code className="text-xs font-mono text-muted-foreground bg-card/50 px-2 py-1 rounded">
           {fluvia.contractAddress.slice(0, 8)}...
@@ -71,12 +68,12 @@ export default function FluviasPage() {
       sortable: true,
     },
     {
-      key: "depositAddress",
-      header: "Deposit Address",
+      key: "receiverAddress",
+      header: "Receiver Address",
       accessor: (fluvia) => (
         <code className="text-xs font-mono text-muted-foreground bg-card/50 px-2 py-1 rounded">
-          {fluvia.depositAddress.slice(0, 8)}...
-          {fluvia.depositAddress.slice(-6)}
+          {fluvia.receiverAddress.slice(0, 8)}...
+          {fluvia.receiverAddress.slice(-6)}
         </code>
       ),
       sortable: true,
@@ -141,7 +138,7 @@ export default function FluviasPage() {
           title="Your Fluvias"
           searchable={true}
           searchPlaceholder="Search fluvias by label, addresses..."
-          searchKeys={["label", "contractAddress", "depositAddress"]}
+          searchKeys={["label", "contractAddress", "receiverAddress"]}
           sortable={true}
           pagination={true}
           pageSize={10}
