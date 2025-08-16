@@ -9,6 +9,8 @@ dotenv.config();
 
 // Import database service
 import { DatabaseService, DBConfigurationType } from './services/DatabaseService';
+import { authMiddleware, requireAuth } from './middleware/auth';
+import { userMiddleware } from './middleware/userMiddleware';
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
@@ -31,7 +33,7 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 // API routes
-app.get('/api', (req: Request, res: Response) => {
+app.get('/api', authMiddleware({ requireAuth: true }), (req: Request, res: Response) => {
   res.json({
     message: 'Welcome to Fluvia API',
     version: '1.0.0',
@@ -45,6 +47,22 @@ app.use('*', (req: Request, res: Response) => {
     path: req.originalUrl,
   });
 });
+
+// Route that automatically creates user if missing
+app.get(
+  '/me',
+  authMiddleware({ requireAuth: true }),
+  userMiddleware.ensureUserExists,
+  (req, res) => {
+    const dbUser = userMiddleware.getDbUser(req);
+    const wasCreated = userMiddleware.wasUserCreated(req);
+    res.json({
+      user: dbUser,
+      created: wasCreated,
+      message: wasCreated ? 'User created successfully' : 'User retrieved successfully',
+    });
+  }
+);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, _next: () => void) => {

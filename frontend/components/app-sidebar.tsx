@@ -61,7 +61,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarRail />
       <SidebarFooter>
         <div className="flex items-center flex-col justify-between px-2 py-2">
-          <ThemeSwitcher />
           <UserBlock />
         </div>
       </SidebarFooter>
