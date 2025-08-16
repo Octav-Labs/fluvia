@@ -14,19 +14,23 @@
     "clean": "rm -rf dist",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
+    "lint:fix:all": "pnpm run lint:fix && pnpm run format",
     "format": "prettier --write \"src/**/*.{ts,js,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,js,json}\"",
+    "fix": "pnpm run lint:fix:all",
     "docker:build": "docker-compose build",
     "docker:start": "docker-compose up backend",
     "docker:stop": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
-    "db:migrate": "sequelize-cli db:migrate",
-    "db:migrate:undo": "sequelize-cli db:migrate:undo",
-    "db:migrate:undo:all": "sequelize-cli db:migrate:undo:all",
-    "db:seed": "sequelize-cli db:seed:all",
-    "db:seed:undo": "sequelize-cli db:seed:undo:all",
-    "db:create": "sequelize-cli db:create",
-    "db:drop": "sequelize-cli db:drop",
+    "db:migrate": "knex migrate:latest",
+    "db:migrate:rollback": "knex migrate:rollback",
+    "db:migrate:make": "knex migrate:make",
+    "db:seed": "knex seed:run",
+    "db:seed:make": "knex seed:make",
+    "db:seed:complete": "knex seed:run --specific=01_complete_data.ts",
+    "db:seed:status": "knex seed:list",
+    "db:create": "createdb fluvia",
+    "db:drop": "dropdb fluvia",
     "preinstall": "npx only-allow pnpm"
   },
   "keywords": [
@@ -43,18 +47,17 @@
     "helmet": "^7.1.0",
     "morgan": "^1.10.0",
     "dotenv": "^16.3.1",
-    "sequelize": "^6.35.2",
-    "pg": "^8.11.3",
-    "pg-hstore": "^2.3.4"
+    "knex": "^3.1.0",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/cors": "^2.8.17",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.13.0",
-    "@typescript-eslint/parser": "^6.13.0",
-    "eslint": "^8.54.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
@@ -62,7 +65,6 @@
     "prettier": "^3.1.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.0",
-    "only-allow": "^1.2.1",
-    "sequelize-cli": "^6.6.2"
+    "only-allow": "^1.2.1"
   }
 }

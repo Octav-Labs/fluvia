@@ -7,8 +7,8 @@ import morgan from 'morgan';
 // Load environment variables
 dotenv.config();
 
-// Import database factory
-import { database } from './factories';
+// Import database service
+import { DatabaseService, DBConfigurationType } from './services/DatabaseService';
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
@@ -58,8 +58,11 @@ app.use((err: Error, req: Request, res: Response, _next: () => void) => {
 // Start server with database initialization
 const startServer = async (): Promise<void> => {
   try {
+    // Get database service instance
+    const databaseService = DatabaseService.getInstance();
+
     // Test database connection
-    const isConnected = await database.testConnection();
+    const isConnected = await databaseService.testConnection(DBConfigurationType.MAIN);
 
     if (!isConnected) {
       console.warn('⚠️  Database connection failed, but continuing...');

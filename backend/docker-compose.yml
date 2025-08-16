@@ -1,20 +1,31 @@
-# Docker Compose configuration
-
 services:
+  # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
+    container_name: fluvia_postgres
     environment:
       POSTGRES_DB: fluvia
       POSTGRES_USER: fluvia_user
       POSTGRES_PASSWORD: fluvia_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    networks:
+      - fluvia_network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fluvia_user -d fluvia"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
+  # Backend API
   backend:
     build: .
+    container_name: fluvia_backend
     ports:
       - "3000:3000"
     environment:
@@ -25,11 +36,54 @@ services:
       - DB_NAME=fluvia
       - DB_USER=fluvia_user
       - DB_PASSWORD=fluvia_password
+      - DB_SSL=false
+      - DB_TEST_HOST=postgres
+      - DB_TEST_PORT=5432
+      - DB_TEST_NAME=fluvia_test
+      - DB_TEST_USER=fluvia_user
+      - DB_TEST_PASSWORD=fluvia_password
     volumes:
       - ./src:/usr/src/app/src
+      - ./migrations:/usr/src/app/migrations
+      - ./seeds:/usr/src/app/seeds
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./package.json:/usr/src/app/package.json
+      - ./knexfile.ts:/usr/src/app/knexfile.ts
+    networks:
+      - fluvia_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    command: ["./docker-startup.sh"]
+
+  # Optional: pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: fluvia_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@fluvia.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - fluvia_network
     depends_on:
       - postgres
     restart: unless-stopped
 
 volumes:
   postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  fluvia_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

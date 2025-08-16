@@ -1,44 +1,34 @@
-import { CreateOptions, DestroyOptions, FindOptions, Model, UpdateOptions } from 'sequelize';
+import { Knex } from 'knex';
 
-// Interface for database operations
-export interface IDatabaseOperations<T extends Model> {
-  // Find operations
-  findAll(options?: FindOptions): Promise<T[]>;
-  findById(id: number | string): Promise<T | null>;
-  findOne(options: FindOptions): Promise<T | null>;
+// Generic CRUD interface for all factories
+export interface ICRUDOperations<T> {
+  // Create operations
+  create(data: Partial<T>): Promise<T>;
+  createMany(data: Partial<T>[]): Promise<T[]>;
 
-  // Create, Update, Delete operations
-  create(data: any, options?: CreateOptions): Promise<T>;
-  update(data: any, options: UpdateOptions): Promise<[number, T[]]>;
-  delete(options: DestroyOptions): Promise<number>;
+  // Read operations
+  findById(id: string): Promise<T | null>;
+  findOne(where: any): Promise<T | null>;
+  findAll(where?: any): Promise<T[]>;
+  findAndCountAll(options?: any): Promise<{ rows: T[]; count: number }>;
+
+  // Update operations
+  updateById(id: string, data: Partial<T>): Promise<[number, T[]]>;
+  update(where: any, data: Partial<T>): Promise<[number, T[]]>;
+
+  // Delete operations
+  deleteById(id: string): Promise<number>;
+  delete(where: any): Promise<number>;
 
   // Utility operations
-  count(options?: FindOptions): Promise<number>;
+  count(where?: any): Promise<number>;
+  exists(where: any): Promise<boolean>;
 
-  // Database instance access
-  getDatabase(): any;
-}
+  // Custom search with query builder
+  searchWith<TResult>(fn: (builder: Knex) => Knex.QueryBuilder): Promise<TResult[]>;
 
-// Interface for database connection
-export interface IDatabaseConnection {
-  testConnection(): Promise<boolean>;
-  closeConnection(): Promise<void>;
-  getSequelize(): any;
-}
-
-// Interface for database configuration
-export interface IDatabaseConfig {
-  host: string;
-  port: number;
-  database: string;
-  username: string;
-  password: string;
-  dialect: 'postgres' | 'mysql' | 'sqlite' | 'mariadb' | 'mssql';
-  logging: boolean | ((sql: string, timing?: number) => void);
-  pool: {
-    max: number;
-    min: number;
-    acquire: number;
-    idle: number;
-  };
+  // Transaction support
+  withTransaction<TResult>(
+    callback: (transaction: Knex.Transaction) => Promise<TResult>
+  ): Promise<TResult>;
 }
