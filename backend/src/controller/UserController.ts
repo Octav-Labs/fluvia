@@ -31,13 +31,13 @@ export class UserController {
         address: userId,
       });
 
-      res.status(201).json({
+      return res.status(201).json({
         message: 'User created successfully',
         user: newUser,
       });
     } catch (error) {
       console.error('Error creating user:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Internal Server Error',
         message: 'Failed to create user',
       });
@@ -60,12 +60,12 @@ export class UserController {
         });
       }
 
-      res.json({
+      return res.json({
         user: user,
       });
     } catch (error) {
       console.error('Error getting user:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Internal Server Error',
         message: 'Failed to get user',
       });
@@ -89,13 +89,13 @@ export class UserController {
         });
       }
 
-      res.json({
+      return res.json({
         user: user,
         created: !user.uuid || user.uuid === user.address, // Simple check for newly created user
       });
     } catch (error) {
       console.error('Error getting or creating user:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Internal Server Error',
         message: 'Failed to get or create user',
       });
@@ -136,13 +136,13 @@ export class UserController {
         });
       }
 
-      res.json({
+      return res.json({
         message: 'User updated successfully',
         user: updatedUsers[0],
       });
     } catch (error) {
       console.error('Error updating user:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Internal Server Error',
         message: 'Failed to update user',
       });
@@ -165,12 +165,12 @@ export class UserController {
         });
       }
 
-      res.json({
+      return res.json({
         message: 'User deleted successfully',
       });
     } catch (error) {
       console.error('Error deleting user:', error);
-      res.status(500).json({
+      return res.status(500).json({
         error: 'Internal Server Error',
         message: 'Failed to delete user',
       });
