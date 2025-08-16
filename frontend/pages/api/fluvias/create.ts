@@ -11,7 +11,7 @@ export default async function handler(
   }
 
   try {
-    const { label, recipientAddress } = req.body;
+    const { label, recipientAddress, walletId } = req.body;
 
     // Validate required fields
     if (!label || !recipientAddress) {
@@ -35,6 +35,7 @@ export default async function handler(
     const backendBody = {
       recipientAddress,
       label: label,
+      walletId,
     };
 
     // Forward request to backend

@@ -24,7 +24,7 @@ export class FluviaManager {
     try {
       const { user: userPrivy } = req;
       const { userId } = req.user!;
-      const { label, recipientAddress } = req.body;
+      const { label, recipientAddress, walletId, address } = req.body;
 
       // Get the user from database
       const user = await this.userFactory.findByPrivyUserId(userId);
@@ -38,7 +38,7 @@ export class FluviaManager {
 
       // Privy deployment
       const contractAddress = await this.privyService.deployFluvia(
-        userPrivy.userId,
+        walletId,
         this.chain!.chainId,
         user.uuid,
         6,

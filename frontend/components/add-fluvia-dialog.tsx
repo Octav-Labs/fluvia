@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Plus, Loader2 } from "lucide-react";
+import { usePrivy } from "@privy-io/react-auth";
 
 interface AddFluviaDialogProps {
   onFluviaAdded: () => void;
@@ -34,6 +35,7 @@ export function AddFluviaDialog({ onFluviaAdded }: AddFluviaDialogProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Partial<FormData>>({});
+  const { user } = usePrivy();
   const [formData, setFormData] = useState<FormData>({
     label: "",
     chains: ["ethereum", "arbitrum", "base"],
@@ -77,6 +79,7 @@ export function AddFluviaDialog({ onFluviaAdded }: AddFluviaDialogProps) {
         body: JSON.stringify({
           label: formData.label,
           recipientAddress: formData.depositAddress,
+          walletId: user?.wallet?.id,
         }),
       });
 
