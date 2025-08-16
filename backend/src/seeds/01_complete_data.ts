@@ -12,10 +12,10 @@ export async function seed(knex: Knex): Promise<void> {
   const users = await knex('Users')
     .insert([
       {
-        address: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6',
+        privyUserId: 'did:privy:cmedqb2e300ezl40c25p3toto',
       },
       {
-        address: '0x1234567890123456789012345678901234567890',
+        privyUserId: 'did:privy:cmedqb2e300ezl40c25p3tata',
       },
     ])
     .returning('uuid');

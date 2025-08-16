@@ -2,19 +2,27 @@ import { User, UserRecord } from '../models/interfaces';
 import { DBConfigurationType } from '../services/DatabaseService';
 import { BaseFactory } from './base';
 
-export class UserFactory extends BaseFactory<User> {
+export const mapRecordToUser = (record: UserRecord): User => {
+  return {
+    uuid: record.uuid,
+    privyUserId: record.privy_user_id,
+  };
+};
+export const mapUserToRecord = (user: User): UserRecord => {
+  return {
+    uuid: user.uuid,
+    privy_user_id: user.privyUserId,
+  };
+};
+
+export class UserFactory extends BaseFactory<UserRecord> {
   constructor(dbType: DBConfigurationType = DBConfigurationType.MAIN) {
     super('Users', dbType);
   }
 
   // Essential find methods with UUIDs and identifiers
-  async findByAddress(address: string): Promise<User | null> {
-    return await this.findOne({ address });
-  }
-
-  async findByAddresses(addresses: string[]): Promise<User[]> {
-    return await this.findAll({
-      address: this.getKnex().raw('? = ANY(?)', [addresses, addresses]),
-    });
+  async findByPrivyUserId(privyUserId: string): Promise<User | null> {
+    const record = await this.findOne({ privy_user_id: privyUserId });
+    return record ? mapRecordToUser(record) : null;
   }
 }

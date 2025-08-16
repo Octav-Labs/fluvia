@@ -40,17 +40,9 @@ app.get('/api', authMiddleware({ requireAuth: true }), (req: Request, res: Respo
   });
 });
 
-// 404 handler
-app.use('*', (req: Request, res: Response) => {
-  res.status(404).json({
-    error: 'Route not found',
-    path: req.originalUrl,
-  });
-});
-
 // Route that automatically creates user if missing
 app.get(
-  '/me',
+  '/api/me',
   authMiddleware({ requireAuth: true }),
   userMiddleware.ensureUserExists,
   (req, res) => {
@@ -63,6 +55,14 @@ app.get(
     });
   }
 );
+
+// 404 handler
+app.use('*', (req: Request, res: Response) => {
+  res.status(404).json({
+    error: 'Route not found',
+    path: req.originalUrl,
+  });
+});
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, _next: () => void) => {

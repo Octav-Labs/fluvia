@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserFactory } from '../factories/UserFactory';
+import { mapRecordToUser, UserFactory } from '../factories/UserFactory';
+import { UserRecord } from '../models/interfaces';
 
 export class UserMiddleware {
   private userFactory: UserFactory;
@@ -23,15 +24,14 @@ export class UserMiddleware {
       }
 
       const { userId } = req.user;
-
+      console.log(req.user, 'user');
       // Check if user exists in database
-      let user = await this.userFactory.findByAddress(userId);
+      let user = await this.userFactory.findByPrivyUserId(userId);
 
       // If user doesn't exist, create them
       if (!user) {
-        user = await this.userFactory.create({
-          address: userId,
-        });
+        const userRecord = await this.userFactory.create({ privy_user_id: userId });
+        user = mapRecordToUser(userRecord);
 
         // Add user to request object
         (req as any).dbUser = user;
@@ -69,7 +69,7 @@ export class UserMiddleware {
       const { userId } = req.user;
 
       // Get user from database
-      const user = await this.userFactory.findByAddress(userId);
+      const user = await this.userFactory.findByPrivyUserId(userId);
 
       if (!user) {
         res.status(404).json({
