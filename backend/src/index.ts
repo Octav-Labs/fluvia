@@ -32,6 +32,17 @@ app.get('/health', (req: Request, res: Response) => {
   });
 });
 
+// Railway healthcheck endpoint
+app.get('/v1/healthcheck', (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development',
+    service: 'fluvia-backend',
+  });
+});
+
 // API routes
 app.get('/api', authMiddleware({ requireAuth: true }), (req: Request, res: Response) => {
   res.json({

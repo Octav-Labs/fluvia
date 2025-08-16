@@ -11,3 +11,16 @@ restartPolicyMaxRetries = 3
 [deploy.envs]
 NODE_ENV = "production"
 PNPM_HOME = "/opt/pnpm"
+PORT = "3000"
+
+# Database Configuration
+DB_HOST = ""
+DB_PORT = "5432"
+DB_NAME = ""
+DB_USER = ""
+DB_PASSWORD = ""
+DB_SSL = "true"
+
+# Privy Configuration
+PRIVY_APP_ID = ""
+PRIVY_APP_SECRET = ""
