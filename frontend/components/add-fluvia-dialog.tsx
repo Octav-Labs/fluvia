@@ -187,7 +187,7 @@ export function AddFluviaDialog({ onFluviaAdded }: AddFluviaDialogProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="depositAddress">Deposit Address</Label>
+            <Label htmlFor="depositAddress">Receiving Address</Label>
             <Input
               id="depositAddress"
               placeholder="0x..."
