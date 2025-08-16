@@ -7,11 +7,15 @@
     "node": ">=22.0.0",
     "pnpm": ">=10.0.0"
   },
+  "packageManager": "pnpm@10.14.0",
   "scripts": {
     "build": "pnpm run clean && tsc -p .",
     "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
+    "railway:build": "pnpm run build",
+    "railway:start": "node dist/index.js",
+    "railway:deploy": "pnpm run clean && pnpm run build",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "lint:fix:all": "pnpm run lint:fix && pnpm run format",
@@ -30,8 +34,7 @@
     "db:seed:complete": "knex seed:run --specific=01_complete_data.ts",
     "db:seed:status": "knex seed:list",
     "db:create": "createdb fluvia",
-    "db:drop": "dropdb fluvia",
-    "preinstall": "npx only-allow pnpm"
+    "db:drop": "dropdb fluvia"
   },
   "keywords": [
     "typescript",
@@ -53,19 +56,21 @@
     "pg": "^8.11.3"
   },
   "devDependencies": {
+    "@railway/cli": "^4.6.3",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.0.0",
-    "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "eslint-plugin-unused-imports": "^3.0.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "only-allow": "^1.2.1",
     "prettier": "^3.1.0",
+    "rimraf": "^5.0.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.0"
   }
