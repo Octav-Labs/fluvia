@@ -15,6 +15,7 @@ import Image from "next/image";
 import { Separator } from "@radix-ui/react-separator";
 import { useRouter } from "next/router";
 import { Button } from "./ui/button";
+import { UserBlock } from "./user-block";
 
 // This is sample data.
 const data = {
@@ -54,21 +55,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        {ready && authenticated && (
-          <div>
-            <p>Hello {user?.wallet?.address?.slice(0, 6)}...</p>
-          </div>
-        )}
         <Separator className="my-2" />
         <NavProjects disabled={!authenticated} projects={data.projects} />
       </SidebarContent>
 
       <SidebarRail />
       <SidebarFooter>
-        <Button onClick={logout} variant="outline" className="w-full">
-          <LogOut className="w-4 h-4 mr-2" />
-          Logout
-        </Button>
+        <UserBlock />
       </SidebarFooter>
     </Sidebar>
   );
