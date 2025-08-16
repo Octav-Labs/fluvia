@@ -1,5 +1,6 @@
 import * as React from "react";
 import { CreditCardIcon, Frame, User } from "lucide-react";
+import { getAccessToken, useLogin, usePrivy } from "@privy-io/react-auth";
 
 import { NavProjects } from "@/components/nav-projects";
 
@@ -10,15 +11,11 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import Image from "next/image";
+import { Separator } from "@radix-ui/react-separator";
+import { useRouter } from "next/router";
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-
   projects: [
     {
       name: "Home",
@@ -39,6 +36,12 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { ready, authenticated, user, logout } = usePrivy();
+  const router = useRouter();
+  const { login } = useLogin({
+    onComplete: () => router.push("/dashboard"),
+  });
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -53,7 +56,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={data.projects} />
+        {ready && authenticated && (
+          <div>
+            <p>Hello {user?.wallet?.address?.slice(0, 6)}...</p>
+          </div>
+        )}
+        <Separator className="my-2" />
+        <NavProjects disabled={!authenticated} projects={data.projects} />
       </SidebarContent>
 
       <SidebarRail />

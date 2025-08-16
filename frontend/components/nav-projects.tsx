@@ -11,12 +11,14 @@ import Link from "next/link";
 
 export function NavProjects({
   projects,
+  disabled,
 }: {
   projects: {
     name: string;
     url: string;
     icon: LucideIcon;
   }[];
+  disabled: boolean;
 }) {
   const { isMobile } = useSidebar();
 
@@ -25,12 +27,26 @@ export function NavProjects({
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <Link href={item.url}>
+            {disabled ? (
+              <SidebarMenuButton
+                disabled={disabled}
+                className="cursor-not-allowed opacity-50"
+              >
                 <item.icon />
                 <span>{item.name}</span>
-              </Link>
-            </SidebarMenuButton>
+              </SidebarMenuButton>
+            ) : (
+              <SidebarMenuButton
+                asChild
+                disabled={disabled}
+                className="cursor-pointer"
+              >
+                <Link href={item.url}>
+                  <item.icon />
+                  <span>{item.name}</span>
+                </Link>
+              </SidebarMenuButton>
+            )}
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
