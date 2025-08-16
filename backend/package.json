@@ -12,9 +12,18 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write \"src/**/*.{ts,js,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,js,json}\"",
+    "docker:build": "docker-compose build",
+    "docker:start": "docker-compose up backend",
+    "docker:stop": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
     "preinstall": "npx only-allow pnpm"
   },
-  "keywords": ["typescript", "express", "api", "backend"],
+  "keywords": [
+    "typescript",
+    "express",
+    "api",
+    "backend"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {

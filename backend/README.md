@@ -24,19 +24,22 @@ A TypeScript + Express.js backend API with Docker support.
 ### Local Development
 
 1. **Install dependencies:**
+
    ```bash
    pnpm install
    ```
 
 2. **Set up environment variables:**
+
    ```bash
    cp env.example .env
    # Edit .env with your configuration
    ```
 
 3. **Start development server:**
+
    ```bash
-   npm run dev
+   pnpm dev
    ```
 
 4. **Build for production:**
@@ -47,19 +50,15 @@ A TypeScript + Express.js backend API with Docker support.
 
 ### Docker Development
 
-1. **Start development container:**
+1. **Start the backend container:**
+
    ```bash
-   docker-compose --profile dev up backend-dev
+   pnpm docker:start
    ```
 
-2. **Start production container:**
+2. **Build and run manually:**
    ```bash
-   docker-compose up backend
-   ```
-
-3. **Build and run:**
-   ```bash
-   docker build -f docker/Dockerfile -t fluvia-backend .
+   pnpm docker:build
    docker run -p 3000:3000 fluvia-backend
    ```
 
@@ -71,8 +70,7 @@ backend/
 │   └── index.ts          # Main application entry point
 ├── dist/                 # Compiled JavaScript (generated)
 ├── docker/               # Docker configuration files
-│   ├── Dockerfile        # Production Docker image
-│   ├── Dockerfile.dev    # Development Docker image
+│   ├── Dockerfile        # Docker image
 │   ├── docker-compose.yml # Docker Compose configuration
 │   └── .dockerignore     # Docker ignore file
 ├── package.json          # Dependencies and scripts
@@ -91,6 +89,13 @@ backend/
 - `pnpm format` - Format code with Prettier
 - `pnpm format:check` - Check code formatting
 
+### 🐳 Docker Scripts
+
+- `pnpm docker:build` - Build Docker image
+- `pnpm docker:start` - Start backend container
+- `pnpm docker:stop` - Stop container
+- `pnpm docker:logs` - View container logs
+
 ## 🌐 API Endpoints
 
 - `GET /health` - Health check endpoint
@@ -100,33 +105,27 @@ backend/
 ## 🐳 Docker Commands
 
 ### Build Images
-   ```bash
-   # Production
-   docker build -f docker/Dockerfile -t fluvia-backend .
 
-   # Development
-   docker build -f docker/Dockerfile.dev -t fluvia-backend:dev .
-   ```
+```bash
+# Build the Docker image
+docker build -f docker/Dockerfile -t fluvia-backend .
+```
 
 ### Run Containers
-```bash
-# Production
-docker run -p 3000:3000 fluvia-backend
 
-# Development with volume mounting
-docker run -p 3001:3000 -v $(pwd):/app fluvia-backend:dev
+```bash
+# Run the container
+docker run -p 3000:3000 fluvia-backend
 ```
 
 ### Docker Compose
+
 ```bash
-# Start production
-docker-compose -f docker/docker-compose.yml up
+# Start the backend
+pnpm docker:start
 
-# Start development
-docker-compose -f docker/docker-compose.yml --profile dev up
-
-# Stop all services
-docker-compose -f docker/docker-compose.yml down
+# Stop the backend
+pnpm docker:stop
 ```
 
 ## 🔒 Security Features
@@ -145,22 +144,24 @@ docker-compose -f docker/docker-compose.yml down
 
 ## 📝 Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PORT` | `3000` | Server port |
+| Variable   | Default       | Description      |
+| ---------- | ------------- | ---------------- |
+| `PORT`     | `3000`        | Server port      |
 | `NODE_ENV` | `development` | Environment mode |
 
 ## 🚀 Deployment
 
 ### Production Build
+
 ```bash
 pnpm build
 pnpm start
 ```
 
 ### Docker Production
+
 ```bash
-docker-compose -f docker/docker-compose.yml up -d
+pnpm docker:start
 ```
 
 ## 🤝 Contributing
