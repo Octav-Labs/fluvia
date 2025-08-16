@@ -40,7 +40,6 @@ export class FluviaManager {
       const contractAddress = await this.privyService.deployFluvia(
         walletId,
         this.chain!.chainId,
-        user.uuid,
         6,
         recipientAddress
       );
