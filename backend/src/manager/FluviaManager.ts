@@ -34,34 +34,28 @@ export class FluviaManager {
           message: 'User does not exist in database',
         });
       }
-      console.log(this.chain, 'chain');
 
-      // Privy deployment
-      const txHash = await this.privyService.deployFluvia(
+      const nextContractAddress = await this.privyService.readNextContractAddress(
         walletId,
-        this.chain!.chainId,
-        6,
-        recipientAddress
-      );
-
-      const contractAddress = await this.privyService.getDeployedContractAddress(
-        txHash,
         this.chain!.chainId
       );
-      console.log(contractAddress, 'contractAddress');
-      // // Create new Fluvia
-      // const fluviaRecord = await this.fluviaFactory.create({
-      //   user_uuid: user.uuid,
-      //   contract_address: contractAddress,
-      //   label: label,
-      //   receiver_address: receiverAddress,
-      // });
 
-      // const fluvia = mapRecordToFluvia(fluviaRecord);
+      // Privy deployment
+      await this.privyService.deployFluvia(walletId, this.chain!.chainId, 6, recipientAddress);
+
+      // // Create new Fluvia
+      const fluviaRecord = await this.fluviaFactory.create({
+        user_uuid: user.uuid,
+        contract_address: nextContractAddress,
+        label: label,
+        receiver_address: recipientAddress,
+      });
+
+      const fluvia = mapRecordToFluvia(fluviaRecord);
 
       return res.status(201).json({
         message: 'Fluvia created successfully',
-        fluvia: [],
+        fluvia: fluvia,
       });
     } catch (error) {
       console.error('Error creating Fluvia:', error);
