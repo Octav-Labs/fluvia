@@ -23,11 +23,11 @@ const knexConfig: any = {
       createRetryIntervalMillis: 100,
     },
     migrations: {
-      directory: './migrations',
+      directory: './src/migrations',
       tableName: 'knex_migrations',
     },
     seeds: {
-      directory: './seeds',
+      directory: './src/seeds',
     },
     debug: true,
   },
@@ -52,11 +52,11 @@ const knexConfig: any = {
       createRetryIntervalMillis: 100,
     },
     migrations: {
-      directory: './migrations',
+      directory: './src/migrations',
       tableName: 'knex_migrations',
     },
     seeds: {
-      directory: './seeds',
+      directory: './src/seeds',
     },
     debug: false,
   },
@@ -85,11 +85,11 @@ if (process.env.DB_HOST && process.env.DB_NAME && process.env.DB_USER && process
       createRetryIntervalMillis: 100,
     },
     migrations: {
-      directory: './migrations',
+      directory: './src/migrations',
       tableName: 'knex_migrations',
     },
     seeds: {
-      directory: './seeds',
+      directory: './src/seeds',
     },
     debug: false,
   };
