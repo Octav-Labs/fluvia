@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Plus, Loader2 } from "lucide-react";
 import { usePrivy } from "@privy-io/react-auth";
+import { cn } from "@/lib/utils";
 
 interface AddFluviaDialogProps {
   onFluviaAdded: () => void;
@@ -154,7 +155,10 @@ export function AddFluviaDialog({ onFluviaAdded }: AddFluviaDialogProps) {
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, label: e.target.value }))
               }
-              className={errors.label ? "border-red-500" : ""}
+              className={cn(
+                "focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:ring-offset-background focus-visible:ring-offset-0",
+                errors.label ? "border-red-500" : ""
+              )}
             />
             {errors.label && (
               <p className="text-sm text-red-500">{errors.label}</p>
@@ -198,7 +202,10 @@ export function AddFluviaDialog({ onFluviaAdded }: AddFluviaDialogProps) {
                   depositAddress: e.target.value,
                 }))
               }
-              className={errors.depositAddress ? "border-red-500" : ""}
+              className={cn(
+                "focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:ring-offset-background focus-visible:ring-offset-0",
+                errors.depositAddress ? "border-red-500" : ""
+              )}
             />
             {errors.depositAddress && (
               <p className="text-sm text-red-500">{errors.depositAddress}</p>
