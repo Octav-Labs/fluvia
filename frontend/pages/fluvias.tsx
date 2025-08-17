@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 
 import { AddFluviaDialog } from "@/components/add-fluvia-dialog";
 import TitleBloc from "@/components/bloc/title-bloc";
+import { Button } from "@/components/ui/button";
+import { Copy } from "lucide-react";
 
 interface Fluvia {
   id: string;
@@ -60,10 +62,21 @@ export default function FluviasPage() {
       key: "contractAddress",
       header: "Deposit Address",
       accessor: (fluvia) => (
-        <code className="text-xs font-mono text-muted-foreground bg-card/50 px-2 py-1 rounded">
-          {fluvia.contractAddress.slice(0, 8)}...
-          {fluvia.contractAddress.slice(-6)}
-        </code>
+        <div className="flex items-center gap-2">
+          <code className="text-xs font-mono text-muted-foreground bg-card/50 px-2 py-1 rounded">
+            {fluvia.contractAddress.slice(0, 8)}...
+            {fluvia.contractAddress.slice(-6)}
+          </code>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              navigator.clipboard.writeText(fluvia.contractAddress);
+            }}
+          >
+            <Copy className="w-3 h-3" />
+          </Button>
+        </div>
       ),
       sortable: true,
     },
@@ -144,11 +157,6 @@ export default function FluviasPage() {
           pageSize={10}
           loading={loading}
           emptyMessage="No fluvias found. Create your first fluvia to get started."
-          actions={{
-            copy: (fluvia) => fluvia.contractAddress,
-            external: (fluvia) =>
-              `https://etherscan.io/address/${fluvia.contractAddress}`,
-          }}
         />
       </DashboardLayout>
     </>
