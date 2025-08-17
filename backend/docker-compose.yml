@@ -28,8 +28,20 @@ services:
     container_name: fluvia_backend
     ports:
       - '3000:3000'
-    env_file:
-      - .env
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=fluvia
+      - DB_USER=fluvia_user
+      - DB_PASSWORD=fluvia_password
+      - DB_SSL=false
+      - DB_TEST_HOST=postgres
+      - DB_TEST_PORT=5432
+      - DB_TEST_NAME=fluvia_test
+      - DB_TEST_USER=fluvia_user
+      - DB_TEST_PASSWORD=fluvia_password
     volumes:
       - ./src:/usr/src/app/src
       - ./migrations:/usr/src/app/migrations

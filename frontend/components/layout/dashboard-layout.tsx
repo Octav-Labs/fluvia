@@ -26,7 +26,9 @@ export default function DashboardLayout({
             <div className="flex items-center justify-end p-4">
               <ThemeSwitcher />
             </div>
-            {ready && authenticated && <div className="p-8">{children}</div>}
+            {ready && authenticated && (
+              <div className="px-8 py-4">{children}</div>
+            )}
             {ready && !authenticated && (
               <div className="flex items-center justify-center flex-1">
                 <div className="text-center space-y-4">
