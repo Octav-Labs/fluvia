@@ -6,7 +6,7 @@ interface Fluvia {
   userUuid: number;
   contractAddress: string;
   label: string;
-  receiverAddress: number;
+  receiverAddress: string;
 }
 
 interface FluviaResponse {
@@ -28,6 +28,10 @@ export function useFluvia(): UseFluviaReturn {
   const { user } = usePrivy();
 
   const fetchFluvia = useCallback(async () => {
+    if (!user?.wallet?.address) {
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -53,7 +57,7 @@ export function useFluvia(): UseFluviaReturn {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [user?.wallet?.address]);
 
   useEffect(() => {
     if (user?.wallet?.address) {

@@ -1,11 +1,12 @@
 import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { useSessionSigners } from "@privy-io/react-auth";
 import { useCallback } from "react";
+import { useMe } from "./use-me";
 
 export const useLoginWithPrivy = () => {
   const { addSessionSigners } = useSessionSigners();
-  const SESSION_SIGNER_ID =
-    process.env.NEXT_PUBLIC_SESSION_SIGNER_ID || "ovscx4a3irn9333mopyuvxbe";
+  const { refetch } = useMe();
+  const SESSION_SIGNER_ID = process.env.NEXT_PUBLIC_SESSION_SIGNER_ID;
   const { user } = usePrivy();
   const addSessionSigner = useCallback(
     async (walletAddress: string) => {
@@ -14,10 +15,10 @@ export const useLoginWithPrivy = () => {
         return;
       }
       if (!user?.wallet?.address) {
-        console.error("User wallet address not found");
         return;
       }
       try {
+        await refetch();
         await addSessionSigners({
           address: walletAddress,
           signers: [
