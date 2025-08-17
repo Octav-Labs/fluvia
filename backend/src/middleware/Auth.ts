@@ -76,6 +76,7 @@ export const authMiddleware = (options: AuthMiddlewareOptions = {}) => {
           return next();
         }
 
+        console.log(error);
         return res.status(401).json({
           error: 'Unauthorized',
           message: 'Invalid or expired access token',

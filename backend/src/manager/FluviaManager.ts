@@ -2,18 +2,18 @@ import { Request, Response } from 'express';
 import { FluviaFactory, mapRecordToFluvia } from '../factories/FluviaFactory';
 import { UserFactory } from '../factories/UserFactory';
 import { PrivyService } from '../service/PrivyService';
-import { ChainId, ChainInfo, chains, CURRENT_CHAIN_ID } from '../chain';
+import { ChainInfo, chains, CURRENT_CHAIN_IDS } from '../chain';
 
 export class FluviaManager {
   private fluviaFactory: FluviaFactory;
   private privyService: PrivyService;
   private userFactory: UserFactory;
-  private chain?: ChainInfo;
+  private chains: ChainInfo[];
 
   constructor() {
     this.fluviaFactory = new FluviaFactory();
     this.userFactory = new UserFactory();
-    this.chain = chains[CURRENT_CHAIN_ID] ?? chains[ChainId.BASE_SEPOLIA]!; // Provide default chain
+    this.chains = CURRENT_CHAIN_IDS.map(chainId => chains[chainId]) as ChainInfo[]; // Provide default chain
     this.privyService = new PrivyService();
   }
 
@@ -24,7 +24,7 @@ export class FluviaManager {
     try {
       const { user: userPrivy } = req;
       const { userId } = req.user!;
-      const { label, recipientAddress, walletId, address } = req.body;
+      const { label, recipientAddress, walletId } = req.body;
 
       // Get the user from database
       const user = await this.userFactory.findByPrivyUserId(userId);
@@ -35,18 +35,16 @@ export class FluviaManager {
         });
       }
 
-      const nextContractAddress = await this.privyService.readNextContractAddress(
-        walletId,
-        this.chain!.chainId
+      const nextContractAddress = await Promise.all(
+        this.chains.map(chain =>
+          this.createFluviaForChain(chain.chainId, walletId, recipientAddress)
+        )
       );
-
-      // Privy deployment
-      await this.privyService.deployFluvia(walletId, this.chain!.chainId, 6, recipientAddress);
 
       // // Create new Fluvia
       const fluviaRecord = await this.fluviaFactory.create({
         user_uuid: user.uuid,
-        contract_address: nextContractAddress,
+        contract_address: nextContractAddress[0] || '',
         label: label,
         receiver_address: recipientAddress,
       });
@@ -63,6 +61,22 @@ export class FluviaManager {
         error: 'Internal Server Error',
         message: 'Failed to create Fluvia',
       });
+    }
+  }
+
+  async createFluviaForChain(chainId: number, walletId: string, recipientAddress: string) {
+    try {
+      const nextContractAddress = await this.privyService.readNextContractAddress(
+        walletId,
+        chainId
+      );
+
+      // Privy deployment
+      await this.privyService.deployFluvia(walletId, chainId, 6, recipientAddress);
+      return nextContractAddress;
+    } catch (error) {
+      console.error('Error creating Fluvia:', error);
+      throw error;
     }
   }
 
