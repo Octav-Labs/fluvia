@@ -57,8 +57,6 @@ export const authMiddleware = (options: AuthMiddlewareOptions = {}) => {
 
       // Verify the token
       try {
-        console.log(process.env.PRIVY_APP_ID!);
-        console.log(process.env.PRIVY_APP_SECRET!);
         const verifiedClaims = await privy.verifyAuthToken(accessToken);
 
         // Add user information to request
