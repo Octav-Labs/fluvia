@@ -11,6 +11,7 @@ export type ChainInfo = {
   feeControllerContract: string;
   receiverContract: string;
   factoryContract: string;
+  messageTransmitter: string;
   domain: number;
 };
 
@@ -22,6 +23,7 @@ export const chains: Record<number, ChainInfo> = {
     feeControllerContract: '0x8C31f4B7c6b44DA2e8996e279D5F08C00044f81D',
     receiverContract: '0x93Ac275DCAa8c7F3F103Ce8833ac11f30d73F1b8',
     factoryContract: '0xa4479267c2eB0Da5e5bC05913c6Fd0c8066cf961',
+    messageTransmitter: '0xE737e5cEBEEBa77EFE34D4aa090756590b1CE275',
     domain: 6,
   },
   11155111: {
@@ -31,6 +33,7 @@ export const chains: Record<number, ChainInfo> = {
     feeControllerContract: '0x8C31f4B7c6b44DA2e8996e279D5F08C00044f81D',
     receiverContract: '0x93Ac275DCAa8c7F3F103Ce8833ac11f30d73F1b8',
     factoryContract: '0xa4479267c2eB0Da5e5bC05913c6Fd0c8066cf961',
+    messageTransmitter: '0xE737e5cEBEEBa77EFE34D4aa090756590b1CE275',
     domain: 6,
   },
   421614: {
@@ -40,6 +43,7 @@ export const chains: Record<number, ChainInfo> = {
     feeControllerContract: '0x8C31f4B7c6b44DA2e8996e279D5F08C00044f81D',
     receiverContract: '0x93Ac275DCAa8c7F3F103Ce8833ac11f30d73F1b8',
     factoryContract: '0xa4479267c2eB0Da5e5bC05913c6Fd0c8066cf961',
+    messageTransmitter: '0xE737e5cEBEEBa77EFE34D4aa090756590b1CE275',
     domain: 6,
   },
 };
@@ -48,6 +52,18 @@ export const USDC_CONTRACTS_BY_CHAIN_ID: Record<number, string> = {
   84532: '0x036CbD53842c5426634e7929541eC2318f3dCF7e',
   11155111: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
   421614: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d',
+};
+
+export const DOMAINS_BY_CHAIN_ID: Record<number, number> = {
+  84532: 6,
+  11155111: 0,
+  421614: 3,
+};
+
+export const CHAIN_IDS_BY_DOMAIN: Record<number, number> = {
+  6: 84532,
+  0: 11155111,
+  3: 421614,
 };
 
 export const CURRENT_CHAIN_IDS = [
