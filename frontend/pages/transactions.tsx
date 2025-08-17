@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/dashboard-layout";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DataTable, Column } from "@/components/ui/data-table";
 import { usePrivy } from "@privy-io/react-auth";
@@ -330,6 +331,38 @@ export default function TransactionsPage() {
         />
 
         {/* Summary Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-2xl font-bold text-gray-900">
+                {fetchedTransactions.length}
+              </div>
+              <div className="text-sm text-gray-600">Total Transactions</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-2xl font-bold text-green-600">
+                {fetchedTransactions
+                  .reduce((total, tx) => {
+                    const value = parseFloat(tx.valueFiat || "0");
+                    return total + value;
+                  }, 0)
+                  .toFixed(2)}{" "}
+                USD
+              </div>
+              <div className="text-sm text-gray-600">Total Volume</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-2xl font-bold text-blue-600">
+                {new Set(fetchedTransactions.map((tx) => tx.chain.key)).size}
+              </div>
+              <div className="text-sm text-gray-600">Active Chains</div>
+            </CardContent>
+          </Card>
+        </div>
       </DashboardLayout>
     </>
   );

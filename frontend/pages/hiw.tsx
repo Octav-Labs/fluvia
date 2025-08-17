@@ -7,14 +7,7 @@ import DashboardLayout from "@/components/layout/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowRight,
-  Zap,
-  Shield,
-  Globe,
-  TrendingUp,
-  Users,
-} from "lucide-react";
+import { ArrowRight, Zap, Shield, Globe, TrendingUp, Users } from "lucide-react";
 
 async function verifyToken() {
   const url = "/api/verify";
@@ -57,10 +50,7 @@ export default function HowItWorksPage() {
     <>
       <Head>
         <title>How It Works - Fluvia</title>
-        <meta
-          name="description"
-          content="Learn how Fluvia's multichain treasury management platform works"
-        />
+        <meta name="description" content="Learn how Fluvia's multichain treasury management platform works" />
       </Head>
 
       <DashboardLayout>
@@ -71,9 +61,8 @@ export default function HowItWorksPage() {
               How Fluvia Works
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              A comprehensive guide to understanding how Fluvia's multichain
-              treasury management platform revolutionizes cross-chain USDC
-              operations for businesses.
+              A comprehensive guide to understanding how Fluvia's multichain treasury management platform 
+              revolutionizes cross-chain USDC operations for businesses.
             </p>
           </div>
 
@@ -84,16 +73,12 @@ export default function HowItWorksPage() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Zap className="w-6 h-6 text-yellow-500" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">
-                  Instant Transfers
-                </h3>
+                <h3 className="text-lg font-semibold mb-2">Instant Transfers</h3>
                 <p className="text-sm text-muted-foreground mb-2">
-                  Move USDC across blockchains in seconds with Circle's CCTP
-                  technology
+                  Move USDC across blockchains in seconds with Circle's CCTP technology
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Experience lightning-fast cross-chain transfers and real-time
-                  settlement.
+                  Experience lightning-fast cross-chain transfers and real-time settlement.
                 </p>
               </CardContent>
             </Card>
@@ -103,17 +88,12 @@ export default function HowItWorksPage() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <span className="text-red-500 text-2xl">⏰</span>
                 </div>
-                <h3 className="text-lg font-semibold mb-2">
-                  Time Saving & Auto-Settlement
-                </h3>
+                <h3 className="text-lg font-semibold mb-2">Time Saving & Auto-Settlement</h3>
                 <p className="text-sm text-muted-foreground mb-2">
-                  Automated workflows that save hours of manual treasury
-                  operations
+                  Automated workflows that save hours of manual treasury operations
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Streamline your treasury management with intelligent
-                  automation, instant settlements, and reduced manual
-                  intervention for maximum efficiency.
+                  Streamline your treasury management with intelligent automation, instant settlements, and reduced manual intervention for maximum efficiency.
                 </p>
               </CardContent>
             </Card>
@@ -123,15 +103,12 @@ export default function HowItWorksPage() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <span className="text-green-500 text-2xl">📊</span>
                 </div>
-                <h3 className="text-lg font-semibold mb-2">
-                  Real-time Analytics
-                </h3>
+                <h3 className="text-lg font-semibold mb-2">Real-time Analytics</h3>
                 <p className="text-sm text-muted-foreground mb-2">
                   Comprehensive dashboard with portfolio tracking and insights
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Monitor your cross-chain portfolio with real-time data,
-                  analytics, and automated reporting.
+                  Monitor your cross-chain portfolio with real-time data, analytics, and automated reporting.
                 </p>
               </CardContent>
             </Card>
@@ -149,9 +126,8 @@ export default function HowItWorksPage() {
             </CardHeader>
             <CardContent>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Traditional treasury management is fragmented across multiple
-                blockchains, requiring manual coordination, multiple wallets,
-                and inefficient capital allocation. Businesses struggle with:
+                Traditional treasury management is fragmented across multiple blockchains, requiring manual 
+                coordination, multiple wallets, and inefficient capital allocation. Businesses struggle with:
               </p>
               <ul className="mt-4 space-y-2 text-muted-foreground">
                 <li className="flex items-center gap-2">
@@ -186,9 +162,8 @@ export default function HowItWorksPage() {
             </CardHeader>
             <CardContent>
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Fluvia provides a unified platform that consolidates treasury
-                management across all supported blockchains, enabling businesses
-                to:
+                Fluvia provides a unified platform that consolidates treasury management across all 
+                supported blockchains, enabling businesses to:
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
@@ -283,14 +258,10 @@ export default function HowItWorksPage() {
                     1
                   </div>
                   <div>
-                    <h4 className="font-semibold text-lg mb-2">
-                      Connect Your Wallets
-                    </h4>
+                    <h4 className="font-semibold text-lg mb-2">Connect Your Wallets</h4>
                     <p className="text-muted-foreground">
-                      Securely connect your existing wallets from multiple
-                      blockchains through our
-                      <span className="font-bold"> privy.io</span>{" "}
-                      authentication system.
+                      Securely connect your existing wallets from multiple blockchains through our 
+                      <span className="font-bold"> privy.io</span> authentication system.
                     </p>
                   </div>
                 </div>
@@ -300,12 +271,9 @@ export default function HowItWorksPage() {
                     2
                   </div>
                   <div>
-                    <h4 className="font-semibold text-lg mb-2">
-                      Create your Fluvia
-                    </h4>
+                    <h4 className="font-semibold text-lg mb-2">Create your Fluvia</h4>
                     <p className="text-muted-foreground">
-                      Simply provide your receiving address and the label of
-                      your Fluvia.
+                      Simply provide your receiving address and the label of your Fluvia.
                     </p>
                   </div>
                 </div>
@@ -315,18 +283,18 @@ export default function HowItWorksPage() {
                     3
                   </div>
                   <div>
-                    <h4 className="font-semibold text-lg mb-2">
-                      Enjoy your Fluvia
-                    </h4>
+                    <h4 className="font-semibold text-lg mb-2">Enjoy your Fluvia</h4>
                     <p className="text-muted-foreground">
-                      You can now send USDC to your Fluvia and it will be
-                      automatically routed to your receiving address.
+                      You can now send USDC to your Fluvia and it will be automatically routed to your receiving address.
                     </p>
                   </div>
                 </div>
               </div>
             </CardContent>
           </Card>
+
+
+
 
           {/* Key Benefits */}
           <Card className="mb-12">
@@ -346,15 +314,12 @@ export default function HowItWorksPage() {
                     <div>
                       <h4 className="font-semibold">Increased Efficiency</h4>
                       <p className="text-sm text-muted-foreground">
-                        Reduce manual treasury operations by 90% through
-                        automation
+                        Reduce manual treasury operations by 90% through automation
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="text-blue-600 text-xl font-bold mt-1">
-                      $
-                    </span>
+                    <span className="text-blue-600 text-xl font-bold mt-1">$</span>
                     <div>
                       <h4 className="font-semibold">Reduce Idle Capital</h4>
                       <p className="text-sm text-muted-foreground">
@@ -374,24 +339,13 @@ export default function HowItWorksPage() {
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <svg
-                      className="w-5 h-5 text-orange-600 mt-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-                      />
+                    <svg className="w-5 h-5 text-orange-600 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                     </svg>
                     <div>
                       <h4 className="font-semibold">Reduce risk of loss</h4>
                       <p className="text-sm text-muted-foreground">
-                        Reduce risk of loss by routing USDC to your receiving
-                        address
+                        Reduce risk of loss by routing USDC to your receiving address
                       </p>
                     </div>
                   </div>
@@ -405,27 +359,21 @@ export default function HowItWorksPage() {
             <CardContent className="pt-8">
               <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
               <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Experience the future of treasury management with Fluvia's
-                powerful multichain platform.
+                Experience the future of treasury management with Fluvia's powerful multichain platform.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
-                  size="lg"
+                <Button 
+                  size="lg" 
                   className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3"
-                  onClick={() => router.push("/dashboard")}
+                  onClick={() => router.push('/dashboard')}
                 >
                   Go to Dashboard
                 </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
+                <Button 
+                  variant="outline" 
+                  size="lg" 
                   className="px-8 py-3"
-                  onClick={() =>
-                    window.open(
-                      "https://fluvia.gitbook.io/fluvia-docs/",
-                      "_blank"
-                    )
-                  }
+                  onClick={() => window.open('https://docs.fluvia.xyz', '_blank')}
                 >
                   View Documentation
                 </Button>
@@ -436,4 +384,4 @@ export default function HowItWorksPage() {
       </DashboardLayout>
     </>
   );
-}
+} 

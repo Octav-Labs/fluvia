@@ -33,12 +33,7 @@ export default function Index() {
                 variant="outline"
                 size="sm"
                 className="hover:bg-primary hover:text-primary-foreground transition-colors"
-                onClick={() =>
-                  window.open(
-                    "https://fluvia.gitbook.io/fluvia-docs/",
-                    "_blank"
-                  )
-                }
+                onClick={() => window.open("https://docs.fluvia.xyz", "_blank")}
               >
                 Documentation
               </Button>
@@ -196,12 +191,6 @@ export default function Index() {
                   Go to dashboard
                 </Button>
                 <Button
-                  onClick={() =>
-                    window.open(
-                      "https://fluvia.gitbook.io/fluvia-docs/",
-                      "_blank"
-                    )
-                  }
                   variant="outline"
                   size="lg"
                   className="px-8 py-6 text-lg font-semibold hover:bg-muted/50"
@@ -226,7 +215,7 @@ export default function Index() {
             </div>
             <div className="mt-8 md:mt-0">
               <a
-                href="https://fluvia.gitbook.io/fluvia-docs/"
+                href="https://docs.fluvia.xyz"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
