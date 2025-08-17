@@ -26,8 +26,6 @@ export class FluviaManager {
       const { userId } = req.user!;
       const { label, recipientAddress, walletId } = req.body;
 
-      console.log(`+++++++++++++WALLETID+++++++++`, walletId);
-
       // Get the user from database
       const user = await this.userFactory.findByPrivyUserId(userId);
       if (!user || !userPrivy) {

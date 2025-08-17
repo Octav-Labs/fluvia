@@ -1,0 +1,12 @@
+export const transmitterAbi = [
+  {
+    inputs: [
+      { internalType: 'bytes', name: 'message', type: 'bytes' },
+      { internalType: 'bytes', name: 'attestation', type: 'bytes' },
+    ],
+    name: 'receiveMessage',
+    outputs: [{ internalType: 'bool', name: 'success', type: 'bool' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+] as const;

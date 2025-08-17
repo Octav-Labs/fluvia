@@ -1,10 +1,12 @@
 import { PrivyClient } from '@privy-io/server-auth';
-import { chains } from '../chain';
+import { CHAIN_IDS_BY_DOMAIN, chains } from '../chain';
 import { factoryAbi } from '../abi/factory';
 import { ethers } from 'ethers';
 import { RPCService } from '../services/RPCService';
 import { Fluvia } from '../models/interfaces';
 import { receiverAbi } from '../abi/receiverAbi';
+import { CircleIrisMessage } from '../services/SettlerService';
+import { transmitterAbi } from '../abi/transmitterAbi';
 
 export class PrivyService {
   private privy: PrivyClient;
@@ -44,7 +46,7 @@ export class PrivyService {
       };
 
       const { hash } = await this.privy.walletApi.ethereum.sendTransaction({
-        walletId: walletId,
+        walletId: this.SERVER_WALLET_ID,
         caip2: chain.chainCaiP as `eip155:${string}`,
         transaction: transactionRequest,
       });
@@ -142,7 +144,6 @@ export class PrivyService {
   async settleFluvia(fluvia: Fluvia, chainId: number) {
     try {
       const chain = chains[chainId];
-      // const address = await this.privy.walletApi.getWallet({ id: this.SERVER_WALLET_ID });
       const iface = new ethers.Interface(receiverAbi);
       const data = iface.encodeFunctionData('settle');
 
@@ -162,6 +163,38 @@ export class PrivyService {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       console.log('failed to sette fluvia', errorMessage);
+      return null;
+    }
+  }
+
+  async callReceiveMessage(irisMessage: CircleIrisMessage) {
+    try {
+      //using destinationDomain to get the chainId
+      const domain = Number(irisMessage.decodedMessage.destinationDomain);
+      const chainId = CHAIN_IDS_BY_DOMAIN[domain]!;
+      const chain = chains[chainId]!;
+      const iface = new ethers.Interface(transmitterAbi);
+      const data = iface.encodeFunctionData('receiveMessage', [
+        irisMessage.message,
+        irisMessage.attestation,
+      ]);
+
+      const transactionRequest = {
+        to: chain?.messageTransmitter as `0x${string}`,
+        chainId,
+        data: data as `0x${string}`,
+      };
+
+      const { hash } = await this.privy.walletApi.ethereum.sendTransaction({
+        walletId: this.SERVER_WALLET_ID,
+        caip2: chain?.chainCaiP as `eip155:${string}`,
+        transaction: transactionRequest,
+      });
+
+      return hash;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      console.log('failed to call receive message', errorMessage);
       return null;
     }
   }

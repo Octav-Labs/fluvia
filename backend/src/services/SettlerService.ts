@@ -1,9 +1,20 @@
 import { FluviaFactory } from '../factories';
-import { ChainInfo, CURRENT_CHAIN_IDS, USDC_CONTRACTS_BY_CHAIN_ID } from '../chain';
+import { CURRENT_CHAIN_IDS, DOMAINS_BY_CHAIN_ID, USDC_CONTRACTS_BY_CHAIN_ID } from '../chain';
 import { Fluvia } from '../models/interfaces';
 import { RPCService } from './RPCService';
-import { erc20Abi, getAddress } from 'viem';
+import { getAddress } from 'viem';
 import { PrivyService } from '../service/PrivyService';
+import axios from 'axios';
+
+export type CircleIrisMessage = {
+  message: string;
+  attestation: string;
+  status: string;
+  decodedMessage: {
+    sourceDomain: string;
+    destinationDomain: string;
+  };
+};
 
 export class SettlerService {
   static minAmountToSettle = 1n * 10n ** 6n;
@@ -18,10 +29,6 @@ export class SettlerService {
     const filteredFluvias = fluvias.filter(fluvia => fluvia.contractAddress !== undefined);
 
     const chainIds = CURRENT_CHAIN_IDS;
-
-    const fluviaByContractMap: Map<string, Fluvia> = new Map(
-      filteredFluvias.map(fluvia => [fluvia.contractAddress as string, fluvia])
-    );
 
     const fluviasToSettleByChainIds = new Map<number, Fluvia[]>();
 
@@ -78,16 +85,56 @@ export class SettlerService {
     await this.settleAllFluvias(fluviasToSettleByChainIds);
   }
 
-  async settleAllFluvias(fluviasMap: Map<number, Fluvia[]>) {
+  private async settleAllFluvias(fluviasMap: Map<number, Fluvia[]>) {
+    const allSettlements = [];
+
     for (const [chainId, fluvias] of fluviasMap) {
       if (fluvias.length === 0) continue;
+
       for (const fluvia of fluvias) {
-        const hash = await this.privyService.settleFluvia(fluvia, chainId);
-        if (!hash) continue;
+        allSettlements.push(this.settleSingleFluvia(fluvia, chainId));
+      }
+    }
 
-        console.log(`Settled ${fluvia.contractAddress} on chain ${chainId} with tx hash ${hash}`);
+    await Promise.all(allSettlements);
+  }
 
-        // TODO: poll for bridge
+  private async settleSingleFluvia(fluvia: Fluvia, chainId: number) {
+    const hash = await this.privyService.settleFluvia(fluvia, chainId);
+    if (!hash) return;
+
+    const message = await this.retrieveAttestation(hash, chainId);
+    await this.privyService.callReceiveMessage(message);
+
+    console.log(`Settled ${fluvia.contractAddress} on chain ${chainId} with tx hash ${hash}`);
+  }
+
+  //shitty code copied from circle
+  async retrieveAttestation(
+    transactionHash: string,
+    sourceChainId: number
+  ): Promise<CircleIrisMessage> {
+    const domain = DOMAINS_BY_CHAIN_ID[sourceChainId];
+
+    console.log(`Retrieving attestation for ${transactionHash}...`);
+    const url = `https://iris-api-sandbox.circle.com/v2/messages/${domain}?transactionHash=${transactionHash}`;
+    while (true) {
+      try {
+        const response = await axios.get<{ messages: CircleIrisMessage[] }>(url);
+
+        if (response.status === 404) {
+          console.log(`Waiting for attestation ${transactionHash}...`);
+        }
+
+        if (response.data?.messages?.[0]?.status === 'complete') {
+          console.log(`Attestation retrieved successfully for ${transactionHash}!`);
+          return response.data.messages[0];
+        }
+        console.log(`Waiting for attestation ${transactionHash}...`);
+        await new Promise(resolve => global.setTimeout(resolve, 5000));
+      } catch (error: any) {
+        console.error(`Error fetching attestation for ${transactionHash}:`, error?.message);
+        await new Promise(resolve => global.setTimeout(resolve, 5000));
       }
     }
   }
