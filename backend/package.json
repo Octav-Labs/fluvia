@@ -7,7 +7,7 @@
     "node": ">=22.0.0",
     "pnpm": ">=10.0.0"
   },
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",
   "scripts": {
     "build": "pnpm run clean && tsc -p .",
     "start": "node dist/index.js",
@@ -53,7 +53,9 @@
     "helmet": "^7.1.0",
     "knex": "^3.1.0",
     "morgan": "^1.10.0",
-    "pg": "^8.11.3"
+    "node-cron": "^4.2.1",
+    "pg": "^8.11.3",
+    "viem": "^2.33.3"
   },
   "devDependencies": {
     "@railway/cli": "^4.6.3",

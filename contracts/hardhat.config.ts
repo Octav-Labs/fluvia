@@ -62,6 +62,24 @@ const config: HardhatUserConfig = {
       url: "https://ethereum-sepolia-rpc.publicnode.com",
       accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
     },
+    "mainnet": {
+      type: "http",
+      chainType: "l1",
+      url: "https://eth.llamarpc.com",
+      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+    },
+    "arbitrum": {
+      type: "http",
+      chainType: "l1",
+      url: "https://arbitrum-one-rpc.publicnode.com",
+      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+    },
+    "base": {
+      type: "http",
+      chainType: "l1",
+      url: 'https://base-mainnet.public.blastapi.io',
+      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+    },
   },
 };
 
