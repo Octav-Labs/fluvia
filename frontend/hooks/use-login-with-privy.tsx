@@ -15,7 +15,6 @@ export const useLoginWithPrivy = () => {
         return;
       }
       if (!user?.wallet?.address) {
-        console.error("User wallet address not found");
         return;
       }
       try {

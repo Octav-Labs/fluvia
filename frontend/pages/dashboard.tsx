@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import Head from "next/head";
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -12,15 +12,13 @@ import {
   TrendingUp,
   Globe,
   Activity,
-  ArrowRight,
   Wallet,
-  Clock,
-  DollarSign,
 } from "lucide-react";
 
 import TitleBloc from "@/components/bloc/title-bloc";
 import { useFluvia } from "@/hooks/use-fluvias";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getTotalBalanceOfUSDC } from "@/lib/getBalance";
 
 export default function DashboardPage() {
   const [stats, setStats] = useState({
@@ -35,6 +33,14 @@ export default function DashboardPage() {
   });
   const router = useRouter();
   const { authenticated, user } = usePrivy();
+  const [fluviaAdddresses, setFluviaAdddresses] = useState<string[]>([]);
+  const [receiverAddresses, setReceiveAddresses] = useState<string[]>([]);
+  const [totalBalanceReceiver, setTotalBalanceReceiver] = useState<number>(0);
+  const [totalBalanceFluvia, setTotalBalanceFluvia] = useState<number>(0);
+  const [isLoadingBalanceFluvia, setIsLoadingBalanceFluvia] =
+    useState<boolean>(false);
+  const [isLoadingBalanceReceiver, setIsLoadingBalanceReceiver] =
+    useState<boolean>(false);
 
   const { fluvias, loading: loadingFluvias } = useFluvia();
 
@@ -50,6 +56,51 @@ export default function DashboardPage() {
     }
   }, [authenticated, user?.wallet?.address]);
 
+  useEffect(() => {
+    if (fluvias) {
+      setFluviaAdddresses(fluvias.map((fluvia) => fluvia.contractAddress));
+      setReceiveAddresses(fluvias.map((fluvia) => fluvia.receiverAddress));
+    }
+  }, [fluvias]);
+
+  const fetchTotalBalanceReceivers = async () => {
+    try {
+      setIsLoadingBalanceReceiver(true);
+      const totalBalance = await getTotalBalanceOfUSDC(receiverAddresses);
+      setTotalBalanceReceiver(totalBalance);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoadingBalanceReceiver(false);
+    }
+  };
+
+  const fetchTotalBalanceFluvias = async () => {
+    try {
+      setIsLoadingBalanceFluvia(true);
+      const totalBalance = await getTotalBalanceOfUSDC(
+        fluvias.map((fluvia) => fluvia.contractAddress)
+      );
+      setTotalBalanceFluvia(totalBalance);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoadingBalanceFluvia(false);
+    }
+  };
+
+  useEffect(() => {
+    if (receiverAddresses) {
+      fetchTotalBalanceReceivers();
+    }
+  }, [receiverAddresses]);
+
+  useEffect(() => {
+    if (fluviaAdddresses) {
+      fetchTotalBalanceFluvias();
+    }
+  }, [fluviaAdddresses]);
+
   return (
     <>
       <Head>
@@ -64,7 +115,7 @@ export default function DashboardPage() {
         />
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-6">
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
@@ -90,9 +141,31 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">
-                    Transactions
+                    Active Chains
                   </p>
-                  <p className="text-2xl font-bold">{0}</p>
+                  <p className="text-2xl font-bold">{stats.activeChains}</p>
+                </div>
+                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <Globe className="w-6 h-6 text-orange-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Fluvia Balance
+                  </p>
+                  {isLoadingBalanceFluvia ? (
+                    <Skeleton className="w-24 h-6" />
+                  ) : (
+                    <p className="text-2xl font-bold">
+                      {totalBalanceFluvia} USDC
+                    </p>
+                  )}
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                   <Activity className="w-6 h-6 text-green-600" />
@@ -106,12 +179,18 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">
-                    Active Chains
+                    Receiver Balance
                   </p>
-                  <p className="text-2xl font-bold">{stats.activeChains}</p>
+                  {isLoadingBalanceReceiver ? (
+                    <Skeleton className="w-24 h-6" />
+                  ) : (
+                    <p className="text-2xl font-bold">
+                      {totalBalanceReceiver} USDC
+                    </p>
+                  )}
                 </div>
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <Globe className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Activity className="w-6 h-6 text-green-600" />
                 </div>
               </div>
             </CardContent>
