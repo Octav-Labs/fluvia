@@ -4,8 +4,7 @@ import { useCallback } from "react";
 
 export const useLoginWithPrivy = () => {
   const { addSessionSigners } = useSessionSigners();
-  const SESSION_SIGNER_ID =
-    process.env.SESSION_SIGNER_ID || "ovscx4a3irn9333mopyuvxbe";
+  const SESSION_SIGNER_ID = process.env.SESSION_SIGNER_ID;
   const { user } = usePrivy();
   const addSessionSigner = useCallback(
     async (walletAddress: string) => {
