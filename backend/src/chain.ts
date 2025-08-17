@@ -56,6 +56,7 @@ export const chains: Record<number, ChainInfo> = {
     feeControllerContract: '0x8C31f4B7c6b44DA2e8996e279D5F08C00044f81D',
     receiverContract: '0x6AA02813552F61c19EA6Eb0BcD08A7aA115bD788',
     factoryContract: '0x1BF169dCBB2004F6D881fa5f380000eaa561F74D',
+    messageTransmitter: '0x81D40F21F12A8F0E3252Bccb954D722d4c464B64',
     domain: 6,
   },
   1: {
@@ -65,6 +66,7 @@ export const chains: Record<number, ChainInfo> = {
     feeControllerContract: '0x8C31f4B7c6b44DA2e8996e279D5F08C00044f81D',
     receiverContract: '0x6AA02813552F61c19EA6Eb0BcD08A7aA115bD788',
     factoryContract: '0x1BF169dCBB2004F6D881fa5f380000eaa561F74D',
+    messageTransmitter: '0x81D40F21F12A8F0E3252Bccb954D722d4c464B64',
     domain: 6,
   },
   42161: {
@@ -73,6 +75,7 @@ export const chains: Record<number, ChainInfo> = {
     chainCaiP: 'eip155:42161',
     feeControllerContract: '0x8C31f4B7c6b44DA2e8996e279D5F08C00044f81D',
     receiverContract: '0x6AA02813552F61c19EA6Eb0BcD08A7aA115bD788',
+    messageTransmitter: '0x81D40F21F12A8F0E3252Bccb954D722d4c464B64',
     factoryContract: '0x1BF169dCBB2004F6D881fa5f380000eaa561F74D',
     domain: 6,
   },
@@ -91,6 +94,9 @@ export const DOMAINS_BY_CHAIN_ID: Record<number, number> = {
   84532: 6,
   11155111: 0,
   421614: 3,
+  8453: 6,
+  1: 0,
+  42161: 3,
 };
 
 export const CHAIN_IDS_BY_DOMAIN: Record<number, number> = {
