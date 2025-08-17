@@ -106,10 +106,10 @@ export const CHAIN_IDS_BY_DOMAIN: Record<number, number> = {
 };
 
 export const CURRENT_CHAIN_IDS = [
-  // ChainId.BASE_MAINNET,
-  // ChainId.ETHEREUM_MAINNET,
-  // ChainId.ARBITRUM_MAINNET,
-  ChainId.BASE_TESTNET,
-  ChainId.ETHEREUM_TESTNET,
-  ChainId.ARBITRUM_TESTNET,
+  ChainId.BASE_MAINNET,
+  ChainId.ETHEREUM_MAINNET,
+  ChainId.ARBITRUM_MAINNET,
+  //ChainId.BASE_TESTNET,
+  //ChainId.ETHEREUM_TESTNET,
+  //ChainId.ARBITRUM_TESTNET,
 ];
