@@ -109,7 +109,7 @@ export class SettlerService {
     console.log(`Settled ${fluvia.contractAddress} on chain ${chainId} with tx hash ${hash}`);
   }
 
-  //shitty code copied from circle
+  //Oups, we love you circle :)
   async retrieveAttestation(
     transactionHash: string,
     sourceChainId: number
