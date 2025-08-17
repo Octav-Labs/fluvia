@@ -2,9 +2,13 @@ import { PrivyClient } from '@privy-io/server-auth';
 import { chains } from '../chain';
 import { factoryAbi } from '../abi/factory';
 import { ethers } from 'ethers';
+import { RPCService } from '../services/RPCService';
+import { Fluvia } from '../models/interfaces';
+import { receiverAbi } from '../abi/receiverAbi';
 
 export class PrivyService {
   private privy: PrivyClient;
+  private SERVER_WALLET_ID = process.env.PRIVY_WALLET_ID!;
 
   constructor() {
     if (
@@ -112,7 +116,7 @@ export class PrivyService {
     }
 
     try {
-      const provider = new ethers.JsonRpcProvider(this.getRpcUrl(chainId));
+      const provider = new ethers.JsonRpcProvider(RPCService.getRpcUrl(chainId));
       const address = await this.privy.walletApi.getWallet({ id: walletId });
       // Create interface and encode the function call
       const iface = new ethers.Interface(factoryAbi);
@@ -135,25 +139,30 @@ export class PrivyService {
     }
   }
 
-  /**
-   * Get RPC URL for the given chain
-   */
-  private getRpcUrl(chainId: number): string {
-    switch (chainId) {
-      case 84532: // Base Sepolia
-        return 'https://sepolia.base.org';
-      case 8453: // Base Mainnet
-        return 'https://base.llamarpc.com';
-      case 11155111: // Ethereum Sepolia
-        return 'https://sepolia.drpc.org';
-      case 1: // Ethereum Mainnet
-        return 'https://eth.llamarpc.com';
-      case 421614: // Arbitrum Sepolia
-        return 'https://api.zan.top/arb-sepolia';
-      case 42161: // Arbitrum Mainnet
-        return 'https://arbitrum.drpc.org';
-      default:
-        throw new Error(`No RPC URL configured for chain ID ${chainId}`);
+  async settleFluvia(fluvia: Fluvia, chainId: number) {
+    try {
+      const chain = chains[chainId];
+      // const address = await this.privy.walletApi.getWallet({ id: this.SERVER_WALLET_ID });
+      const iface = new ethers.Interface(receiverAbi);
+      const data = iface.encodeFunctionData('settle');
+
+      const transactionRequest = {
+        to: fluvia.contractAddress as `0x${string}`,
+        chainId: chainId,
+        data: data as `0x${string}`,
+      };
+
+      const { hash } = await this.privy.walletApi.ethereum.sendTransaction({
+        walletId: this.SERVER_WALLET_ID,
+        caip2: chain?.chainCaiP as `eip155:${string}`,
+        transaction: transactionRequest,
+      });
+
+      return hash;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      console.log('failed to sette fluvia', errorMessage);
+      return null;
     }
   }
 }
