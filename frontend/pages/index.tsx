@@ -196,6 +196,12 @@ export default function Index() {
                   Go to dashboard
                 </Button>
                 <Button
+                  onClick={() =>
+                    window.open(
+                      "https://fluvia.gitbook.io/fluvia-docs/",
+                      "_blank"
+                    )
+                  }
                   variant="outline"
                   size="lg"
                   className="px-8 py-6 text-lg font-semibold hover:bg-muted/50"
