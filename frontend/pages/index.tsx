@@ -237,7 +237,7 @@ export default function Index() {
           </div>
           <div className="pt-8 border-t border-border/40 flex flex-col md:flex-row items-center justify-between">
             <p className="text-sm text-muted-foreground">
-              © 2024 Fluvia. All rights reserved.
+              © 2025 Fluvia. All rights reserved.
             </p>
           </div>
         </div>
