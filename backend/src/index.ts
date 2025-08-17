@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express, { Application, Request, Response } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import cron from 'node-cron';
 
 // Load environment variables
 dotenv.config();
@@ -12,6 +13,7 @@ import { DatabaseService, DBConfigurationType } from './services/DatabaseService
 import { authMiddleware } from './middleware/Auth';
 import { userMiddleware } from './middleware/UserMiddleware';
 import { FluviaManager } from './manager/FluviaManager';
+import { SettlerService } from './services/SettlerService';
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
@@ -138,6 +140,15 @@ const startServer = async (): Promise<void> => {
       console.log(`📊 Health check: http://localhost:${PORT}/v1/healthcheck`);
       console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
       console.log(`✅ Healthcheck endpoint available at /v1/healthcheck`);
+    });
+
+    const setllerService = new SettlerService();
+
+    cron.schedule('* * * * *', () => {
+      console.log('running a task every minute');
+      setllerService.processSettlements().catch(error => {
+        console.error('error in cron job:', error?.message);
+      });
     });
 
     // Initialize database connection asynchronously

@@ -53,4 +53,9 @@ export class FluviaFactory extends BaseFactory<FluviaRecord> {
     const records = await this.findAll({ label });
     return records.map(mapRecordToFluvia);
   }
+
+  async getAll(): Promise<Fluvia[]> {
+    const records = await this.findAll();
+    return records.map(mapRecordToFluvia);
+  }
 }

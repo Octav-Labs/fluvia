@@ -102,7 +102,6 @@ contract Receiver is
         address to,
         uint256 amt
     ) external onlyOwner {
-        require(token != address(USDC), "no USDC");
         IERC20(token).safeTransfer(to, amt);
     }
 

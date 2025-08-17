@@ -13,6 +13,7 @@ import {
   Globe,
   Activity,
   Wallet,
+  DollarSign,
 } from "lucide-react";
 
 import TitleBloc from "@/components/bloc/title-bloc";
@@ -167,8 +168,8 @@ export default function DashboardPage() {
                     </p>
                   )}
                 </div>
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Activity className="w-6 h-6 text-green-600" />
+                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                  <DollarSign className="w-6 h-6 text-red-600" />
                 </div>
               </div>
             </CardContent>
@@ -190,7 +191,7 @@ export default function DashboardPage() {
                   )}
                 </div>
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Activity className="w-6 h-6 text-green-600" />
+                  <DollarSign className="w-6 h-6 text-green-600" />
                 </div>
               </div>
             </CardContent>
