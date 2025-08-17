@@ -84,7 +84,10 @@ export const USDC_CONTRACTS_BY_CHAIN_ID: Record<number, string> = {
 };
 
 export const CURRENT_CHAIN_IDS = [
-  ChainId.BASE_MAINNET,
-  ChainId.ETHEREUM_MAINNET,
-  ChainId.ARBITRUM_MAINNET,
+  // ChainId.BASE_MAINNET,
+  // ChainId.ETHEREUM_MAINNET,
+  // ChainId.ARBITRUM_MAINNET,
+  ChainId.BASE_TESTNET,
+  ChainId.ETHEREUM_TESTNET,
+  ChainId.ARBITRUM_TESTNET,
 ];
