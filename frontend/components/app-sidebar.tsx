@@ -71,7 +71,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               How It Works
             </Link>
           </div>
-          <UserBlock />
+          <div className="w-full">
+            <UserBlock />
+          </div>
         </div>
       </SidebarFooter>
     </Sidebar>
