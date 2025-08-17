@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
-const CURRENT_CHAINS = [84532, 11155111, 421614];
-
+//const CURRENT_CHAINS = [84532, 11155111, 421614]; testnet
+const CURRENT_CHAINS = [8453, 1, 42161]; // mainnet
 /**
  * Get RPC URL for the given chain
  */
