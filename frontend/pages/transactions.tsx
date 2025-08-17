@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { DataTable, Column } from "@/components/ui/data-table";
 import { usePrivy } from "@privy-io/react-auth";
 import TitleBloc from "@/components/bloc/title-bloc";
+import { useFluvia } from "@/hooks/use-fluvias";
 
 // Types for Octav API response
 interface OctavTransaction {
@@ -47,11 +48,19 @@ interface TransactionData {
 }
 
 export default function TransactionsPage() {
-  const { user, authenticated } = usePrivy();
-  const [selectedChain, setSelectedChain] = useState("all");
+  const [selectedChain] = useState("all");
   const [fetchedTransactions, setFetchedTransactions] = useState<
     OctavTransaction[]
   >([]);
+  const [addresses, setAddresses] = useState<string[]>([]);
+
+  const { fluvias, loading: loadingFluvias } = useFluvia();
+
+  useEffect(() => {
+    if (fluvias) {
+      setAddresses([...fluvias.map((fluvia) => fluvia.contractAddress)]);
+    }
+  }, [fluvias]);
 
   // Define table columns
   const columns: Column<OctavTransaction>[] = [
@@ -133,41 +142,49 @@ export default function TransactionsPage() {
     },
   ];
 
-  const fetchTransactions = async () => {
-    if (!authenticated || !user?.wallet?.address) {
+  const fetchTransactions = async (addresses: string[]) => {
+    if (addresses.length === 0) {
       console.log("No wallet connected");
       return;
     }
 
     try {
-      const params = new URLSearchParams({
-        addresses: user.wallet.address,
-        limit: "100",
-        offset: "0",
-        hideSpam: "true",
-      });
+      const transactions = await Promise.all(
+        addresses.map(async (address) => {
+          const params = new URLSearchParams({
+            addresses: address,
+            limit: "100",
+            offset: "0",
+            hideSpam: "true",
+          });
 
-      const response = await fetch(`/api/octav/transactions?${params}`);
+          const response = await fetch(`/api/octav/transactions?${params}`);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("API Error:", errorData);
-        return;
-      }
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error("API Error:", errorData);
+            return;
+          }
 
-      const data: TransactionData = await response.json();
-      setFetchedTransactions(data.transactions || []);
-      console.log("Fetched transactions:", data.transactions);
+          const data: TransactionData = await response.json();
+          return data.transactions;
+        })
+      );
+
+      const flattenedTransactions = transactions.flat();
+      setFetchedTransactions(
+        flattenedTransactions.filter((tx) => tx !== undefined)
+      );
     } catch (err) {
       console.error("Error fetching transactions:", err);
     }
   };
 
   useEffect(() => {
-    if (authenticated && user?.wallet?.address) {
-      fetchTransactions();
+    if (addresses.length > 0) {
+      fetchTransactions(addresses);
     }
-  }, [authenticated, user?.wallet?.address]);
+  }, [addresses]);
 
   // Filter transactions by chain
   const filteredTransactions = fetchedTransactions.filter((tx) => {
