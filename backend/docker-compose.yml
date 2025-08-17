@@ -30,6 +30,20 @@ services:
       - '3000:3000'
     env_file:
       - .env
+    environment:
+      # Fallback environment variables (these will override .env if needed)
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=${PORT:-3000}
+      - DB_HOST=${DB_HOST:-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=${DB_NAME:-fluvia}
+      - DB_USER=${DB_USER:-fluvia_user}
+      - DB_PASSWORD=${DB_PASSWORD:-fluvia_password}
+      - DB_SSL=${DB_SSL:-false}
+      - PRIVY_APP_ID=${PRIVY_APP_ID}
+      - PRIVY_APP_SECRET=${PRIVY_APP_SECRET}
+      - PRIVY_PRIVATE_KEY=${PRIVY_PRIVATE_KEY}
+      - SESSION_SIGNER_ID=${SESSION_SIGNER_ID}
     volumes:
       - ./src:/usr/src/app/src
       - ./migrations:/usr/src/app/migrations
