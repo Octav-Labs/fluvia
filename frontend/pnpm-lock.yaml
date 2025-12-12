@@ -69,8 +69,8 @@ importers:
         specifier: ^0.539.0
         version: 0.539.0(react@18.3.1)
       next:
-        specifier: latest
-        version: 15.4.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 15.5.8
+        version: 15.5.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -499,56 +499,56 @@ packages:
     resolution: {integrity: sha512-JEW4DEtBzfe8HvUYecLU9e6+XJnKDlUAIve8FvPzF3Kzs6Xo/KuZkZJsDH0wJXl/qEZbeeE7edxDNY3kMs39hQ==}
     engines: {node: '>= 18'}
 
-  '@next/env@15.4.6':
-    resolution: {integrity: sha512-yHDKVTcHrZy/8TWhj0B23ylKv5ypocuCwey9ZqPyv4rPdUdRzpGCkSi03t04KBPyU96kxVtUqx6O3nE1kpxASQ==}
+  '@next/env@15.5.8':
+    resolution: {integrity: sha512-ejZHa3ogTxcy851dFoNtfB5B2h7AbSAtHbR5CymUlnz4yW1QjHNufVpvTu8PTnWBKFKjrd4k6Gbi2SsCiJKvxw==}
 
   '@next/eslint-plugin-next@12.2.5':
     resolution: {integrity: sha512-VBjVbmqEzGiOTBq4+wpeVXt/KgknnGB6ahvC/AxiIGnN93/RCSyXhFRI4uSfftM2Ba3w7ZO7076bfKasZsA0fw==}
 
-  '@next/swc-darwin-arm64@15.4.6':
-    resolution: {integrity: sha512-667R0RTP4DwxzmrqTs4Lr5dcEda9OxuZsVFsjVtxVMVhzSpo6nLclXejJVfQo2/g7/Z9qF3ETDmN3h65mTjpTQ==}
+  '@next/swc-darwin-arm64@15.5.7':
+    resolution: {integrity: sha512-IZwtxCEpI91HVU/rAUOOobWSZv4P2DeTtNaCdHqLcTJU4wdNXgAySvKa/qJCgR5m6KI8UsKDXtO2B31jcaw1Yw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@next/swc-darwin-x64@15.4.6':
-    resolution: {integrity: sha512-KMSFoistFkaiQYVQQnaU9MPWtp/3m0kn2Xed1Ces5ll+ag1+rlac20sxG+MqhH2qYWX1O2GFOATQXEyxKiIscg==}
+  '@next/swc-darwin-x64@15.5.7':
+    resolution: {integrity: sha512-UP6CaDBcqaCBuiq/gfCEJw7sPEoX1aIjZHnBWN9v9qYHQdMKvCKcAVs4OX1vIjeE+tC5EIuwDTVIoXpUes29lg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@next/swc-linux-arm64-gnu@15.4.6':
-    resolution: {integrity: sha512-PnOx1YdO0W7m/HWFeYd2A6JtBO8O8Eb9h6nfJia2Dw1sRHoHpNf6lN1U4GKFRzRDBi9Nq2GrHk9PF3Vmwf7XVw==}
+  '@next/swc-linux-arm64-gnu@15.5.7':
+    resolution: {integrity: sha512-NCslw3GrNIw7OgmRBxHtdWFQYhexoUCq+0oS2ccjyYLtcn1SzGzeM54jpTFonIMUjNbHmpKpziXnpxhSWLcmBA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
-  '@next/swc-linux-arm64-musl@15.4.6':
-    resolution: {integrity: sha512-XBbuQddtY1p5FGPc2naMO0kqs4YYtLYK/8aPausI5lyOjr4J77KTG9mtlU4P3NwkLI1+OjsPzKVvSJdMs3cFaw==}
+  '@next/swc-linux-arm64-musl@15.5.7':
+    resolution: {integrity: sha512-nfymt+SE5cvtTrG9u1wdoxBr9bVB7mtKTcj0ltRn6gkP/2Nu1zM5ei8rwP9qKQP0Y//umK+TtkKgNtfboBxRrw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
-  '@next/swc-linux-x64-gnu@15.4.6':
-    resolution: {integrity: sha512-+WTeK7Qdw82ez3U9JgD+igBAP75gqZ1vbK6R8PlEEuY0OIe5FuYXA4aTjL811kWPf7hNeslD4hHK2WoM9W0IgA==}
+  '@next/swc-linux-x64-gnu@15.5.7':
+    resolution: {integrity: sha512-hvXcZvCaaEbCZcVzcY7E1uXN9xWZfFvkNHwbe/n4OkRhFWrs1J1QV+4U1BN06tXLdaS4DazEGXwgqnu/VMcmqw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  '@next/swc-linux-x64-musl@15.4.6':
-    resolution: {integrity: sha512-XP824mCbgQsK20jlXKrUpZoh/iO3vUWhMpxCz8oYeagoiZ4V0TQiKy0ASji1KK6IAe3DYGfj5RfKP6+L2020OQ==}
+  '@next/swc-linux-x64-musl@15.5.7':
+    resolution: {integrity: sha512-4IUO539b8FmF0odY6/SqANJdgwn1xs1GkPO5doZugwZ3ETF6JUdckk7RGmsfSf7ws8Qb2YB5It33mvNL/0acqA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  '@next/swc-win32-arm64-msvc@15.4.6':
-    resolution: {integrity: sha512-FxrsenhUz0LbgRkNWx6FRRJIPe/MI1JRA4W4EPd5leXO00AZ6YU8v5vfx4MDXTvN77lM/EqsE3+6d2CIeF5NYg==}
+  '@next/swc-win32-arm64-msvc@15.5.7':
+    resolution: {integrity: sha512-CpJVTkYI3ZajQkC5vajM7/ApKJUOlm6uP4BknM3XKvJ7VXAvCqSjSLmM0LKdYzn6nBJVSjdclx8nYJSa3xlTgQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
 
-  '@next/swc-win32-x64-msvc@15.4.6':
-    resolution: {integrity: sha512-T4ufqnZ4u88ZheczkBTtOF+eKaM14V8kbjud/XrAakoM5DKQWjW09vD6B9fsdsWS2T7D5EY31hRHdta7QKWOng==}
+  '@next/swc-win32-x64-msvc@15.5.7':
+    resolution: {integrity: sha512-gMzgBX164I6DN+9/PGA+9dQiwmTkE4TloBNx8Kv9UiGARsr9Nba7IpcBRA1iTV9vwlYnrE3Uy6I7Aj6qLjQuqw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -1206,6 +1206,7 @@ packages:
 
   '@simplewebauthn/types@9.0.1':
     resolution: {integrity: sha512-tGSRP1QvsAvsJmnOlRQyw/mvK9gnPtjEc5fg2+m8n+QUa+D7rvrKkOYyfpy42GTs90X3RDOnqJgfHt+qO67/+w==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@solana/buffer-layout@4.0.1':
     resolution: {integrity: sha512-E1ImOIAD1tBZFRdjeM4/pzTiTApC0AOBGwyAMS4fwIodCWArzJ3DWdoh8cKxeFM2fElkxBh2Aqts1BPC373rHA==}
@@ -1414,6 +1415,7 @@ packages:
 
   '@walletconnect/ethereum-provider@2.21.5':
     resolution: {integrity: sha512-ov1VyMINE9Gg9lk2LIXAhHOd6Nzd8q20QqGBs0JwjqqiP3pSoyxbmOI4fcddEGSnK4qwRQv1uU+aR0TXiiy5uA==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/events@1.0.1':
     resolution: {integrity: sha512-NPTqaoi0oPBVNuLv7qPaJazmGHs5JGyO8eEAk5VGKmJzDR7AHzD4k6ilox5kxk1iwiOnFopBOOMLs86Oa76HpQ==}
@@ -1458,9 +1460,11 @@ packages:
 
   '@walletconnect/sign-client@2.21.0':
     resolution: {integrity: sha512-z7h+PeLa5Au2R591d/8ZlziE0stJvdzP9jNFzFolf2RG/OiXulgFKum8PrIyXy+Rg2q95U9nRVUF9fWcn78yBA==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/sign-client@2.21.5':
     resolution: {integrity: sha512-IAs/IqmE1HVL9EsvqkNRU4NeAYe//h9NwqKi7ToKYZv4jhcC3BBemUD1r8iQJSTHMhO41EKn1G9/DiBln3ZiwQ==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/time@1.0.2':
     resolution: {integrity: sha512-uzdd9woDcJ1AaBZRhqy5rNC9laqWGErfc4dxA9a87mPdKOgWMD85mcFo9dIYIts/Jwocfwn07EC6EzclKubk/g==}
@@ -1473,9 +1477,11 @@ packages:
 
   '@walletconnect/universal-provider@2.21.0':
     resolution: {integrity: sha512-mtUQvewt+X0VBQay/xOJBvxsB3Xsm1lTwFjZ6WUwSOTR1X+FNb71hSApnV5kbsdDIpYPXeQUbGt2se1n5E5UBg==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/universal-provider@2.21.5':
     resolution: {integrity: sha512-SMXGGXyj78c8Ru2f665ZFZU24phn0yZyCP5Ej7goxVQxABwqWKM/odj3j/IxZv+hxA8yU13yxaubgVefnereqw==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/utils@2.21.0':
     resolution: {integrity: sha512-zfHLiUoBrQ8rP57HTPXW7rQMnYxYI4gT9yTACxVW6LhIFROTF6/ytm5SKNoIvi4a5nX5dfXG4D9XwQUCu8Ilig==}
@@ -2862,9 +2868,10 @@ packages:
       react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
       react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
 
-  next@15.4.6:
-    resolution: {integrity: sha512-us++E/Q80/8+UekzB3SAGs71AlLDsadpFMXVNM/uQ0BMwsh9m3mr0UNQIfjKed8vpWXsASe+Qifrnu1oLIcKEQ==}
+  next@15.5.8:
+    resolution: {integrity: sha512-Tma2R50eiM7Fx6fbDeHiThq7sPgl06mBr76j6Ga0lMFGrmaLitFsy31kykgb8Z++DR2uIEKi2RZ0iyjIwFd15Q==}
     engines: {node: ^18.18.0 || ^19.8.0 || >= 20.0.0}
+    deprecated: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
@@ -4582,34 +4589,34 @@ snapshots:
 
   '@msgpack/msgpack@3.1.2': {}
 
-  '@next/env@15.4.6': {}
+  '@next/env@15.5.8': {}
 
   '@next/eslint-plugin-next@12.2.5':
     dependencies:
       glob: 7.1.7
 
-  '@next/swc-darwin-arm64@15.4.6':
+  '@next/swc-darwin-arm64@15.5.7':
     optional: true
 
-  '@next/swc-darwin-x64@15.4.6':
+  '@next/swc-darwin-x64@15.5.7':
     optional: true
 
-  '@next/swc-linux-arm64-gnu@15.4.6':
+  '@next/swc-linux-arm64-gnu@15.5.7':
     optional: true
 
-  '@next/swc-linux-arm64-musl@15.4.6':
+  '@next/swc-linux-arm64-musl@15.5.7':
     optional: true
 
-  '@next/swc-linux-x64-gnu@15.4.6':
+  '@next/swc-linux-x64-gnu@15.5.7':
     optional: true
 
-  '@next/swc-linux-x64-musl@15.4.6':
+  '@next/swc-linux-x64-musl@15.5.7':
     optional: true
 
-  '@next/swc-win32-arm64-msvc@15.4.6':
+  '@next/swc-win32-arm64-msvc@15.5.7':
     optional: true
 
-  '@next/swc-win32-x64-msvc@15.4.6':
+  '@next/swc-win32-x64-msvc@15.5.7':
     optional: true
 
   '@noble/ciphers@1.2.1': {}
@@ -7348,7 +7355,7 @@ snapshots:
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 2.7.1(eslint-plugin-import@2.32.0(eslint@8.57.1))(eslint@8.57.1)
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-typescript@2.7.1(eslint-plugin-import@2.32.0(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-typescript@2.7.1)(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.1)
       eslint-plugin-react: 7.37.5(eslint@8.57.1)
       eslint-plugin-react-hooks: 4.6.2(eslint@8.57.1)
@@ -7370,7 +7377,7 @@ snapshots:
     dependencies:
       debug: 4.4.1
       eslint: 8.57.1
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-typescript@2.7.1(eslint-plugin-import@2.32.0(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-typescript@2.7.1)(eslint@8.57.1)
       glob: 7.2.3
       is-glob: 4.0.3
       resolve: 1.22.10
@@ -7389,7 +7396,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-typescript@2.7.1(eslint-plugin-import@2.32.0(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.9.2))(eslint-import-resolver-typescript@2.7.1)(eslint@8.57.1):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
@@ -8194,9 +8201,9 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  next@15.4.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  next@15.5.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@next/env': 15.4.6
+      '@next/env': 15.5.8
       '@swc/helpers': 0.5.15
       caniuse-lite: 1.0.30001735
       postcss: 8.4.31
@@ -8204,14 +8211,14 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       styled-jsx: 5.1.6(react@18.3.1)
     optionalDependencies:
-      '@next/swc-darwin-arm64': 15.4.6
-      '@next/swc-darwin-x64': 15.4.6
-      '@next/swc-linux-arm64-gnu': 15.4.6
-      '@next/swc-linux-arm64-musl': 15.4.6
-      '@next/swc-linux-x64-gnu': 15.4.6
-      '@next/swc-linux-x64-musl': 15.4.6
-      '@next/swc-win32-arm64-msvc': 15.4.6
-      '@next/swc-win32-x64-msvc': 15.4.6
+      '@next/swc-darwin-arm64': 15.5.7
+      '@next/swc-darwin-x64': 15.5.7
+      '@next/swc-linux-arm64-gnu': 15.5.7
+      '@next/swc-linux-arm64-musl': 15.5.7
+      '@next/swc-linux-x64-gnu': 15.5.7
+      '@next/swc-linux-x64-musl': 15.5.7
+      '@next/swc-win32-arm64-msvc': 15.5.7
+      '@next/swc-win32-x64-msvc': 15.5.7
       sharp: 0.34.3
     transitivePeerDependencies:
       - '@babel/core'
